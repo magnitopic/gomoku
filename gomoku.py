@@ -14,6 +14,11 @@ CELL_SIZE = (BOARD_SIZE - 2 * MARGIN) // COLS
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BORDER_COLOR = (150, 150, 150)
+WOOD = (222, 184, 135)
+
+# Global variables
+turn = 0
+board = []
 
 # Create the screen
 screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
@@ -48,9 +53,21 @@ def draw_board():
     pygame.display.flip()
 
 
+def draw_stone(cell, color):
+    pygame.draw.circle(
+        screen, color,
+        (MARGIN + cell[0] * CELL_SIZE, MARGIN + cell[1] * CELL_SIZE),
+        CELL_SIZE // 2 - 2
+    )
+    pygame.display.flip()
+
+
 def main():
     running = True
     clock = pygame.time.Clock()
+
+    screen.fill(WOOD)
+    draw_board()
 
     while running:
         # Event handling
@@ -60,10 +77,21 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                col = mouse_pos[0] // CELL_SIZE
+                row = mouse_pos[1] // CELL_SIZE
+                cell = (col, row)
+                if cell not in board:
+                    board.append(cell)
+                    global turn
+                    turn += 1
+                    if turn % 2 == 0:
+                        draw_stone(cell, BLACK)
+                    else:
+                        draw_stone(cell, WHITE)
 
         # Drawing
-        screen.fill(BLACK)
-        draw_board()
 
         clock.tick(10)
 
