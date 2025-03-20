@@ -1,5 +1,5 @@
 import pygame
-
+from board_validations import validate_board, check_double_three, check_win
 
 pygame.init()
 
@@ -17,8 +17,9 @@ BORDER_COLOR = (150, 150, 150)
 WOOD = (222, 184, 135)
 
 # Global variables
-turn = 0
-board = []
+turn = 1
+board = [[0 for _ in range(COLS)] for _ in range(ROWS)]
+
 
 # Create the screen
 screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
@@ -63,6 +64,8 @@ def draw_stone(cell, color):
 
 
 def main():
+    global turn
+    global win
     running = True
     clock = pygame.time.Clock()
 
@@ -82,16 +85,20 @@ def main():
                 col = mouse_pos[0] // CELL_SIZE
                 row = mouse_pos[1] // CELL_SIZE
                 cell = (col, row)
-                if cell not in board:
-                    board.append(cell)
-                    global turn
-                    turn += 1
-                    if turn % 2 == 0:
-                        draw_stone(cell, BLACK)
-                    else:
-                        draw_stone(cell, WHITE)
-
-        # Drawing
+                if not (0 <= col <= COLS and 0 <= row <= ROWS):
+                    continue
+                if board[row][col] != 0:
+                    continue
+                board[row][col] = turn
+                if check_win(board, cell, turn):
+                    print("Win")
+                    running = False
+                if turn == 1:
+                    draw_stone(cell, BLACK)
+                    turn = -1
+                else:
+                    draw_stone(cell, WHITE)
+                    turn = 1
 
         clock.tick(10)
 
