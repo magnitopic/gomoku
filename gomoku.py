@@ -1,4 +1,5 @@
 import pygame
+from time import sleep
 from board_validations import validate_board, check_double_three, check_win
 
 pygame.init()
@@ -15,6 +16,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BORDER_COLOR = (150, 150, 150)
 WOOD = (222, 184, 135)
+RED = (150, 0, 0)
 
 # Global variables
 turn = 1
@@ -24,6 +26,7 @@ board = [[0 for _ in range(COLS)] for _ in range(ROWS)]
 # Create the screen
 screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
 pygame.display.set_caption("gomoku")
+font = pygame.font.SysFont("Arial", 30)
 
 
 def draw_board():
@@ -63,6 +66,20 @@ def draw_stone(cell, color):
     pygame.display.flip()
 
 
+def win_screen():
+    screen.fill(WOOD)
+    pos = (BOARD_SIZE/2 - 70, BOARD_SIZE/2)
+    screen.blit(font.render("Game Over", True, RED), pos)
+    if turn == 1:
+        screen.blit(font.render("Black wins!", True, BLACK),
+                    (pos[0], pos[1] - 50))
+    else:
+        screen.blit(font.render("White wins!", True, WHITE),
+                    (pos[0], pos[1] - 50))
+    pygame.display.flip()
+    sleep(2)
+
+
 def main():
     global turn
     global win
@@ -91,8 +108,9 @@ def main():
                     continue
                 board[row][col] = turn
                 if check_win(board, cell, turn):
-                    print("Win")
+                    win_screen()
                     running = False
+                    break
                 if turn == 1:
                     draw_stone(cell, BLACK)
                     turn = -1
