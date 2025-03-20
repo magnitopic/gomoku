@@ -14,6 +14,10 @@ def check_n_in_a_row(board, last_move, color, direction, n):
 
     for i in range(1, n):
         next_pos = (x + dx * i, y + dy * i)
+
+        if not (0 <= next_pos[0] < len(board[0]) and 0 <= next_pos[1] < len(board)):
+            break
+
         if board[next_pos[1]][next_pos[0]] == color:
             count += 1
         else:
@@ -21,6 +25,10 @@ def check_n_in_a_row(board, last_move, color, direction, n):
 
     for i in range(1, n):
         next_pos = (x - dx * i, y - dy * i)
+
+        if not (0 <= next_pos[0] < len(board[0]) and 0 <= next_pos[1] < len(board)):
+            break
+
         if board[next_pos[1]][next_pos[0]] == color:
             count += 1
         else:

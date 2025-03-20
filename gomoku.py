@@ -6,10 +6,11 @@ pygame.init()
 
 # Constants
 BOARD_SIZE = 920
-COLS, ROWS = 18, 18
-MARGIN = 35
+GRID_SIZE = 18  # This is the number of spaces between intersections
+COLS, ROWS = 19, 19  # This is the number of intersections
+MARGIN = 50
 BORDER_MARGIN = 30
-CELL_SIZE = (BOARD_SIZE - 2 * MARGIN) // COLS
+CELL_SIZE = (BOARD_SIZE - 2 * MARGIN) // GRID_SIZE
 
 # Colors
 BLACK = (0, 0, 0)
@@ -30,29 +31,43 @@ font = pygame.font.SysFont("Arial", 30)
 
 
 def draw_board():
+    screen.fill(WOOD)
+
+    # Draw border around the board
     border_rect = pygame.Rect(
         MARGIN - BORDER_MARGIN,
         MARGIN - BORDER_MARGIN,
-        COLS * CELL_SIZE + 2 * BORDER_MARGIN,
-        ROWS * CELL_SIZE + 2 * BORDER_MARGIN
+        GRID_SIZE * CELL_SIZE + 2 * BORDER_MARGIN,
+        GRID_SIZE * CELL_SIZE + 2 * BORDER_MARGIN
     )
     pygame.draw.rect(screen, BORDER_COLOR, border_rect, 2)
 
-    for i in range(ROWS + 1):
+    # Draw the grid lines (19 vertical and 19 horizontal lines for intersections)
+    for i in range(COLS):
         pygame.draw.line(
-            screen, WHITE,
-            (MARGIN, MARGIN + i * CELL_SIZE),
-            (MARGIN + COLS * CELL_SIZE, MARGIN + i * CELL_SIZE),
+            screen, BLACK,
+            (MARGIN + i * CELL_SIZE, MARGIN),
+            (MARGIN + i * CELL_SIZE, MARGIN + GRID_SIZE * CELL_SIZE),
             2
         )
 
-    for i in range(COLS + 1):
+    for i in range(ROWS):
         pygame.draw.line(
-            screen, WHITE,
-            (MARGIN + i * CELL_SIZE, MARGIN),
-            (MARGIN + i * CELL_SIZE, MARGIN + ROWS * CELL_SIZE),
+            screen, BLACK,
+            (MARGIN, MARGIN + i * CELL_SIZE),
+            (MARGIN + GRID_SIZE * CELL_SIZE, MARGIN + i * CELL_SIZE),
             2
         )
+
+    # Draw star points
+    star_points = [3, 9, 15]
+    for x in star_points:
+        for y in star_points:
+            pygame.draw.circle(
+                screen, BLACK,
+                (MARGIN + x * CELL_SIZE, MARGIN + y * CELL_SIZE),
+                4
+            )
 
     pygame.display.flip()
 
@@ -82,11 +97,9 @@ def win_screen():
 
 def main():
     global turn
-    global win
     running = True
     clock = pygame.time.Clock()
 
-    screen.fill(WOOD)
     draw_board()
 
     while running:
@@ -99,18 +112,31 @@ def main():
                     running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                col = mouse_pos[0] // CELL_SIZE
-                row = mouse_pos[1] // CELL_SIZE
-                cell = (col, row)
-                if not (0 <= col <= COLS and 0 <= row <= ROWS):
+
+                # Calculate the closest intersection
+                col = round((mouse_pos[0] - MARGIN) / CELL_SIZE)
+                row = round((mouse_pos[1] - MARGIN) / CELL_SIZE)
+
+                # Ensure the position is within bounds
+                if not (0 <= col < COLS and 0 <= row < ROWS):
                     continue
+
+                cell = (col, row)
+                print(cell)
+
+                # Check if the cell is already occupied
                 if board[row][col] != 0:
                     continue
+
                 board[row][col] = turn
+
+                # Check if it's a winning move
                 if check_win(board, cell, turn):
                     win_screen()
                     running = False
                     break
+
+                # Draw the stone
                 if turn == 1:
                     draw_stone(cell, BLACK)
                     turn = -1
