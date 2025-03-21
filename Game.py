@@ -78,15 +78,14 @@ class Game:
         pygame.display.flip()
         sleep(2)
 
-
     """ game logic """
 
-    def handle_turn(self, cell):
+    def handle_turn(self, cell) -> bool:
         col, row = cell
 
         # Check if the cell is already occupied
         if self.board[row][col] != 0:
-            return
+            return True
 
         self.board[row][col] = self.turn
 
@@ -98,3 +97,5 @@ class Game:
         # Draw the stone
         self.draw_stone(cell, BLACK if self.turn == 1 else WHITE)
         self.turn = -self.turn
+
+        return True

@@ -6,7 +6,7 @@ pygame.init()
 
 
 def main():
-    running = True
+    running: bool = True
     clock = pygame.time.Clock()
 
     game = Game()
@@ -33,7 +33,7 @@ def main():
                     continue
                 cell = (col, row)
 
-                game.handle_turn(cell)
+                running = game.handle_turn(cell)
 
         clock.tick(10)
 
