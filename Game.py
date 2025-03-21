@@ -78,6 +78,15 @@ class Game:
         pygame.display.flip()
         sleep(2)
 
+    def draw_draw_screen(self):
+        self.screen.fill(WOOD)
+        pos = (BOARD_SIZE/2 - 70, BOARD_SIZE/2)
+        self.screen.blit(self.font.render("Game Over", True, RED), pos)
+        self.screen.blit(self.font.render("Game Draw!", True, RED),
+                         (pos[0], pos[1] - 50))
+        pygame.display.flip()
+        sleep(2)
+
     """ game logic """
 
     def handle_turn(self, cell) -> bool:
@@ -97,5 +106,10 @@ class Game:
         # Draw the stone
         self.draw_stone(cell, BLACK if self.turn == 1 else WHITE)
         self.turn = -self.turn
+
+        # Check if the board is full
+        if check_board_full(self.board):
+            self.draw_draw_screen()
+            return False
 
         return True

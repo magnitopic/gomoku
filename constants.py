@@ -1,7 +1,7 @@
 # Global program constants
 BOARD_SIZE = 920
-GRID_SIZE = 18  # This is the number of spaces between intersections
-COLS, ROWS = 19, 19  # This is the number of intersections
+COLS, ROWS = 19, 19   # This is the number of intersections
+GRID_SIZE = COLS - 1  # This is the number of spaces between intersections
 MARGIN = 50
 BORDER_MARGIN = 30
 CELL_SIZE = (BOARD_SIZE - 2 * MARGIN) // GRID_SIZE

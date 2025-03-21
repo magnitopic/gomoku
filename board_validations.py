@@ -48,5 +48,12 @@ def check_win(board, last_move, color):
     return False
 
 
+def check_board_full(board):
+    for row in board:
+        if 0 in row:
+            return False
+    return True
+
+
 def validate_board(board):
     pass
