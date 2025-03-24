@@ -37,7 +37,50 @@ def check_n_in_a_row(board, last_move, color, direction, n):
 
 
 def check_three(board, last_move, color) -> bool:
-    pass
+    x, y = last_move
+    free_threes = []
+
+    # check all directions
+    for direction in DIRECTIONS:
+        dx, dy = direction
+        stones = 1
+
+        spaces_after = 0
+        i = 1
+        while True:
+            nx, ny = x + dx * i, y + dy * i
+            if not is_move_in_bounds((nx, ny)):
+                break
+
+            if board[ny][nx] == color:
+                stones += 1
+                i += 1
+            elif board[ny][nx] == 0:
+                spaces_after += 1
+                break
+            else:
+                break
+
+        spaces_before = 0
+        i = 1
+        while True:
+            nx, ny = x - dx * i, y - dy * i
+            if not is_move_in_bounds((nx, ny)):
+                break
+
+            if board[ny][nx] == color:
+                stones += 1
+                i += 1
+            elif board[ny][nx] == 0:
+                spaces_before += 1
+                break
+            else:
+                break
+
+    if stones == 3 and spaces_before > 0 and spaces_after > 0:
+        free_threes.append(direction)
+
+    return free_threes
 
 
 def check_double_three(board, last_move) -> bool:
@@ -56,3 +99,9 @@ def check_board_full(board) -> bool:
         if 0 in row:
             return False
     return True
+
+
+# algorithm functions
+
+def get_valid_neighbour_move(board):
+    """ Get all valid moves. For efficiency, only get the moves around the existing stones. """
