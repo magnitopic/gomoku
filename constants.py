@@ -23,12 +23,13 @@ DIRECTIONS = [
 ]
 
 # defining colors for the terminal
-RED = "\033[0;31m"
-GREEN = "\033[0;32m"
-YELLOW = "\033[0;33m"
-BLUE = "\033[0;34m"
-PURPLE = "\033[0;35m"
-CYAN = "\033[0;36m"
-RESET = "\033[0m"
-GRAY = "\033[2;30m"
-BOLD = "\033[1m"
+T_RED = "\033[0;31m"
+T_GREEN = "\033[0;32m"
+T_YELLOW = "\033[0;33m"
+T_BLUE = "\033[0;34m"
+T_PURPLE = "\033[0;35m"
+T_CYAN = "\033[0;36m"
+T_WHITE = "\033[0;37m"
+T_RESET = "\033[0m"
+T_GRAY = "\033[2;30m"
+T_BOLD = "\033[1m"
