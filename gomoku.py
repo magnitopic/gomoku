@@ -1,5 +1,6 @@
-import pygame
 from constants import *
+print(GRAY, end='')
+import pygame
 from Game import Game
 from board_validations import is_move_in_bounds
 
@@ -43,3 +44,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print(RESET)

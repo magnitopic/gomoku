@@ -77,14 +77,25 @@ def check_three(board, last_move, color) -> bool:
             else:
                 break
 
-    if stones == 3 and spaces_before > 0 and spaces_after > 0:
-        free_threes.append(direction)
+        if stones == 3 and spaces_before > 0 and spaces_after > 0:
+            free_threes.append(direction)
 
     return free_threes
 
 
-def check_double_three(board, last_move) -> bool:
-    pass
+def check_double_three(board, last_move, color) -> bool:
+    x, y = last_move
+
+    if board[y][x] != 0:
+        return False
+
+    board[y][x] = color
+
+    free_threes = check_three(board, last_move, color)
+
+    board[y][x] = 0
+
+    return len(free_threes) >= 2
 
 
 def check_win(board, last_move, color) -> bool:

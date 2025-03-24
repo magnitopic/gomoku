@@ -96,6 +96,10 @@ class Game:
         if self.board[row][col] != 0:
             return True
 
+        # Check for double three
+        if check_double_three(self.board, cell, self.turn):
+            return True
+
         self.board[row][col] = self.turn
 
         # Check if it's a winning move
