@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 from Game import Game
+from board_validations import is_move_in_bounds
 
 pygame.init()
 
@@ -29,7 +30,7 @@ def main():
                 row = round((mouse_pos[1] - MARGIN) / CELL_SIZE)
 
                 # Ensure the position is within bounds
-                if not (0 <= col < COLS and 0 <= row < ROWS):
+                if not is_move_in_bounds((col, row)):
                     continue
                 cell = (col, row)
 
