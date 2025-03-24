@@ -1,4 +1,4 @@
-from constants import COLS, ROWS, DIRECTIONS
+from constants import *
 
 
 def is_move_in_bounds(cell) -> bool:
@@ -44,6 +44,7 @@ def check_three(board, last_move, color) -> bool:
     for direction in DIRECTIONS:
         dx, dy = direction
         stones = 1
+        separate_threes = False
 
         spaces_after = 0
         i = 1
@@ -57,7 +58,14 @@ def check_three(board, last_move, color) -> bool:
                 i += 1
             elif board[ny][nx] == 0:
                 spaces_after += 1
-                break
+                i += 1
+                nx, ny = x + dx * i, y + dy * i
+                if board[ny][nx] == color:
+                    stones += 1
+                    i += 1
+                    separate_threes = True
+                else:
+                    break
             else:
                 break
 
@@ -69,17 +77,38 @@ def check_three(board, last_move, color) -> bool:
                 break
 
             if board[ny][nx] == color:
+                """ if separate_threes:
+                    spaces_before += 1
+                    print(T_BLUE, "with spaces before")
+                    print(spaces_after, spaces_before, T_GRAY)
+                    break """
                 stones += 1
                 i += 1
             elif board[ny][nx] == 0:
                 spaces_before += 1
-                break
+                i += 1
+                nx, ny = x - dx * i, y - dy * i
+                if board[ny][nx] == color:
+                    stones += 1
+                    i += 1
+                    separate_threes = True
+                else:
+                    break
             else:
                 break
 
-        if stones == 3 and spaces_before > 0 and spaces_after > 0:
-            free_threes.append(direction)
+        print(
+            f"stones: {stones}, spaces_before: {spaces_before}, spaces_after: {spaces_after}")
+        print(f"separate_threes: {separate_threes}")
 
+        if stones == 3 and spaces_before > 0 and spaces_after > 0 and not separate_threes:
+            free_threes.append(direction)
+            print(T_YELLOW + "Found a free three!"+T_GRAY)
+        elif stones == 3 and ((spaces_before == 2 and spaces_after == 1) or (spaces_before == 1 and spaces_after == 2)) and separate_threes:
+            free_threes.append(direction)
+            print(T_YELLOW + "Found a free three with a space!"+T_GRAY)
+
+    print("_"*50)
     return free_threes
 
 
@@ -116,3 +145,4 @@ def check_board_full(board) -> bool:
 
 def get_valid_neighbour_move(board):
     """ Get all valid moves. For efficiency, only get the moves around the existing stones. """
+    pass

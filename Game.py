@@ -46,7 +46,7 @@ class Game:
             )
 
         # Draw star points
-        star_points = [3, 9, 15]
+        star_points = [x for x in range(3, COLS, 6)]
         for x in star_points:
             for y in star_points:
                 pygame.draw.circle(
@@ -94,10 +94,12 @@ class Game:
 
         # Check if the cell is already occupied
         if self.board[row][col] != 0:
+            print(T_BLUE+"Can't place on an occupied tile!"+T_GRAY)
             return True
 
         # Check for double three
         if check_double_three(self.board, cell, self.turn):
+            print(T_PURPLE+"Double three detected!"+T_GRAY)
             return True
 
         self.board[row][col] = self.turn
@@ -109,7 +111,7 @@ class Game:
 
         # Draw the stone
         self.draw_stone(cell, BLACK if self.turn == 1 else WHITE)
-        self.turn = -self.turn
+        """ self.turn = -self.turn """
 
         # Check if the board is full
         if check_board_full(self.board):
