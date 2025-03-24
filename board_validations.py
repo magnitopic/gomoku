@@ -60,6 +60,7 @@ def check_three(board, last_move, color) -> bool:
                 spaces_after += 1
                 i += 1
                 nx, ny = x + dx * i, y + dy * i
+                # if after the space there is a stone of the same color, continue counting
                 if board[ny][nx] == color:
                     stones += 1
                     i += 1
@@ -77,11 +78,6 @@ def check_three(board, last_move, color) -> bool:
                 break
 
             if board[ny][nx] == color:
-                """ if separate_threes:
-                    spaces_before += 1
-                    print(T_BLUE, "with spaces before")
-                    print(spaces_after, spaces_before, T_GRAY)
-                    break """
                 stones += 1
                 i += 1
             elif board[ny][nx] == 0:
