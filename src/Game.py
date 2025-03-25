@@ -149,6 +149,9 @@ class Game:
         if self.turn == 1:
             if self.player1.handle_taken_stones():
                 return True
+        else:
+            if self.player2.handle_taken_stones():
+                return True
         return False
 
     def handle_turn(self, cell) -> bool:
