@@ -21,15 +21,15 @@ all:		$(NAME)
 			@printf "$(BLUE)==> $(CYAN)Gomoku compiled ✅\n\n$(RESET)"
 
 $(NAME):	
-			@pyinstaller --onefile --distpath . gomoku.py
+			@pyinstaller --onefile --distpath . src/gomoku.py
 			@rm -f $(NAME).spec
 
 clean:
-			@$(RM) $(OBJS)
+			@$(RM) $(OBJS) $(NAME).spec
 			@printf "\n$(BLUE)==> $(RED)Removed Gomoku 🗑️\n$(RESET)"
 
 fclean:		clean
-			@$(RM) $(NAME) $(NAME).spec
+			@$(RM) $(NAME)
 
 re:			fclean all
 			@printf "$(BLUE)==> $(CYAN)Gomoku recompiled 🔄\n$(RESET)"

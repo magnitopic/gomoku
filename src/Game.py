@@ -111,7 +111,7 @@ class Game:
 
         # Draw the stone
         self.draw_stone(cell, BLACK if self.turn == 1 else WHITE)
-        """ self.turn = -self.turn """
+        self.turn = -self.turn
 
         # Check if the board is full
         if check_board_full(self.board):
