@@ -60,6 +60,8 @@ def check_three(board, last_move, color) -> bool:
                 spaces_after += 1
                 i += 1
                 nx, ny = x + dx * i, y + dy * i
+                if not is_move_in_bounds((nx, ny)):
+                    break
                 # if after the space there is a stone of the same color, continue counting
                 if board[ny][nx] == color:
                     stones += 1
@@ -84,6 +86,8 @@ def check_three(board, last_move, color) -> bool:
                 spaces_before += 1
                 i += 1
                 nx, ny = x - dx * i, y - dy * i
+                if not is_move_in_bounds((nx, ny)):
+                    break
                 if board[ny][nx] == color:
                     stones += 1
                     i += 1
@@ -93,9 +97,9 @@ def check_three(board, last_move, color) -> bool:
             else:
                 break
 
-        print(
+        """ print(
             f"stones: {stones}, spaces_before: {spaces_before}, spaces_after: {spaces_after}")
-        print(f"separate_threes: {separate_threes}")
+        print(f"separate_threes: {separate_threes}") """
 
         if stones == 3 and spaces_before > 0 and spaces_after > 0 and not separate_threes:
             free_threes.append(direction)
@@ -104,7 +108,6 @@ def check_three(board, last_move, color) -> bool:
             free_threes.append(direction)
             print(T_YELLOW + "Found a free three with a space!"+T_GRAY)
 
-    print("_"*50)
     return free_threes
 
 
@@ -123,6 +126,78 @@ def check_double_three(board, last_move, color) -> bool:
     return len(free_threes) >= 2
 
 
+def check_capture(board, last_move, color):
+    x, y = last_move
+
+    stones_to_delete = []
+
+    for direction in DIRECTIONS:
+        dx, dy = direction
+
+        for i in range(1, 4):
+            next_pos = (x + dx * i, y + dy * i)
+
+            if not is_move_in_bounds(next_pos):
+                break
+
+            if board[next_pos[1]][next_pos[0]] == -color and i == 1:
+                stones_to_delete.append(next_pos)
+            elif board[next_pos[1]][next_pos[0]] == -color and i == 2:
+                stones_to_delete.append(next_pos)
+            elif board[next_pos[1]][next_pos[0]] == color and i == 3:
+                return stones_to_delete
+
+            else:
+                break
+
+        stones_to_delete = []
+
+        for i in range(1, 4):
+            next_pos = (x - dx * i, y - dy * i)
+
+            if not is_move_in_bounds(next_pos):
+                break
+
+            if board[next_pos[1]][next_pos[0]] == -color and i == 1:
+                stones_to_delete.append(next_pos)
+            elif board[next_pos[1]][next_pos[0]] == -color and i == 2:
+                stones_to_delete.append(next_pos)
+            elif board[next_pos[1]][next_pos[0]] == color and i == 3:
+                return stones_to_delete
+            else:
+                break
+
+    return False
+
+
+def check_move_into_capture(board, last_move, color) -> bool:
+    x, y = last_move
+
+    board[y][x] = color
+
+    for direction in DIRECTIONS:
+        dx, dy = direction
+
+        next_stone = (x + dx, y + dy)
+        if check_capture(board, next_stone, -color) != False:
+            board[y][x] = 0
+            return True
+
+        print("_"*20)
+
+        next_stone = (x - dx, y - dy)
+        if check_capture(board, next_stone, -color) != False:
+            board[y][x] = 0
+            return True
+
+    board[y][x] = 0
+
+    return False
+
+
+""" End conditions """
+
+
 def check_win(board, last_move, color) -> bool:
     for direction in DIRECTIONS:
         if check_n_in_a_row(board, last_move, color, direction, 5):
@@ -137,7 +212,8 @@ def check_board_full(board) -> bool:
     return True
 
 
-# algorithm functions
+""" Algorithm functions """
+
 
 def get_valid_neighbour_move(board):
     """ Get all valid moves. For efficiency, only get the moves around the existing stones. """

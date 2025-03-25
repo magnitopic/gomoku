@@ -14,6 +14,7 @@ def main():
     game = Game()
 
     game.draw_board()
+    game.draw_player_info()
 
     while running:
         # Event handling

@@ -2,7 +2,7 @@
 BOARD_SIZE = 920
 COLS, ROWS = 19, 19   # This is the number of intersections
 GRID_SIZE = COLS - 1  # This is the number of spaces between intersections
-MARGIN = 50
+MARGIN = 90
 BORDER_MARGIN = 30
 CELL_SIZE = (BOARD_SIZE - 2 * MARGIN) // GRID_SIZE
 
@@ -22,7 +22,7 @@ DIRECTIONS = [
     (1, -1)   # Diagonal (up-left)
 ]
 
-# defining colors for the terminal
+# Defining colors for the terminal
 T_RED = "\033[0;31m"
 T_GREEN = "\033[0;32m"
 T_YELLOW = "\033[0;33m"
