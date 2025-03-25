@@ -147,7 +147,7 @@ class Game:
         self.draw_board()
         self.draw_all_stones()
         if self.turn == 1:
-            if self.player1.handle_take_stones():
+            if self.player1.handle_taken_stones():
                 return True
         return False
 

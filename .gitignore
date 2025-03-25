@@ -1,10 +1,10 @@
-/venv
-/env
-/.idea
-/.vscode
-/__pycache__
-/build
-/dist
+venv/
+env/
+.idea/
+.vscode/
+__pycache__/
+build/
+dist/
 gomoku.spec
 gomoku
 .DS_Store
