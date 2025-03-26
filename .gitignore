@@ -8,3 +8,4 @@ dist/
 gomoku.spec
 gomoku
 .DS_Store
+*.so
