@@ -97,10 +97,6 @@ def check_three(board, last_move, color) -> bool:
             else:
                 break
 
-        """ print(
-            f"stones: {stones}, spaces_before: {spaces_before}, spaces_after: {spaces_after}")
-        print(f"separate_threes: {separate_threes}") """
-
         if stones == 3 and spaces_before > 0 and spaces_after > 0 and not separate_threes:
             free_threes.append(direction)
             print(T_YELLOW + "Found a free three!"+T_GRAY)
@@ -111,11 +107,49 @@ def check_three(board, last_move, color) -> bool:
     return free_threes
 
 
+def check_same_direction_double_three(board, last_move, color):
+    x, y = last_move
+
+    pattern = [0, color, color, 0]
+
+    # check all directions
+    for direction in DIRECTIONS:
+        sides = 0
+        dx, dy = direction
+
+        for i in range(1, 4):
+            next_pos = (x + dx * i, y + dy * i)
+
+            if not is_move_in_bounds(next_pos):
+                break
+
+            if board[next_pos[1]][next_pos[0]] != pattern[i - 1]:
+                break
+        else:
+            sides += 1
+
+        for i in range(1, 4):
+            next_pos = (x - dx * i, y - dy * i)
+
+            if not is_move_in_bounds(next_pos):
+                break
+
+            if board[next_pos[1]][next_pos[0]] != pattern[i - 1]:
+                break
+        else:
+            sides += 1
+
+        if sides == 2:
+            return True
+
+    return False
+
+
 def check_double_three(board, last_move, color) -> bool:
     x, y = last_move
 
-    if board[y][x] != 0:
-        return False
+    if check_same_direction_double_three(board, last_move, color):
+        return True
 
     board[y][x] = color
 
