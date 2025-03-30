@@ -3,11 +3,19 @@ print(T_GRAY, end='')
 import pygame
 from Game import Game
 from board_validations import is_move_in_bounds
-
-pygame.init()
+from game_config import game_config_popup
 
 
 def main():
+
+    config = game_config_popup()
+    print(f"{T_WHITE}Config: {config}{T_GRAY}")
+
+    if (config == {}):
+        return
+
+    pygame.init()
+
     running: bool = True
     clock = pygame.time.Clock()
 
