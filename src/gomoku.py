@@ -5,16 +5,15 @@ from Game import Game
 from board_validations import is_move_in_bounds
 from game_config import game_config_popup
 
+pygame.init()
+
 
 def main():
-
-    config = game_config_popup()
+    """ config = game_config_popup()
     print(f"{T_WHITE}Config: {config}{T_GRAY}")
 
     if (config == {}):
-        return
-
-    pygame.init()
+        return """
 
     running: bool = True
     clock = pygame.time.Clock()

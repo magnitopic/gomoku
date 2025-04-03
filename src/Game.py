@@ -9,8 +9,8 @@ class Game:
     def __init__(self):
         self.board = [[0 for _ in range(COLS)] for _ in range(ROWS)]
         self.turn = 1
-        self.player1 = Player(1)
-        self.player2 = Player(-1)
+        self.player1 = Player(1)    # Player 1 is black
+        self.player2 = Player(-1)   # Player 2 is white
 
         # Pygame vars
         self.screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
