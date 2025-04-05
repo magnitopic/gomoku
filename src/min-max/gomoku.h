@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:17:34 by alaparic          #+#    #+#             */
-/*   Updated: 2025/04/03 11:39:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:52:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ const int dy[4] = {0, 1, 1, -1};
 # define TWO			5
 
 int minMax(int board_size, int **board, int isMaximizingPlayer, int depth, int alpha, int beta, t_move *bestMove);
+int isNearExistingStones(int board_size, int **board, int row, int col);
+int evaluateBoard(int board_size, int **board);
 t_move ai_algorithm(int board_size, int **board, int color);
 
 #endif

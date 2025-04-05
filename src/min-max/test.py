@@ -6,16 +6,13 @@
 #    By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 00:10:06 by alaparic          #+#    #+#              #
-#    Updated: 2025/03/31 00:22:33 by alaparic         ###   ########.fr        #
+#    Updated: 2025/04/05 22:36:26 by alaparic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import ctypes
-import random
 
 # Define t_move structure equivalent
-
-
 class t_move(ctypes.Structure):
     _fields_ = [("row", ctypes.c_int),
                 ("col", ctypes.c_int),
@@ -24,7 +21,7 @@ class t_move(ctypes.Structure):
 
 
 # Load shared library
-lib = ctypes.CDLL('./src/min-max/test.so')  # Replace with actual library path
+lib = ctypes.CDLL('./src/min-max/test.so')
 
 # Configure function prototype
 lib.ai_algorithm.argtypes = [

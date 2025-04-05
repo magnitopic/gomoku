@@ -1,5 +1,5 @@
 # Gomoku
-NAME			=	gomoku
+NAME			=	Gomoku
 
 OBJS			=	build \
 					dist
