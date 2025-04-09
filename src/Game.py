@@ -10,7 +10,7 @@ class Game:
         self.board = [[0 for _ in range(COLS)] for _ in range(ROWS)]
         self.turn = 1
         self.player1 = Player(1)    # Player 1 is black
-        self.player2 = Player(-1)   # Player 2 is white
+        self.player2 = Player(-1, True)   # Player 2 is white
 
         # Pygame vars
         self.screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
@@ -87,9 +87,9 @@ class Game:
                 self.font_underline.render("Player2", True, WHITE), player2_pos)
 
         timer1 = self.screen.blit(self.font_small.render(
-            f"Time: {self.player1.timer}", True, BLACK), (BOARD_SIZE - 110, 10))
+            f"Time: {self.player1.timer}", True, BLACK), (BOARD_SIZE - 140, 10))
         timer2 = self.screen.blit(self.font_small.render(
-            f"Time: {self.player2.timer}", True, WHITE), (BOARD_SIZE - 110, BOARD_SIZE - 50))
+            f"Time: {self.player2.timer}", True, WHITE), (BOARD_SIZE - 140, BOARD_SIZE - 50))
 
         stones_counter1 = self.screen.blit(self.font_small.render(
             f"Taken: {self.player1.taken_stones}", True, BLACK), (BOARD_SIZE - 250, 10))
@@ -154,6 +154,16 @@ class Game:
                 return True
         return False
 
+    def handle_ai_turn(self):
+        result = self.player2.new_ai_move()
+        print(f"{T_YELLOW}AI move: {result[0]}, {result[1]}{T_GRAY}")
+        self.player2.timer = result[3]
+        self.turn = 1
+        if result[0] == -1 and result[1] == -1:
+            return False
+        self.board[result[0]][result[1]] = -1
+        self.draw_stone((result[0], result[1]), WHITE)
+
     def handle_turn(self, cell) -> bool:
         col, row = cell
 
@@ -196,6 +206,9 @@ class Game:
         if check_board_full(self.board):
             self.draw_tie_screen()
             return False
+
+        if self.turn == -1 and self.player2.ai:
+            self.handle_ai_turn()
 
         self.draw_player_info()
 

@@ -6,11 +6,12 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:22:51 by alaparic          #+#    #+#             */
-/*   Updated: 2025/04/05 22:35:44 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/04/09 23:21:54 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gomoku.h"
+#include <unistd.h>
 
 int count = 1;
 
@@ -18,7 +19,9 @@ int minMax(int board_size, int **board, int maximizingPlayer, int depth, int alp
 {
 	printf("minMax, %d\n", count++);
 
-	if (depth == 0)
+	sleep(1);
+
+	if (depth == MAX_DEPTH)
 	{
 		bestMove->score = evaluateBoard(board_size, board);
 		return bestMove->score;
@@ -46,8 +49,14 @@ int minMax(int board_size, int **board, int maximizingPlayer, int depth, int alp
 						bestMove->col = j;
 						bestMove->score = eval;
 					}
+
+					alpha = alpha > maxEval ? alpha : maxEval;
+					if (beta <= alpha)
+						break;
 				}
 			}
+			if (beta <= alpha)
+				break;
 		}
 		return maxEval;
 	}
@@ -73,8 +82,14 @@ int minMax(int board_size, int **board, int maximizingPlayer, int depth, int alp
 						bestMove->col = j;
 						bestMove->score = eval;
 					}
+
+					beta = beta < minEval ? beta : minEval;
+					if (beta <= alpha)
+						break;
 				}
 			}
+			if (beta <= alpha)
+				break;
 		}
 
 		return minEval;
@@ -110,9 +125,9 @@ int evaluateBoard(int board_size, int **board)
 t_move findBestMove(int board_size, int **board, int player)
 {
 	t_move bestMove = {-1, -1, player == BLACK ? INT_MIN : INT_MAX, 0};
+	int depth = 0;
 
-	// Call minMax with alpha-beta pruning
-	minMax(board_size, board, MAX_DEPTH, player == BLACK, INT_MIN, INT_MAX, &bestMove);
+	minMax(board_size, board, player == BLACK, depth, INT_MIN, INT_MAX, &bestMove);
 
 	return bestMove;
 }
@@ -120,15 +135,16 @@ t_move findBestMove(int board_size, int **board, int player)
 t_move ai_algorithm(int board_size, int **board, int color)
 {
 	t_move best_move;
-	clock_t start, end;
-	count = 1;
+	time_t start, end;
+	count = 1; // Reset the counter
 
-	start = clock();
+	start = time(NULL);
 
 	best_move = findBestMove(board_size, board, color);
 
-	end = clock();
-	best_move.time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
+	end = time(NULL);
+	best_move.time_taken = (double)(end - start);
+	printf("Total recursive calls: %d\n", count - 1);
 
 	return best_move;
 }
