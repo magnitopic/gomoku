@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:22:51 by alaparic          #+#    #+#             */
-/*   Updated: 2025/04/09 23:21:54 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/04/09 23:24:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int count = 1;
 int minMax(int board_size, int **board, int maximizingPlayer, int depth, int alpha, int beta, t_move *bestMove)
 {
 	printf("minMax, %d\n", count++);
-
-	sleep(1);
 
 	if (depth == MAX_DEPTH)
 	{

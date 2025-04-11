@@ -1,5 +1,5 @@
 import pygame
-from time import sleep
+import time
 from constants import *
 from board_validations import *
 from Player import Player
@@ -11,6 +11,7 @@ class Game:
         self.turn = 1
         self.player1 = Player(1)    # Player 1 is black
         self.player2 = Player(-1, True)   # Player 2 is white
+        self.turn_start_time = time.time()
 
         # Pygame vars
         self.screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
@@ -87,9 +88,9 @@ class Game:
                 self.font_underline.render("Player2", True, WHITE), player2_pos)
 
         timer1 = self.screen.blit(self.font_small.render(
-            f"Time: {self.player1.timer}", True, BLACK), (BOARD_SIZE - 140, 10))
+            f"Time: {self.player1.timer:.1f}s", True, BLACK), (BOARD_SIZE - 140, 10))
         timer2 = self.screen.blit(self.font_small.render(
-            f"Time: {self.player2.timer}", True, WHITE), (BOARD_SIZE - 140, BOARD_SIZE - 50))
+            f"Time: {self.player2.timer:.1f}s", True, WHITE), (BOARD_SIZE - 140, BOARD_SIZE - 50))
 
         stones_counter1 = self.screen.blit(self.font_small.render(
             f"Taken: {self.player1.taken_stones}", True, BLACK), (BOARD_SIZE - 250, 10))
@@ -157,15 +158,31 @@ class Game:
     def handle_ai_turn(self):
         result = self.player2.new_ai_move()
         print(f"{T_YELLOW}AI move: {result[0]}, {result[1]}{T_GRAY}")
+
         self.player2.timer = result[3]
+
         self.turn = 1
+        self.turn_start_time = time.time()
+
         if result[0] == -1 and result[1] == -1:
             return False
+
         self.board[result[0]][result[1]] = -1
         self.draw_stone((result[0], result[1]), WHITE)
 
     def handle_turn(self, cell) -> bool:
         col, row = cell
+
+        # Calculate time taken for this move
+        current_time = time.time()
+        time_taken = current_time - self.turn_start_time
+
+        # Update the appropriate player's timer
+        if self.turn == 1:
+            self.player1.timer = time_taken
+        else:
+            if not self.player2.ai:
+                self.player2.timer = time_taken
 
         # Check if the cell is already occupied
         if self.board[row][col] != 0:
@@ -201,6 +218,8 @@ class Game:
         # Draw the stone
         self.draw_stone(cell, BLACK if self.turn == 1 else WHITE)
         self.turn = -self.turn
+
+        self.turn_start_time = time.time()
 
         # Check if the board is full
         if check_board_full(self.board):
