@@ -1,5 +1,6 @@
 import pygame
 import time
+from time import sleep
 from constants import *
 from board_validations import *
 from Player import Player
@@ -88,9 +89,9 @@ class Game:
                 self.font_underline.render("Player2", True, WHITE), player2_pos)
 
         timer1 = self.screen.blit(self.font_small.render(
-            f"Time: {self.player1.timer:.1f}s", True, BLACK), (BOARD_SIZE - 140, 10))
+            f"Time: {self.player1.timer:.3f}s", True, BLACK), (BOARD_SIZE - 140, 10))
         timer2 = self.screen.blit(self.font_small.render(
-            f"Time: {self.player2.timer:.1f}s", True, WHITE), (BOARD_SIZE - 140, BOARD_SIZE - 50))
+            f"Time: {self.player2.timer:.3f}s", True, WHITE), (BOARD_SIZE - 140, BOARD_SIZE - 50))
 
         stones_counter1 = self.screen.blit(self.font_small.render(
             f"Taken: {self.player1.taken_stones}", True, BLACK), (BOARD_SIZE - 250, 10))
