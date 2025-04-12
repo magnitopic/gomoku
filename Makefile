@@ -4,6 +4,14 @@ NAME			=	Gomoku
 OBJS			=	build \
 					dist
 
+GOMOKU_SRC		=	src/min-max/min-max.c
+
+C_OBJS			=	src/min-max/min-max.so
+
+CC				=	cc
+CCFLAGS			=	-shared -Wall -Werror #-Wextra
+
+
 RM				=	rm -fr
 
 # Colours
@@ -23,9 +31,11 @@ all:		$(NAME)
 $(NAME):	
 			@pyinstaller --onefile --distpath . src/gomoku.py
 			@rm -f $(NAME).spec
+			@${CC} $(CCFLAGS) -o $(C_OBJS) $(GOMOKU_SRC)
 
 clean:
 			@$(RM) $(OBJS) $(NAME).spec
+			@$(RM) $(C_OBJS)
 			@printf "\n$(BLUE)==> $(RED)Removed Gomoku 🗑️\n$(RESET)"
 
 fclean:		clean

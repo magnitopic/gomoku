@@ -19,7 +19,12 @@ class Player:
                             ("score", ctypes.c_int),
                             ("time_taken", ctypes.c_double)]
 
-            self.lib = ctypes.CDLL('./src/min-max/test.so')
+            try:
+                self.lib = ctypes.CDLL('./src/min-max/min-max.so')
+            except:
+                print(
+                    f"{T_RED}Error: Could not load algorithm file. Please ensure it exists.{T_RESET}")
+                exit()
 
             # Configure function prototype
             self.lib.ai_algorithm.argtypes = [
