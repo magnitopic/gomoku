@@ -9,10 +9,10 @@ GOMOKU_SRC		=	src/min-max/min-max.c
 C_OBJS			=	src/min-max/min-max.so
 
 CC				=	cc
-CCFLAGS			=	-shared -Wall -Werror #-Wextra
-
-
 RM				=	rm -fr
+CCFLAGS			=	-shared -Wall -Werror #-Wextra -g3 -fsanitize=address
+
+
 
 # Colours
 RED				=	\033[0;31m
@@ -33,6 +33,11 @@ $(NAME):
 			@rm -f $(NAME).spec
 			@${CC} $(CCFLAGS) -o $(C_OBJS) $(GOMOKU_SRC)
 
+ai:
+			@$(RM) $(C_OBJS)
+			@${CC} $(CCFLAGS) -o $(C_OBJS) $(GOMOKU_SRC)
+			@printf "$(BLUE)==> $(CYAN)Gomoku AI compiled ✅\n\n$(RESET)"
+
 clean:
 			@$(RM) $(OBJS) $(NAME).spec
 			@$(RM) $(C_OBJS)
@@ -44,4 +49,4 @@ fclean:		clean
 re:			fclean all
 			@printf "$(BLUE)==> $(CYAN)Gomoku recompiled 🔄\n$(RESET)"
 
-.PHONY:		all clean fclean re
+.PHONY:		all ai clean fclean re
