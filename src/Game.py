@@ -157,8 +157,8 @@ class Game:
         return False
 
     def handle_ai_turn(self):
-        result = self.player2.new_ai_move()
-        print(f"{T_YELLOW}AI move: {result[0]}, {result[1]}{T_GRAY}")
+        result = self.player2.new_ai_move(self.board)
+        """ print(f"{T_YELLOW}AI move: {result[0]}, {result[1]}{T_GRAY}") """
 
         self.player2.timer = result[3]
 
@@ -186,7 +186,7 @@ class Game:
                 self.player2.timer = time_taken
 
         # Check if the cell is already occupied
-        if self.board[row][col] != 0:
+        if self.board[col][row] != 0:
             print(f"{T_BLUE}Can't place on an occupied tile! Invalid move!{T_GRAY}")
             return True
 

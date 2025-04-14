@@ -4,14 +4,15 @@ NAME			=	Gomoku
 OBJS			=	build \
 					dist
 
-GOMOKU_SRC		=	src/min-max/min-max.c
+GOMOKU_SRC		=	src/min-max/min-max.c \
+					src/min-max/debug-visualizer.c \
+					src/min-max/direction-vectors.c
 
 C_OBJS			=	src/min-max/min-max.so
 
 CC				=	cc
 RM				=	rm -fr
 CCFLAGS			=	-shared -Wall -Werror #-Wextra -g3 -fsanitize=address
-
 
 
 # Colours

@@ -42,17 +42,20 @@ class Player:
             return True
         return False
 
-    def new_ai_move(self):
+    def new_ai_move(self, board):
+        self.board = board
         c_rows = (ctypes.POINTER(ctypes.c_int) * ROWS)()
         for i, row in enumerate(self.board):
-            c_rows[i] = (ctypes.c_int * COLS)(*row)
+            c_rows[i] = (ctypes.c_int * ROWS)(*row)
         color = -1 if self.color == 1 else 1
 
+        print(T_WHITE)
         result = self.lib.ai_algorithm(
             ctypes.c_int(19),
             c_rows,
             ctypes.c_int(color)
         )
+        print(T_GRAY)
 
         return [
             result.row, result.col, result.score, result.time_taken
