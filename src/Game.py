@@ -172,6 +172,7 @@ class Game:
         self.draw_stone((result[0], result[1]), WHITE)
 
     def handle_turn(self, cell) -> bool:
+        # x, y = cell
         col, row = cell
 
         # Calculate time taken for this move
@@ -186,7 +187,7 @@ class Game:
                 self.player2.timer = time_taken
 
         # Check if the cell is already occupied
-        if self.board[col][row] != 0:
+        if self.board[row][col] != 0:
             print(f"{T_BLUE}Can't place on an occupied tile! Invalid move!{T_GRAY}")
             return True
 

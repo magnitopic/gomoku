@@ -58,5 +58,5 @@ class Player:
         print(T_GRAY)
 
         return [
-            result.row, result.col, result.score, result.time_taken
+            result.col, result.row, result.score, result.time_taken
         ]
