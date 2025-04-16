@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 10:00:00 by alaparic          #+#    #+#             */
-/*   Updated: 2025/04/13 12:15:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/04/16 08:14:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,24 +151,24 @@ void print_debug_board(int board_size, int **board, int mode)
 		for (int j = 0; j < board_size; j++)
 		{
 			printf("\t");
-			if (board[i][j] == BLACK)
+			if (board[j][i] == BLACK)
 				printf(COLOR_BOLD "●" COLOR_RESET);
-			else if (board[i][j] == -1) // Use the numeric value instead of WHITE macro
+			else if (board[j][i] == -1) // Use the numeric value instead of WHITE macro
 				printf(COLOR_BOLD "○" COLOR_RESET);
 			else
 			{
 				if (mode == 1) // Heat map mode
 				{
-					const char *color = get_heat_color(g_debug.heat_map[i][j]);
-					if (g_debug.visit_count[i][j] > 0)
-						printf("%s%2d" COLOR_RESET, color, g_debug.heat_map[i][j] / 100);
+					const char *color = get_heat_color(g_debug.heat_map[j][i]);
+					if (g_debug.visit_count[j][i] > 0)
+						printf("%s%2d" COLOR_RESET, color, g_debug.heat_map[j][i] / 100);
 					else
 						printf("·");
 				}
 				else if (mode == 2) // Visit count mode
 				{
-					if (g_debug.visit_count[i][j] > 0)
-						printf(COLOR_YELLOW "%2d " COLOR_RESET, g_debug.visit_count[i][j]);
+					if (g_debug.visit_count[j][i] > 0)
+						printf(COLOR_YELLOW "%2d " COLOR_RESET, g_debug.visit_count[j][i]);
 					else
 						printf("·");
 				}
@@ -200,13 +200,13 @@ void print_debug_stats()
  */
 void debug_begin_move_eval(int row, int col, int player, int depth)
 {
-	if (depth <= 2) // Only print detailed logs for top-level moves
+	/* if (depth <= 2) // Only print detailed logs for top-level moves
 	{
 		printf(COLOR_BOLD "%sEvaluating %s move at [%d,%d] (depth %d)%s\n",
 			   player == BLACK ? COLOR_RED : COLOR_BLUE,
 			   player == BLACK ? "BLACK" : "WHITE",
 			   row, col, depth, COLOR_RESET);
-	}
+	} */
 }
 
 /**

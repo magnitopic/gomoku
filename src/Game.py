@@ -169,7 +169,7 @@ class Game:
             return False
 
         self.board[result[0]][result[1]] = -1
-        self.draw_stone((result[0], result[1]), WHITE)
+        self.draw_stone((result[1], result[0]), WHITE)
 
     def handle_turn(self, cell) -> bool:
         # x, y = cell

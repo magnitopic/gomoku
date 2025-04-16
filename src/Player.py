@@ -10,7 +10,6 @@ class Player:
         self.timer = 0
         self.color = color
         self.lib = None
-        self.board = None
 
         if self.ai:
             class t_move(ctypes.Structure):
@@ -34,7 +33,6 @@ class Player:
             ]
             self.lib.ai_algorithm.restype = t_move
 
-            self.board = [[0 for _ in range(COLS)] for _ in range(ROWS)]
 
     def handle_taken_stones(self):
         self.taken_stones += 2
@@ -43,9 +41,8 @@ class Player:
         return False
 
     def new_ai_move(self, board):
-        self.board = board
         c_rows = (ctypes.POINTER(ctypes.c_int) * ROWS)()
-        for i, row in enumerate(self.board):
+        for i, row in enumerate(board):
             c_rows[i] = (ctypes.c_int * ROWS)(*row)
         color = -1 if self.color == 1 else 1
 
@@ -58,5 +55,5 @@ class Player:
         print(T_GRAY)
 
         return [
-            result.col, result.row, result.score, result.time_taken
+            result.row, result.col, result.score, result.time_taken
         ]
