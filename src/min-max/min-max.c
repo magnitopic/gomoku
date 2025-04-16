@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:22:51 by alaparic          #+#    #+#             */
-/*   Updated: 2025/04/16 06:59:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:39:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,25 +330,6 @@ t_move ai_algorithm(int board_size, int **board, int color)
 {
 	t_move best_move;
 	time_t start, end;
-
-	printf("AI algorithm called for %s player (color=%d)\n",
-		   color == BLACK ? "BLACK" : "WHITE", color);
-
-	// Print board state
-	printf("Current board state:\n");
-	for (int i = 0; i < board_size; i++)
-	{
-		for (int j = 0; j < board_size; j++)
-		{
-			char symbol = '.';
-			if (board[i][j] == BLACK)
-				symbol = 'B';
-			if (board[i][j] == WHITE)
-				symbol = 'W';
-			printf("%c ", symbol);
-		}
-		printf("\n");
-	}
 
 	start = time(NULL);
 	best_move = findBestMove(board_size, board, color);
