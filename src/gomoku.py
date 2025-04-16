@@ -3,22 +3,24 @@ print(T_GRAY, end='')
 import pygame
 from Game import Game
 from board_validations import is_move_in_bounds
-from game_config import game_config_popup
+from game_config import initial_game_config
 
 pygame.init()
 
 
 def main():
-    """ config = game_config_popup()
+    config = initial_game_config()
     print(f"{T_WHITE}Config: {config}{T_GRAY}")
-
-    if (config == {}):
-        return """
 
     running: bool = True
     clock = pygame.time.Clock()
 
-    game = Game()
+    import constants
+    constants.COLS = int(config["board_size"])
+    constants.ROWS = int(config["board_size"])
+    constants.GRID_SIZE = int(config["board_size"]) - 1
+
+    game = Game(config)
 
     game.draw_board()
     game.draw_player_info()

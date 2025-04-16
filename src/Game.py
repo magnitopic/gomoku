@@ -7,11 +7,11 @@ from Player import Player
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, game_config: dict[str, str | bool]):
         self.board = [[0 for _ in range(COLS)] for _ in range(ROWS)]
         self.turn = 1
-        self.player1 = Player(1)    # Player 1 is black
-        self.player2 = Player(-1, True)   # Player 2 is white
+        self.player1 = Player(1)            # Player 1 is black
+        self.player2 = Player(-1, game_config["ai"])     # Player 2 is white
         self.turn_start_time = time.time()
 
         # Pygame vars
@@ -36,7 +36,7 @@ class Game:
         )
         pygame.draw.rect(self.screen, BORDER_COLOR, border_rect, 2)
 
-        # Draw the grid lines (19 vertical and 19 horizontal lines for intersections)
+        # Draw the grid lines
         for i in range(COLS):
             pygame.draw.line(
                 self.screen, BLACK,

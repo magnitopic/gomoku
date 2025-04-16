@@ -1,95 +1,92 @@
-import tkinter as tk
-from tkinter import ttk
+from constants import *
 
 
-def game_config_popup():
-    config_window = tk.Tk()
-    config_window.title("Gomoku Configuration")
-    config_window.geometry("300x450")
-    config_window.resizable(False, False)
+def config_input():
+    try:
+        value = input(f"{T_RESET}>> ")
+        if value == "":
+            print("Default value")
+    except EOFError:
+        print()
+        exit()
+    return value.strip().lower()
 
-    padding = {"padx": 10, "pady": 5}
 
-    main_frame = ttk.Frame(config_window)
-    main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+def initial_game_config() -> dict[str, str | bool]:
+    config = {
+        "ai": True,
+        "difficulty": "standard",
+        "board_size": "19",
+        "save_history": False,
+        "game_mode": "subject"
+    }
+
+    print(f"\n{T_CYAN}-- Welcome to GOMOKU ⚫️⚪️ --")
+    print()
+    print(f"{T_YELLOW}Please select your game configuration:")
+
+    # VS AI or VS Player
+    print(
+        f"\n{T_BLUE}1. Would you like to play against the AI? ({T_GREEN}Y{T_BLUE}/n)")
+    ai_choice = config_input()
+
+    if ai_choice == "n":
+        config["ai"] = False
+        config["difficulty"] = None
+    elif ai_choice != "y" and ai_choice != "":
+        print(f"{T_RED}Invalid choice. Defaulting to AI mode.")
+        config["ai"] = True
 
     # AI Difficulty
-    difficulty_frame = ttk.LabelFrame(main_frame, text="AI Difficulty")
-    difficulty_frame.pack(fill="x", **padding)
+    if config["ai"]:
+        print(
+            f"\n{T_BLUE}2. Choose AI difficulty: (easy/middle/{T_GREEN}standard{T_BLUE})")
+        ai_difficulty = config_input()
 
-    difficulty_var = tk.StringVar(value="standard")
-    ttk.Radiobutton(difficulty_frame, text="Easy",
-                    variable=difficulty_var, value="easy").pack(anchor="w")
-    ttk.Radiobutton(difficulty_frame, text="Middle",
-                    variable=difficulty_var, value="middle").pack(anchor="w")
-    ttk.Radiobutton(difficulty_frame, text="Standard",
-                    variable=difficulty_var, value="standard").pack(anchor="w")
+        if ai_difficulty in ["easy", "middle", "standard"]:
+            config["difficulty"] = ai_difficulty
+        elif ai_difficulty != "":
+            print(f"{T_RED}Invalid choice. Defaulting to standard difficulty.")
+            config["difficulty"] = "standard"
 
     # Board Size
-    board_frame = ttk.LabelFrame(main_frame, text="Board Size")
-    board_frame.pack(fill="x", **padding)
+    print(f"\n{T_BLUE}3. Choose board size: (13/15/{T_GREEN}19{T_BLUE})")
+    board_size = config_input()
 
-    board_size_var = tk.StringVar(value="19x19")
-    ttk.Radiobutton(board_frame, text="13x13",
-                    variable=board_size_var, value="13x13").pack(anchor="w")
-    ttk.Radiobutton(board_frame, text="15x15",
-                    variable=board_size_var, value="15x15").pack(anchor="w")
-    ttk.Radiobutton(board_frame, text="19x19",
-                    variable=board_size_var, value="19x19").pack(anchor="w")
+    if board_size in ["13", "15", "19"]:
+        config["board_size"] = board_size
+    elif board_size != "":
+        print(f"{T_RED}Invalid choice. Defaulting to 19x19.")
+        config["board_size"] = "19"
 
     # Save Game History
-    save_history_frame = ttk.LabelFrame(main_frame, text="Game History")
-    save_history_frame.pack(fill="x", **padding)
+    print(
+        f"\n{T_BLUE}4. Would you like to save game history? (y/{T_GREEN}N{T_BLUE})")
+    save_history = config_input()
 
-    save_history_var = tk.BooleanVar(value=False)
-    ttk.Checkbutton(save_history_frame, text="Save Game History",
-                    variable=save_history_var).pack(anchor="w")
+    if save_history == "y":
+        config["save_history"] = True
+    elif save_history != "n" and save_history != "":
+        print(f"{T_RED}Invalid choice. Defaulting to not saving history.")
+        config["save_history"] = False
 
     # Game Mode
-    game_mode_frame = ttk.LabelFrame(main_frame, text="Game Mode")
-    game_mode_frame.pack(fill="x", **padding)
+    print(
+        f"\n{T_BLUE}5. Choose game mode: (standard/{T_GREEN}subject{T_BLUE})")
+    game_mode = config_input()
+    if game_mode in ["subject", "standard"]:
+        config["game_mode"] = game_mode
+    elif game_mode != "":
+        print(f"{T_RED}Invalid choice. Defaulting to standard mode.")
+        config["game_mode"] = "standard"
+    print(f"\n{T_GREEN}Game configuration complete!{T_RESET}")
+    print(f"{T_BLUE}Starting the game...\n")
 
-    game_mode_var = tk.StringVar(value="subject")
-    ttk.Radiobutton(game_mode_frame, text="Subject",
-                    variable=game_mode_var, value="subject").pack(anchor="w")
-    ttk.Radiobutton(game_mode_frame, text="Standard",
-                    variable=game_mode_var, value="standard").pack(anchor="w")
+    print(T_WHITE, "-"*20, T_GRAY)
 
-    config_result = {}
-
-    def on_ok():
-        config_result["difficulty"] = difficulty_var.get()
-        config_result["board_size"] = board_size_var.get()
-        config_result["save_history"] = save_history_var.get()
-        config_result["game_mode"] = game_mode_var.get()
-        """ config_window.destroy() """
-        config_window.quit()
-
-    def on_cancel():
-        config_window.quit()
-
-    button_frame = ttk.Frame(main_frame)
-    button_frame.pack(fill="x", pady=10)
-
-    ttk.Button(button_frame, text="Play Gomoku",
-               command=on_ok).pack(side="right", padx=5)
-    ttk.Button(button_frame, text="Exit", command=on_cancel).pack(side="right")
-
-    # Center the window on the screen
-    config_window.update_idletasks()
-    width = config_window.winfo_width()
-    height = config_window.winfo_height()
-    x = (config_window.winfo_screenwidth() // 2) - (width // 2)
-    y = (config_window.winfo_screenheight() // 2) - (height // 2)
-    config_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
-
-    config_window.bind("<Escape>", lambda event: on_cancel())
-
-    config_window.mainloop()
-
-    return config_result
+    return config
 
 
 if __name__ == "__main__":
-    config = game_config_popup()
+    config = initial_game_config()
     print("Config:", config)

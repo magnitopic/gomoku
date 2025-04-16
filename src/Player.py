@@ -33,7 +33,6 @@ class Player:
             ]
             self.lib.ai_algorithm.restype = t_move
 
-
     def handle_taken_stones(self):
         self.taken_stones += 2
         if self.taken_stones == 10:
