@@ -9,3 +9,4 @@ gomoku.spec
 gomoku
 .DS_Store
 *.so
+history.txt

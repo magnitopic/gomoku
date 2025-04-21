@@ -1,9 +1,9 @@
+from game_config import initial_game_config
+from board_validations import is_move_in_bounds
+from Game import Game
+import pygame
 from constants import *
 print(T_GRAY, end='')
-import pygame
-from Game import Game
-from board_validations import is_move_in_bounds
-from game_config import initial_game_config
 
 pygame.init()
 
@@ -19,7 +19,8 @@ def main():
     constants.COLS = int(config["board_size"])
     constants.ROWS = int(config["board_size"])
     constants.GRID_SIZE = int(config["board_size"]) - 1
-    constants.CELL_SIZE = (constants.BOARD_SIZE - 2 * constants.MARGIN) // constants.GRID_SIZE
+    constants.CELL_SIZE = (constants.BOARD_SIZE - 2 *
+                           constants.MARGIN) // constants.GRID_SIZE
 
     game = Game(config)
 
@@ -38,8 +39,8 @@ def main():
                 mouse_pos = pygame.mouse.get_pos()
 
                 # Calculate the closest intersection
-                col = round((mouse_pos[0] - MARGIN) / CELL_SIZE)
-                row = round((mouse_pos[1] - MARGIN) / CELL_SIZE)
+                col = round((mouse_pos[0] - MARGIN) / constants.CELL_SIZE)
+                row = round((mouse_pos[1] - MARGIN) / constants.CELL_SIZE)
 
                 # Ensure the position is within bounds
                 if not is_move_in_bounds((col, row)):
@@ -51,6 +52,8 @@ def main():
         clock.tick(10)
 
     pygame.quit()
+    if game.save_history:
+        game.game_history.create_history_file()
 
 
 if __name__ == "__main__":

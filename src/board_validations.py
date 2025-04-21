@@ -1,9 +1,10 @@
 from constants import *
+import constants
 
 
 def is_move_in_bounds(cell) -> bool:
     col, row = cell
-    return 0 <= col < COLS and 0 <= row < ROWS
+    return 0 <= col < constants.COLS and 0 <= row < constants.ROWS
 
 
 def check_n_in_a_row(board, last_move, color, direction, n):

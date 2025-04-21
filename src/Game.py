@@ -5,15 +5,20 @@ from constants import *
 import constants
 from board_validations import *
 from Player import Player
+from History import History
 
 
 class Game:
     def __init__(self, game_config: dict[str, str | bool]):
-        self.board = [[0 for _ in range(constants.COLS)] for _ in range(constants.ROWS)]
+        self.board = [[0 for _ in range(constants.COLS)]
+                      for _ in range(constants.ROWS)]
         self.turn = 1
         self.player1 = Player(1)            # Player 1 is black
         self.player2 = Player(-1, game_config["ai"])     # Player 2 is white
         self.turn_start_time = time.time()
+        self.save_history = game_config["save_history"]
+        if self.save_history:
+            self.game_history = History()
 
         # Pygame vars
         self.screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
@@ -42,7 +47,8 @@ class Game:
             pygame.draw.line(
                 self.screen, BLACK,
                 (MARGIN + i * constants.CELL_SIZE, MARGIN),
-                (MARGIN + i * constants.CELL_SIZE, MARGIN + constants.GRID_SIZE * constants.CELL_SIZE),
+                (MARGIN + i * constants.CELL_SIZE, MARGIN +
+                 constants.GRID_SIZE * constants.CELL_SIZE),
                 2
             )
 
@@ -50,7 +56,8 @@ class Game:
             pygame.draw.line(
                 self.screen, BLACK,
                 (MARGIN, MARGIN + i * constants.CELL_SIZE),
-                (MARGIN + constants.GRID_SIZE * constants.CELL_SIZE, MARGIN + i * constants.CELL_SIZE),
+                (MARGIN + constants.GRID_SIZE * constants.CELL_SIZE,
+                 MARGIN + i * constants.CELL_SIZE),
                 2
             )
 
@@ -60,7 +67,8 @@ class Game:
             for y in star_points:
                 pygame.draw.circle(
                     self.screen, BLACK,
-                    (MARGIN + x * constants.CELL_SIZE, MARGIN + y * constants.CELL_SIZE),
+                    (MARGIN + x * constants.CELL_SIZE,
+                     MARGIN + y * constants.CELL_SIZE),
                     4
                 )
 
@@ -105,7 +113,8 @@ class Game:
     def draw_stone(self, cell, color):
         pygame.draw.circle(
             self.screen, color,
-            (MARGIN + cell[0] * constants.CELL_SIZE, MARGIN + cell[1] * constants.CELL_SIZE),
+            (MARGIN + cell[0] * constants.CELL_SIZE,
+             MARGIN + cell[1] * constants.CELL_SIZE),
             constants.CELL_SIZE // 2 - 2
         )
         pygame.display.flip()
@@ -204,11 +213,16 @@ class Game:
 
         self.board[row][col] = self.turn
 
+        if self.save_history:
+            self.game_history.add_move(cell, self.turn)
+
         # Check if there is a capture
         capture_check_result = check_capture(self.board, cell, self.turn)
         if capture_check_result:
             player = "Black" if self.turn == -1 else "White"
             print(f"{T_CYAN}{player}'s stones were captured!{T_GRAY}")
+            if self.save_history:
+                self.game_history.add_capture(player)
             if self.handle_capture(capture_check_result):
                 self.draw_win_screen()
                 return False
