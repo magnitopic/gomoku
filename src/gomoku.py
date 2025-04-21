@@ -9,16 +9,17 @@ pygame.init()
 
 
 def main():
+    import constants
     config = initial_game_config()
     print(f"{T_WHITE}Config: {config}{T_GRAY}")
 
     running: bool = True
     clock = pygame.time.Clock()
 
-    import constants
     constants.COLS = int(config["board_size"])
     constants.ROWS = int(config["board_size"])
     constants.GRID_SIZE = int(config["board_size"]) - 1
+    constants.CELL_SIZE = (constants.BOARD_SIZE - 2 * constants.MARGIN) // constants.GRID_SIZE
 
     game = Game(config)
 

@@ -1,6 +1,6 @@
 import ctypes
-import sys
 from constants import *
+import constants
 
 
 class Player:
@@ -40,14 +40,14 @@ class Player:
         return False
 
     def new_ai_move(self, board):
-        c_rows = (ctypes.POINTER(ctypes.c_int) * ROWS)()
+        c_rows = (ctypes.POINTER(ctypes.c_int) * constants.ROWS)()
         for i, row in enumerate(board):
-            c_rows[i] = (ctypes.c_int * ROWS)(*row)
+            c_rows[i] = (ctypes.c_int * constants.ROWS)(*row)
         color = -1 if self.color == 1 else 1
 
         print(T_WHITE)
         result = self.lib.ai_algorithm(
-            ctypes.c_int(19),
+            ctypes.c_int(constants.ROWS),
             c_rows,
             ctypes.c_int(color)
         )

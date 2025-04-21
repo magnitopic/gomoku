@@ -2,13 +2,14 @@ import pygame
 import time
 from time import sleep
 from constants import *
+import constants
 from board_validations import *
 from Player import Player
 
 
 class Game:
     def __init__(self, game_config: dict[str, str | bool]):
-        self.board = [[0 for _ in range(COLS)] for _ in range(ROWS)]
+        self.board = [[0 for _ in range(constants.COLS)] for _ in range(constants.ROWS)]
         self.turn = 1
         self.player1 = Player(1)            # Player 1 is black
         self.player2 = Player(-1, game_config["ai"])     # Player 2 is white
@@ -31,35 +32,35 @@ class Game:
         border_rect = pygame.Rect(
             MARGIN - BORDER_MARGIN,
             MARGIN - BORDER_MARGIN,
-            GRID_SIZE * CELL_SIZE + 2 * BORDER_MARGIN,
-            GRID_SIZE * CELL_SIZE + 2 * BORDER_MARGIN
+            constants.GRID_SIZE * constants.CELL_SIZE + 2 * BORDER_MARGIN,
+            constants.GRID_SIZE * constants.CELL_SIZE + 2 * BORDER_MARGIN
         )
         pygame.draw.rect(self.screen, BORDER_COLOR, border_rect, 2)
 
         # Draw the grid lines
-        for i in range(COLS):
+        for i in range(constants.COLS):
             pygame.draw.line(
                 self.screen, BLACK,
-                (MARGIN + i * CELL_SIZE, MARGIN),
-                (MARGIN + i * CELL_SIZE, MARGIN + GRID_SIZE * CELL_SIZE),
+                (MARGIN + i * constants.CELL_SIZE, MARGIN),
+                (MARGIN + i * constants.CELL_SIZE, MARGIN + constants.GRID_SIZE * constants.CELL_SIZE),
                 2
             )
 
-        for i in range(ROWS):
+        for i in range(constants.ROWS):
             pygame.draw.line(
                 self.screen, BLACK,
-                (MARGIN, MARGIN + i * CELL_SIZE),
-                (MARGIN + GRID_SIZE * CELL_SIZE, MARGIN + i * CELL_SIZE),
+                (MARGIN, MARGIN + i * constants.CELL_SIZE),
+                (MARGIN + constants.GRID_SIZE * constants.CELL_SIZE, MARGIN + i * constants.CELL_SIZE),
                 2
             )
 
         # Draw star points
-        star_points = [x for x in range(3, COLS, 6)]
+        star_points = [x for x in range(3, constants.COLS, 6)]
         for x in star_points:
             for y in star_points:
                 pygame.draw.circle(
                     self.screen, BLACK,
-                    (MARGIN + x * CELL_SIZE, MARGIN + y * CELL_SIZE),
+                    (MARGIN + x * constants.CELL_SIZE, MARGIN + y * constants.CELL_SIZE),
                     4
                 )
 
@@ -104,8 +105,8 @@ class Game:
     def draw_stone(self, cell, color):
         pygame.draw.circle(
             self.screen, color,
-            (MARGIN + cell[0] * CELL_SIZE, MARGIN + cell[1] * CELL_SIZE),
-            CELL_SIZE // 2 - 2
+            (MARGIN + cell[0] * constants.CELL_SIZE, MARGIN + cell[1] * constants.CELL_SIZE),
+            constants.CELL_SIZE // 2 - 2
         )
         pygame.display.flip()
 
