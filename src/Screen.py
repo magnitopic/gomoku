@@ -1,18 +1,14 @@
 import pygame
-import time
 from time import sleep
 from constants import *
 import constants
-from GameLogic import GameLogic
 
 
-class Game:
-    def __init__(self, game_config: dict[str, str | bool]):
-        self.game_logic = GameLogic(game_config)
-
+class Screen:
+    def __init__(self):
         # Pygame vars
         self.screen = pygame.display.set_mode((BOARD_SIZE, BOARD_SIZE))
-        pygame.display.set_caption("gomoku")
+        pygame.display.set_caption("Gomoku")
         self.font = pygame.font.SysFont("Arial", 30)
         self.font_small = pygame.font.SysFont("Arial", 20)
         self.font_underline = pygame.font.SysFont("Arial", 30)
@@ -64,7 +60,7 @@ class Game:
 
         pygame.display.flip()
 
-    def draw_player_info(self):
+    def draw_player_info(self, turn, player1, player2):
         player1_pos = (10, 10)
         player2_pos = (10, BOARD_SIZE - 50)
 
@@ -76,7 +72,7 @@ class Game:
         self.screen.fill(WOOD, player1_rect)
         self.screen.fill(WOOD, player2_rect)
 
-        if self.game_logic.turn == 1:
+        if turn == 1:
             text_to_show1 = self.screen.blit(
                 self.font_underline.render("Player1", True, BLACK), player1_pos)
             text_to_show2 = self.screen.blit(
@@ -88,14 +84,14 @@ class Game:
                 self.font_underline.render("Player2", True, WHITE), player2_pos)
 
         timer1 = self.screen.blit(self.font_small.render(
-            f"Time: {self.game_logic.player1.timer:.3f}s", True, BLACK), (BOARD_SIZE - 140, 10))
+            f"Time: {player1.timer:.3f}s", True, BLACK), (BOARD_SIZE - 140, 10))
         timer2 = self.screen.blit(self.font_small.render(
-            f"Time: {self.game_logic.player2.timer:.3f}s", True, WHITE), (BOARD_SIZE - 140, BOARD_SIZE - 50))
+            f"Time: {player2.timer:.3f}s", True, WHITE), (BOARD_SIZE - 140, BOARD_SIZE - 50))
 
         stones_counter1 = self.screen.blit(self.font_small.render(
-            f"Taken: {self.game_logic.player1.taken_stones}", True, BLACK), (BOARD_SIZE - 250, 10))
+            f"Taken: {player1.taken_stones}", True, BLACK), (BOARD_SIZE - 250, 10))
         stones_counter2 = self.screen.blit(self.font_small.render(
-            f"Taken: {self.game_logic.player2.taken_stones}", True, WHITE), (BOARD_SIZE - 250, BOARD_SIZE - 50))
+            f"Taken: {player2.taken_stones}", True, WHITE), (BOARD_SIZE - 250, BOARD_SIZE - 50))
 
         pygame.display.update([player1_rect, player2_rect, text_to_show1,
                               text_to_show2, timer1, timer2, stones_counter1, stones_counter2])
@@ -109,26 +105,22 @@ class Game:
         )
         pygame.display.flip()
 
-    def draw_all_stones(self):
-        for y, value in enumerate(self.game_logic.board):
+    def draw_all_stones(self, board):
+        for y, value in enumerate(board):
             for x, cell_value in enumerate(value):
                 cell = (x, y)
                 if (cell_value != 0):
                     self.draw_stone(cell, BLACK if cell_value == 1 else WHITE)
 
-    def draw_win_screen(self):
+    def draw_win_screen(self, player_name):
         self.screen.fill(WOOD)
         pos = (BOARD_SIZE/2 - 70, BOARD_SIZE/2)
         self.screen.blit(self.font.render("Game Over", True, RED), pos)
-        if self.game_logic.turn == 1:
-            self.screen.blit(self.font.render("Black wins!", True, BLACK),
-                             (pos[0], pos[1] - 50))
-        else:
-            self.screen.blit(self.font.render("White wins!", True, WHITE),
-                             (pos[0], pos[1] - 50))
+        msg_colour = BLACK if player_name == "Black" else WHITE
+        self.screen.blit(self.font.render(f"{player_name} wins!", True, msg_colour),
+                         (pos[0], pos[1] - 50))
         pygame.display.flip()
-        player = "Black" if self.game_logic.turn == 1 else "White"
-        print(f"{T_GREEN}{player} player wins!!")
+        print(f"{T_GREEN}{player_name} player wins!!")
         sleep(2)
 
     def draw_tie_screen(self):

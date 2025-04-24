@@ -1,31 +1,29 @@
-from game_config import initial_game_config
-from board_validations import is_move_in_bounds
-from Game import Game
-import pygame
 from constants import *
 print(T_GRAY, end='')
+import pygame
+from board_validations import is_move_in_bounds
+from game_config import initial_game_config
+from GameLogic import GameLogic
+import constants
+
 
 pygame.init()
 
 
 def main():
-    import constants
+    # Game configuration
     config = initial_game_config()
-    print(f"{T_WHITE}Config: {config}{T_GRAY}")
 
-    running: bool = True
-    clock = pygame.time.Clock()
-
-    constants.COLS = int(config["board_size"])
-    constants.ROWS = int(config["board_size"])
+    constants.COLS = constants.ROWS = int(config["board_size"])
     constants.GRID_SIZE = int(config["board_size"]) - 1
     constants.CELL_SIZE = (constants.BOARD_SIZE - 2 *
                            constants.MARGIN) // constants.GRID_SIZE
 
-    game = Game(config)
+    running: bool = True
+    clock = pygame.time.Clock()
 
-    game.draw_board()
-    game.draw_player_info()
+    # Initialize the game logic
+    gameLogic = GameLogic(config)
 
     while running:
         # Event handling
@@ -44,16 +42,17 @@ def main():
 
                 # Ensure the position is within bounds
                 if not is_move_in_bounds((col, row)):
+                    print(T_BLUE,"lol")
                     continue
                 cell = (col, row)
 
-                running = game.handle_turn(cell)
+                running = gameLogic.temp_handle_turn(cell)
 
         clock.tick(10)
 
     pygame.quit()
-    if game.save_history:
-        game.game_history.create_history_file()
+    """ if game.save_history:
+        game.game_history.create_history_file() """
 
 
 if __name__ == "__main__":

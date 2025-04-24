@@ -24,3 +24,7 @@ class History:
     def add_capture(self, player, total_captured):
         move = f"{"White" if player == "Black" else "Black"} captured {player}'s stones!"
         self.history.append(move)
+
+    def add_win(self, player):
+        move = f"{player} wins!"
+        self.history.append(move)

@@ -9,6 +9,7 @@ class Player:
         self.taken_stones = 0
         self.timer = 0
         self.color = color
+        self.name = "Black" if color == 1 else "White"
         self.lib = None
 
         if self.ai:

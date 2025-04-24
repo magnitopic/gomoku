@@ -4,26 +4,36 @@ from constants import *
 from board_validations import *
 import constants
 from History import History
+from Screen import Screen
 
 
 class GameLogic:
     def __init__(self, game_config: dict[str, str | bool]):
         self.board = [[0 for _ in range(constants.COLS)]
                       for _ in range(constants.ROWS)]
+
         self.player1 = Player(1)            # Player 1 is black
         self.player2 = Player(-1, game_config["ai"])     # Player 2 is white
         self.current_player = self.player1
-        self.turn_start_time = time.time()
+        self.inactive_player = self.player2
+
+        self.current_player.color_start_time = time.time()
         self.save_history = game_config["save_history"]
         if self.save_history:
             self.game_history = History()
+
+        # When game launches, draw the board
+        self.screen = Screen()
+        self.screen.draw_board()
+        self.screen.draw_player_info(
+            self.current_player.color, self.player1, self.player2)
 
     def handle_capture(self, stones_to_delete) -> bool:
         for stone in stones_to_delete:
             self.board[stone[1]][stone[0]] = 0
         self.draw_board()
         self.draw_all_stones()
-        if self.turn == 1:
+        if self.current_player.color == 1:
             if self.player1.handle_taken_stones():
                 return True
         else:
@@ -33,31 +43,57 @@ class GameLogic:
 
     def apply_move(self, cell):
         col, row = cell
-        self.board[row][col] = self.turn
+        self.board[row][col] = self.current_player.color
 
         if self.save_history:
-            self.game_history.add_move(cell, self.turn)
+            self.game_history.add_move(cell, self.current_player.color)
 
+    def temp_handle_turn(self, cell):
+        col, row = cell
 
+        # Checks (to be implemented)
 
+        self.board[row][col] = self.current_player.color
 
+        if not self.check_game_continue(cell):
+            return False
 
+        # Change active player
+        temp = self.current_player
+        self.current_player = self.inactive_player
+        self.inactive_player = temp
 
+        self.screen.draw_board()
+        self.screen.draw_player_info(
+            self.current_player.color, self.player1, self.player2)
+        self.screen.draw_all_stones(self.board)
 
+        return True
 
+    def check_game_continue(self, cell):
+        col, row = cell
+        if check_win(self.board, cell, self.current_player.color):
+            self.screen.draw_win_screen(self.current_player.name)
+            if self.save_history:
+                self.game_history.add_win(self.current_player.name)
+            print(f"{T_GREEN}Player {self.current_player.color} wins!{T_GRAY}")
+            return False
 
+        # Check if the board is full
+        if check_board_full(self.board):
+            print(f"{T_YELLOW}It's a tie!{T_GRAY}")
+            return False
 
+        return True
 
-
-
-    def handle_ai_turn(self):
+    """ def handle_ai_turn(self):
         result = self.player2.new_ai_move(self.board)
-        """ print(f"{T_YELLOW}AI move: {result[0]}, {result[1]}{T_GRAY}") """
+        print(f"{T_YELLOW}AI move: {result[0]}, {result[1]}{T_GRAY}")
 
         self.player2.timer = result[3]
 
-        self.turn = 1
-        self.turn_start_time = time.time()
+        self.current_player.color = 1
+        self.current_player.color_start_time = time.time()
 
         if result[0] == -1 and result[1] == -1:
             return False
@@ -71,10 +107,10 @@ class GameLogic:
 
         # Calculate time taken for this move
         current_time = time.time()
-        time_taken = current_time - self.turn_start_time
+        time_taken = current_time - self.current_player.color_start_time
 
         # Update the appropriate player's timer
-        if self.turn == 1:
+        if self.current_player.color == 1:
             self.player1.timer = time_taken
         else:
             if not self.player2.ai:
@@ -86,23 +122,21 @@ class GameLogic:
             return True
 
         # Check for double three
-        if check_double_three(self.board, cell, self.turn):
+        if check_double_three(self.board, cell, self.current_player.color):
             print(f"{T_PURPLE}Double three detected! Invalid move!{T_GRAY}")
             return True
 
-        """ # Check if new position moves into capture
-        if check_move_into_capture(self.board, cell, self.turn):
+        # Check if new position moves into capture
+        if check_move_into_capture(self.board, cell, self.current_player.color):
             print(f"{T_RED}Can't move into capture! Invalid move!{T_GRAY}")
-            return True """
+            return True
 
-        self.board[row][col] = self.turn
-
-        
+        self.board[row][col] = self.current_player.color
 
         # Check if there is a capture
-        capture_check_result = check_capture(self.board, cell, self.turn)
+        capture_check_result = check_capture(self.board, cell, self.current_player.color)
         if capture_check_result:
-            player = "Black" if self.turn == -1 else "White"
+            player = "Black" if self.current_player.color == -1 else "White"
             print(f"{T_CYAN}{player}'s stones were captured!{T_GRAY}")
             if self.save_history:
                 self.game_history.add_capture(player)
@@ -111,24 +145,25 @@ class GameLogic:
                 return False
 
         # Check if it's a winning move
-        if check_win(self.board, cell, self.turn):
+        if check_win(self.board, cell, self.current_player.color):
             self.draw_win_screen()
             return False
 
         # Draw the stone
-        self.draw_stone(cell, BLACK if self.turn == 1 else WHITE)
-        self.turn = -self.turn
+        self.draw_stone(cell, BLACK if self.current_player.color == 1 else WHITE)
+        self.current_player.color = -self.current_player.color
 
-        self.turn_start_time = time.time()
+        self.current_player.color_start_time = time.time()
 
         # Check if the board is full
         if check_board_full(self.board):
             self.draw_tie_screen()
             return False
 
-        if self.turn == -1 and self.player2.ai:
+        if self.current_player.color == -1 and self.player2.ai:
             self.handle_ai_turn()
 
         self.draw_player_info()
 
         return True
+ """
