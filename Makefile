@@ -12,7 +12,7 @@ C_OBJS			=	src/min-max/min-max.so
 
 CC				=	cc
 RM				=	rm -fr
-CCFLAGS			=	-shared -Wall -Werror #-Wextra -g3 -fsanitize=address
+CCFLAGS			=	-shared -fPIC -Wall -Werror #-Wextra -g3 -fsanitize=address
 
 
 # Colours

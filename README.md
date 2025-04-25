@@ -13,9 +13,9 @@ The goal of this project is to make an AI capable of beating human players at Go
 > _Optional_: Create a virtual environment
 
 ```bash
-pip install virtualenv
+pip3 install virtualenv
 
-python -m venv venv
+python3 -m venv venv
 
 source venv/bin/activate
 ```
