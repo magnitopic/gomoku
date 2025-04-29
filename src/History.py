@@ -21,8 +21,9 @@ class History:
         move = f"{"Black" if player == 1 else "White"}: {cell[0]}, {cell[1]}"
         self.history.append(move)
 
-    def add_capture(self, player, total_captured):
-        move = f"{"White" if player == "Black" else "Black"} captured {player}'s stones!"
+    def add_capture(self, current_player, inactive_player):
+        move = f"{current_player} captured {inactive_player}'s stones!"
+        move += f"\nTotal captured by {current_player}: {current_player.taken_stones}"
         self.history.append(move)
 
     def add_win(self, player):

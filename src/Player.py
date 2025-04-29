@@ -8,7 +8,7 @@ class Player:
         self.ai = ai
         self.taken_stones = 0
         self.timer = 0
-        self.color = color
+        self.num = color
         self.name = "Black" if color == 1 else "White"
         self.lib = None
 
@@ -44,16 +44,18 @@ class Player:
         c_rows = (ctypes.POINTER(ctypes.c_int) * constants.ROWS)()
         for i, row in enumerate(board):
             c_rows[i] = (ctypes.c_int * constants.ROWS)(*row)
-        color = -1 if self.color == 1 else 1
 
         print(T_WHITE)
         result = self.lib.ai_algorithm(
             ctypes.c_int(constants.ROWS),
             c_rows,
-            ctypes.c_int(color)
+            ctypes.c_int(self.num)
         )
         print(T_GRAY)
 
         return [
             result.row, result.col, result.score, result.time_taken
         ]
+
+    def __str__(self):
+        return self.name

@@ -1,10 +1,10 @@
+import constants
+from GameLogic import GameLogic
+from game_config import initial_game_config
+from board_validations import is_move_in_bounds
+import pygame
 from constants import *
 print(T_GRAY, end='')
-import pygame
-from board_validations import is_move_in_bounds
-from game_config import initial_game_config
-from GameLogic import GameLogic
-import constants
 
 
 pygame.init()
@@ -42,11 +42,17 @@ def main():
 
                 # Ensure the position is within bounds
                 if not is_move_in_bounds((col, row)):
-                    print(T_BLUE,"lol")
                     continue
                 cell = (col, row)
 
-                running = gameLogic.temp_handle_turn(cell)
+                running = gameLogic.handle_turn(cell)
+
+                # If playing against AI, make AI move
+                if gameLogic.player2.ai:
+                    ai_move = gameLogic.current_player.new_ai_move(
+                        gameLogic.board)
+                    ai_cell = (ai_move[1], ai_move[0])
+                    running = gameLogic.handle_turn(ai_cell)
 
         clock.tick(10)
 

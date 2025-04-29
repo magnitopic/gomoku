@@ -120,7 +120,6 @@ class Screen:
         self.screen.blit(self.font.render(f"{player_name} wins!", True, msg_colour),
                          (pos[0], pos[1] - 50))
         pygame.display.flip()
-        print(f"{T_GREEN}{player_name} player wins!!")
         sleep(2)
 
     def draw_tie_screen(self):
