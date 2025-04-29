@@ -48,7 +48,10 @@ class Screen:
             )
 
         # Draw star points
-        star_points = [x for x in range(3, constants.COLS, 6)]
+        if constants.COLS == 15:
+            star_points = [3, 7, 11]
+        else:
+            star_points = [3, 9, 15]
         for x in star_points:
             for y in star_points:
                 pygame.draw.circle(

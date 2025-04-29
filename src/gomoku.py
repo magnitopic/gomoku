@@ -1,10 +1,10 @@
-import constants
+from constants import *
+print(T_GRAY, end='')
 from GameLogic import GameLogic
 from game_config import initial_game_config
 from board_validations import is_move_in_bounds
 import pygame
-from constants import *
-print(T_GRAY, end='')
+import constants
 
 
 pygame.init()
@@ -46,6 +46,8 @@ def main():
                 cell = (col, row)
 
                 running = gameLogic.handle_turn(cell)
+                if not running:
+                    break
 
                 # If playing against AI, make AI move
                 if gameLogic.player2.ai:
@@ -57,8 +59,8 @@ def main():
         clock.tick(10)
 
     pygame.quit()
-    """ if game.save_history:
-        game.game_history.create_history_file() """
+    if gameLogic.save_history:
+        gameLogic.game_history.create_history_file(config)
 
 
 if __name__ == "__main__":

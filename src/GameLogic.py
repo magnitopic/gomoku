@@ -51,11 +51,12 @@ class GameLogic:
                 self.game_history.add_capture(
                     self.current_player, self.inactive_player)
             if self.handle_capture(capture_check_result):
-                self.draw_win_screen()
+                self.screen.draw_win_screen()
                 return False
         return True
 
     def check_game_continue(self, cell):
+        # Check if there is a win
         if check_win(self.board, cell, self.current_player.num):
             self.screen.draw_win_screen(self.current_player.name)
             if self.save_history:
@@ -65,7 +66,10 @@ class GameLogic:
 
         # Check if the board is full
         if check_board_full(self.board):
+            if self.save_history:
+                self.game_history.add_tie()
             print(f"{T_YELLOW}It's a tie!{T_GRAY}")
+            self.screen.draw_tie_screen()
             return False
 
         return True
@@ -82,8 +86,6 @@ class GameLogic:
         if not self.check_game_continue(cell):
             return False
 
-        self.screen.draw_player_info(
-            self.current_player.num, self.player1, self.player2)
         self.screen.draw_stone(
             cell, BLACK if self.current_player.num == 1 else WHITE)
 
@@ -91,6 +93,9 @@ class GameLogic:
         temp = self.current_player
         self.current_player = self.inactive_player
         self.inactive_player = temp
+
+        self.screen.draw_player_info(
+            self.current_player.num, self.player1, self.player2)
 
         return True
 
@@ -144,39 +149,9 @@ class GameLogic:
             print(f"{T_RED}Can't move into capture! Invalid move!{T_GRAY}")
             return True
 
-        self.board[row][col] = self.current_player.num
 
-        # Check if there is a capture
-        capture_check_result = check_capture(self.board, cell, self.current_player.num)
-        if capture_check_result:
-            player = "Black" if self.current_player.num== -1 else "White"
-            print(f"{T_CYAN}{player}'s stones were captured!{T_GRAY}")
-            if self.save_history:
-                self.game_history.add_capture(player)
-            if self.handle_capture(capture_check_result):
-                self.draw_win_screen()
-                return False
-
-        # Check if it's a winning move
-        if check_win(self.board, cell, self.current_player.num):
-            self.draw_win_screen()
-            return False
-
-        # Draw the stone
-        self.draw_stone(cell, BLACK if self.current_player.num== 1 else WHITE)
-        self.current_player.num= -self.current_player.num
 
         self.current_player.color_start_time = time.time()
-
-        # Check if the board is full
-        if check_board_full(self.board):
-            self.draw_tie_screen()
-            return False
-
-        if self.current_player.num== -1 and self.player2.ai:
-            self.handle_ai_turn()
-
-        self.draw_player_info()
 
         return True
  """
