@@ -16,6 +16,7 @@ class GameLogic:
         self.player2 = Player(-1, game_config["ai"])    # Player 2 is white
         self.current_player = self.player1
         self.inactive_player = self.player2
+        self.game_mode = game_config["game_mode"]
 
         self.current_player.color_start_time = time.time()
         self.save_history = game_config["save_history"]
@@ -99,26 +100,39 @@ class GameLogic:
 
         return True
 
+    def check_illegal_move(self, cell):
+        col, row = cell
+
+        # Check if the cell is already occupied
+        if self.board[row][col] != 0:
+            print(f"{T_BLUE}Can't place on an occupied tile! Invalid move!{T_GRAY}")
+            return True
+
+        # Only do additional checks if playing in subject mode
+        if self.game_mode == "subject":
+
+            # Check for double three
+            if check_double_three(self.board, cell, self.current_player.num):
+                print(f"{T_PURPLE}Double three detected! Invalid move!{T_GRAY}")
+                return True
+
+            """ 
+            # Check if new position moves into capture
+            if check_move_into_capture(self.board, cell, self.current_player.num):
+                print(f"{T_RED}Can't move into capture! Invalid move!{T_GRAY}")
+                return True
+            """
+
+        return False
+
     def handle_turn(self, cell):
-        # Checks (to be implemented)
+        if self.check_illegal_move(cell):
+            return True
 
         return self.apply_move(cell)
 
-    """ def handle_ai_turn(self):
-        result = self.player2.new_ai_move(self.board)
-        print(f"{T_YELLOW}AI move: {result[0]}, {result[1]}{T_GRAY}")
 
-        self.player2.timer = result[3]
-
-        self.current_player.num= 1
-        self.current_player.color_start_time = time.time()
-
-        if result[0] == -1 and result[1] == -1:
-            return False
-
-        self.board[result[0]][result[1]] = -1
-        self.draw_stone((result[1], result[0]), WHITE)
-
+"""
     def handle_turn(self, cell) -> bool:
         # x, y = cell
         col, row = cell
@@ -133,22 +147,6 @@ class GameLogic:
         else:
             if not self.player2.ai:
                 self.player2.timer = time_taken
-
-        # Check if the cell is already occupied
-        if self.board[row][col] != 0:
-            print(f"{T_BLUE}Can't place on an occupied tile! Invalid move!{T_GRAY}")
-            return True
-
-        # Check for double three
-        if check_double_three(self.board, cell, self.current_player.num):
-            print(f"{T_PURPLE}Double three detected! Invalid move!{T_GRAY}")
-            return True
-
-        # Check if new position moves into capture
-        if check_move_into_capture(self.board, cell, self.current_player.num):
-            print(f"{T_RED}Can't move into capture! Invalid move!{T_GRAY}")
-            return True
-
 
 
         self.current_player.color_start_time = time.time()
