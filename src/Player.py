@@ -28,9 +28,9 @@ class Player:
 
             # Configure function prototype
             self.lib.ai_algorithm.argtypes = [
-                ctypes.c_int,                          # board_size
-                ctypes.POINTER(ctypes.POINTER(ctypes.c_int)),  # int** board
-                ctypes.c_int                           # color
+                ctypes.c_int,                                   # board_size
+                ctypes.POINTER(ctypes.POINTER(ctypes.c_int)),   # int** board
+                ctypes.c_int                                    # color
             ]
             self.lib.ai_algorithm.restype = t_move
 

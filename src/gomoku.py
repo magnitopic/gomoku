@@ -50,7 +50,7 @@ def main():
                     break
 
                 # If playing against AI, make AI move
-                if gameLogic.player2.ai:
+                if gameLogic.player2.ai and gameLogic.current_player == gameLogic.player2:
                     ai_move = gameLogic.current_player.new_ai_move(
                         gameLogic.board)
                     ai_cell = (ai_move[1], ai_move[0])

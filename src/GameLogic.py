@@ -15,6 +15,7 @@ class GameLogic:
         self.player1 = Player(1)                        # Player 1 is black
         self.player2 = Player(-1, game_config["ai"])    # Player 2 is white
         self.current_player = self.player1
+        self.current_player.timer = time.time()
         self.inactive_player = self.player2
         self.game_mode = game_config["game_mode"]
 
@@ -98,6 +99,8 @@ class GameLogic:
         self.screen.draw_player_info(
             self.current_player.num, self.player1, self.player2)
 
+        self.current_player.timer = time.time()
+
         return True
 
     def check_illegal_move(self, cell):
@@ -129,27 +132,8 @@ class GameLogic:
         if self.check_illegal_move(cell):
             return True
 
-        return self.apply_move(cell)
-
-
-"""
-    def handle_turn(self, cell) -> bool:
-        # x, y = cell
-        col, row = cell
-
-        # Calculate time taken for this move
         current_time = time.time()
-        time_taken = current_time - self.current_player.color_start_time
+        time_taken = current_time - self.current_player.timer
+        self.current_player.timer = time_taken
 
-        # Update the appropriate player's timer
-        if self.current_player.num== 1:
-            self.player1.timer = time_taken
-        else:
-            if not self.player2.ai:
-                self.player2.timer = time_taken
-
-
-        self.current_player.color_start_time = time.time()
-
-        return True
- """
+        return self.apply_move(cell)
