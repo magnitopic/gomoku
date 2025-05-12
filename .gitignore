@@ -10,3 +10,5 @@ gomoku
 .DS_Store
 *.so
 history.txt
+*.o
+MLX42/
