@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:10 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 13:02:20 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:48:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "MLX42.h"
-#include "../include/Consts.hpp"
+#include "../include/consts.hpp"
 
 class Screen
 {
 private:
 	mlx_t *mlx;
-
 	static void keyCallback(mlx_key_data_t keydata, void *param);
 
 public:

@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gomoku.cpp                                         :+:      :+:    :+:   */
+/*   Structs.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 08:24:58 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 13:50:30 by alaparic         ###   ########.fr       */
+/*   Created: 2025/05/12 13:15:29 by alaparic          #+#    #+#             */
+/*   Updated: 2025/05/12 13:51:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/gomoku.hpp"
+#ifndef STRUCTS_HPP_
+#define STRUCTS_HPP_
 
-int main(void)
+#include <string>
+
+struct s_game_config
 {
-	s_game_config config = initial_game_config();
+	bool is_ai;
+	std::string difficulty;
+	int board_size;
+	bool save_history;
+	std::string game_mode;
+};
 
-	Screen screen;
-	screen.drawBoard();
-	return (EXIT_SUCCESS);
-}
+#endif

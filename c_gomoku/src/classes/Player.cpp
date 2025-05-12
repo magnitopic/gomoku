@@ -6,12 +6,11 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 08:35:39 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:49:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "Player.hpp"
+#include "../classes/Player.hpp"
 
 Player::Player() {}
 

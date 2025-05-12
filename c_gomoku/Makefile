@@ -3,7 +3,8 @@ NAME			=	Gomoku
 
 SRC				=	src/gomoku.cpp \
 					src/classes/Player.cpp \
-					src/classes/Screen.cpp
+					src/classes/Screen.cpp \
+					src/game_config.cpp
 
 OBJS			= $(SRC:.cpp=.o)
 

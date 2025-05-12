@@ -6,14 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 08:34:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:49:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PLAYER_HPP_
 #define PLAYER_HPP_
 
-#include <iostream>
+#include <string>
 
 class Player
 {

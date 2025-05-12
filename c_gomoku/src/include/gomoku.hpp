@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gomoku.cpp                                         :+:      :+:    :+:   */
+/*   gomoku.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 08:24:58 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 13:50:30 by alaparic         ###   ########.fr       */
+/*   Created: 2025/05/12 13:36:16 by alaparic          #+#    #+#             */
+/*   Updated: 2025/05/12 13:46:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/gomoku.hpp"
+#ifndef GOMOKU_HPP_
+#define GOMOKU_HPP_
 
-int main(void)
-{
-	s_game_config config = initial_game_config();
+#include <iostream>
+#include <string>
 
-	Screen screen;
-	screen.drawBoard();
-	return (EXIT_SUCCESS);
-}
+#include "consts.hpp"
+#include "structs.hpp"
+#include "../classes/Screen.hpp"
+#include "../classes/Player.hpp"
+
+s_game_config initial_game_config();
+
+#endif
