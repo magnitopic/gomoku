@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 08:16:14 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 09:44:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include "../include/gomoku.hpp"
+#include "Board.hpp"
 
 class GameLogic
 {
@@ -28,9 +29,11 @@ private:
 	Player *currentPlayer;
 	std::string gameMode;
 
-	Screen screen;
+	Screen *screen;
+	/* Board *board; */
 
 public:
+	GameLogic();
 	GameLogic(s_game_config config);
 	GameLogic(const GameLogic &copy);
 	GameLogic &operator=(const GameLogic &assign);

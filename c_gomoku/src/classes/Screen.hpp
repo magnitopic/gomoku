@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:10 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 13:48:24 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 08:47:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ class Screen
 private:
 	mlx_t *mlx;
 	static void keyCallback(mlx_key_data_t keydata, void *param);
+	int board_size;
 
 public:
 	Screen();
+	Screen(int board_size);
 	Screen(const Screen &copy);
 	Screen &operator=(const Screen &assign);
 	~Screen();

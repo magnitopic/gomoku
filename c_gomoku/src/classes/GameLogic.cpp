@@ -6,12 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 08:17:01 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 09:43:00 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "GameLogic.hpp"
+
+GameLogic::GameLogic() {}
 
 GameLogic::GameLogic(s_game_config config)
 {
@@ -23,6 +25,8 @@ GameLogic::GameLogic(s_game_config config)
 	this->player1 = Player(BLACK_STONE, false);
 	this->player2 = Player(WHITE_STONE, config.is_ai);
 	this->currentPlayer = &this->player1;
+
+	this->screen = new Screen(this->board_size);
 }
 
 GameLogic::GameLogic(const GameLogic &copy)
@@ -46,11 +50,14 @@ GameLogic &GameLogic::operator=(const GameLogic &assign)
 	return *this;
 }
 
-GameLogic::~GameLogic() {}
+GameLogic::~GameLogic()
+{
+	delete this->screen;
+}
 
 /* Methods */
 
 void GameLogic::startGame()
 {
-	this->screen.drawBoard();
+	this->screen->drawBoard();
 }
