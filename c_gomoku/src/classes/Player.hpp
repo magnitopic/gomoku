@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 18:06:37 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:18:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ public:
 	void startTimer();
 	void stopTimer();
 	bool addTakenStones(int count);
-
 };
 
 #endif
