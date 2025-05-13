@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 12:17:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:06:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ private:
 	std::string name;
 	bool is_ai;
 	int takenStones;
-	int timer;
+	double timer;
+	std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
 
 public:
 	Player();
@@ -32,10 +33,17 @@ public:
 	Player &operator=(const Player &assign);
 	~Player();
 
+	// Getters
 	int getColor() const;
 	std::string getName() const;
 	int getTakenStones() const;
-	int getTimer() const;
+	double getTimer() const;
+
+	// Methods
+	void startTimer();
+	void stopTimer();
+	bool addTakenStones(int count);
+
 };
 
 #endif

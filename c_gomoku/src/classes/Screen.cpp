@@ -6,13 +6,12 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 13:13:11 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:07:16 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Screen.hpp"
 #include "Player.hpp"
-#include <string>
 
 Screen::Screen() {}
 
@@ -162,18 +161,38 @@ void Screen::drawBoard(Player *player1, Player *player2)
 
 void Screen::drawPlayerInfo(Player *player1, Player *player2)
 {
-	mlx_put_string(this->mlx, "Player 1: Black", 10, 10);
-	mlx_put_string(this->mlx, "Player 2: White", 10, SCREEN_SIZE - 30);
+	// Clear previous info areas
+	this->clearArea(10, 10, SCREEN_SIZE - 20, 30, WOOD);
+	this->clearArea(10, SCREEN_SIZE - 40, SCREEN_SIZE - 20, 30, WOOD);
 
-	std::string player1Time = "Time: " + std::to_string(player1->getTimer());
-	std::string player2Time = "Time: " + std::to_string(player2->getTimer());
-	mlx_put_string(this->mlx, player1Time.c_str(), SCREEN_SIZE - 140, 10);
-	mlx_put_string(this->mlx, player2Time.c_str(), SCREEN_SIZE - 140, SCREEN_SIZE - 30);
+	// Player 1 info
+	std::string player1Info = "Player 1: Black";
+	std::stringstream p1Timer;
+	double p1Time = player1->getTimer();
+	int seconds = static_cast<int>(p1Time);
+	int milliseconds = static_cast<int>((p1Time - seconds) * 1000);
+	p1Timer << "Time: " << seconds << "." << std::setw(3) << std::setfill('0') << milliseconds << "s";
+	std::string p1TimerStr = p1Timer.str();
+	std::string p1Taken = "Taken: " + std::to_string(player1->getTakenStones());
 
-	std::string player1Taken = "Taken: " + std::to_string(player1->getTakenStones());
-	std::string player2Taken = "Taken: " + std::to_string(player2->getTakenStones());
-	mlx_put_string(this->mlx, player1Taken.c_str(), SCREEN_SIZE - 250, 10);
-	mlx_put_string(this->mlx, player2Taken.c_str(), SCREEN_SIZE - 250, SCREEN_SIZE - 30);
+	// Player 2 info
+	std::string player2Info = "Player 2: White";
+	std::stringstream p2Timer;
+	double p2Time = player2->getTimer();
+	seconds = static_cast<int>(p2Time);
+	milliseconds = static_cast<int>((p2Time - seconds) * 1000);
+	p2Timer << "Time: " << seconds << "." << std::setw(3) << std::setfill('0') << milliseconds << "s";
+	std::string p2TimerStr = p2Timer.str();
+	std::string p2Taken = "Taken: " + std::to_string(player2->getTakenStones());
+
+	// Display player info
+	mlx_put_string(this->mlx, player1Info.c_str(), 10, 10);
+	mlx_put_string(this->mlx, p1TimerStr.c_str(), SCREEN_SIZE - 140, 10);
+	mlx_put_string(this->mlx, p1Taken.c_str(), SCREEN_SIZE - 250, 10);
+
+	mlx_put_string(this->mlx, player2Info.c_str(), 10, SCREEN_SIZE - 40);
+	mlx_put_string(this->mlx, p2TimerStr.c_str(), SCREEN_SIZE - 140, SCREEN_SIZE - 40);
+	mlx_put_string(this->mlx, p2Taken.c_str(), SCREEN_SIZE - 250, SCREEN_SIZE - 40);
 }
 
 void Screen::drawStone(int x, int y, int color)
@@ -219,4 +238,38 @@ void Screen::drawStone(int x, int y, int color)
 
 	// Place the stone image at the correct position
 	mlx_image_to_window(this->mlx, stoneImg, centerX - radius, centerY - radius);
+}
+
+void Screen::drawAllStones(const Board *board)
+{
+	for (int y = 0; y < this->board_size; ++y)
+	{
+		for (int x = 0; x < this->board_size; ++x)
+		{
+			int cell_value = board->get(x, y);
+			if (cell_value != EMPTY)
+			{
+				this->drawStone(x, y, (cell_value == BLACK_STONE) ? BLACK : WHITE);
+			}
+		}
+	}
+}
+
+/* Helper method */
+void Screen::clearArea(int x, int y, int width, int height, int color)
+{
+	mlx_image_t *img = mlx_new_image(this->mlx, width, height);
+	if (!img)
+	{
+		fprintf(stderr, "Failed to create image for clearing area\n");
+		return;
+	}
+
+	// Fill with specified color
+	for (uint32_t i = 0; i < img->width * img->height; ++i)
+	{
+		((uint32_t *)img->pixels)[i] = color;
+	}
+
+	mlx_image_to_window(this->mlx, img, x, y);
 }

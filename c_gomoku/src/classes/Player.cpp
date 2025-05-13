@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 12:16:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:06:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,33 @@ int Player::getTakenStones() const
 	return this->takenStones;
 }
 
-int Player::getTimer() const
+double Player::getTimer() const
 {
 	return this->timer;
+}
+
+/* Methods */
+
+void Player::startTimer()
+{
+	this->startTime = std::chrono::high_resolution_clock::now();
+}
+
+#include <iostream>
+
+void Player::stopTimer()
+{
+	auto endTime = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration<double>(endTime - this->startTime);
+	this->timer = duration.count();
+}
+
+bool Player::addTakenStones(int count)
+{
+	this->takenStones += count;
+	if (this->takenStones >= 10)
+	{
+		return true;
+	}
+	return false;
 }

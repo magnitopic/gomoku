@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 13:31:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:45:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ GameLogic::GameLogic(s_game_config config)
 	this->player2 = Player(WHITE_STONE, config.is_ai);
 	this->currentPlayer = &this->player1;
 	this->inactivePlayer = &this->player2;
+
+	this->currentPlayer->startTimer();
 
 	this->board = new Board(config.board_size);
 	this->screen = new Screen(this->board_size);
@@ -52,6 +54,8 @@ GameLogic &GameLogic::operator=(const GameLogic &assign)
 		this->player2 = assign.player2;
 		this->currentPlayer = (assign.currentPlayer == &assign.player1) ? &this->player1 : &this->player2;
 		this->inactivePlayer = (assign.inactivePlayer == &assign.player1) ? &this->player1 : &this->player2;
+
+		this->currentPlayer->startTimer();
 	}
 	return *this;
 }
@@ -99,10 +103,14 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	// Draw the stone on screen
 	this->screen->drawStone(col, row, this->currentPlayer->getColor() == BLACK_STONE ? BLACK : WHITE);
 
+	this->currentPlayer->stopTimer();
+
 	// Change active player
 	Player *temp = this->currentPlayer;
 	this->currentPlayer = this->inactivePlayer;
 	this->inactivePlayer = temp;
+
+	this->currentPlayer->startTimer();
 
 	// Update player info display
 	this->screen->drawPlayerInfo(&this->player1, &this->player2);
