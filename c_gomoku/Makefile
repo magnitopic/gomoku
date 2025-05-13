@@ -2,16 +2,18 @@
 NAME			=	Gomoku
 
 SRC				=	src/gomoku.cpp \
+					src/game_config.cpp \
+					src/classes/Board.cpp \
 					src/classes/Player.cpp \
 					src/classes/Screen.cpp \
-					src/game_config.cpp
+					src/classes/GameLogic.cpp
 
 OBJS			= $(SRC:.cpp=.o)
 
 # Compiler
 CXX				=	c++
 RM				=	rm -f
-CXXFLAGS		=	-Wall -Werror -Wextra -std=c++98 #-g3 -fsanitize=address
+CXXFLAGS		=	-Wall -Werror -Wextra -std=c++11 #-g3 -fsanitize=address
 LIBX_FLAGS		=	-framework Cocoa -framework OpenGL -framework IOKit -L$(MLX_SRC)/build -lmlx42 -lglfw
 
 # MLX42

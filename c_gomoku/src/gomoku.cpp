@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:24:58 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 13:50:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 08:16:04 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main(void)
 {
 	s_game_config config = initial_game_config();
 
-	Screen screen;
-	screen.drawBoard();
+	GameLogic game(config);
+	game.startGame();
 	return (EXIT_SUCCESS);
 }

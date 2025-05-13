@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 13:49:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 07:55:39 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ private:
 	int takenStones;
 	int timer;
 
+	
+	public:
 	Player();
-
-public:
 	Player(int color, bool ai);
 	Player(const Player &copy);
 	Player &operator=(const Player &assign);
