@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 09:43:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:24:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ GameLogic::~GameLogic()
 
 void GameLogic::startGame()
 {
-	this->screen->drawBoard();
+	this->screen->drawBoard(&this->player1, &this->player2);
 }

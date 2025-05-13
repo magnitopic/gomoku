@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 11:42:11 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:16:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,25 @@ Player &Player::operator=(const Player &assign)
 }
 
 Player::~Player() {}
+
+/* Getters */
+
+int Player::getColor() const
+{
+	return this->color;
+}
+
+std::string Player::getName() const
+{
+	return this->name;
+}
+
+int Player::getTakenStones() const
+{
+	return this->takenStones;
+}
+
+int Player::getTimer() const
+{
+	return this->timer;
+}

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:36:16 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 08:15:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:16:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 
 #include "consts.hpp"
 #include "structs.hpp"
-#include "../classes/Screen.hpp"
-#include "../classes/Player.hpp"
-#include "../classes/Board.hpp"
-#include "../classes/GameLogic.hpp"
 
 s_game_config initial_game_config();
 

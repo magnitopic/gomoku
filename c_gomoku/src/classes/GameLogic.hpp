@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 09:44:47 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:17:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <iostream>
 #include "../include/gomoku.hpp"
 #include "Board.hpp"
+#include "Player.hpp"
+#include "Screen.hpp"
 
 class GameLogic
 {

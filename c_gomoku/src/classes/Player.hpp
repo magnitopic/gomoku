@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 11:35:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:17:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ public:
 	Player(const Player &copy);
 	Player &operator=(const Player &assign);
 	~Player();
+
+	int getColor() const;
+	std::string getName() const;
+	int getTakenStones() const;
+	int getTimer() const;
 };
 
 #endif
