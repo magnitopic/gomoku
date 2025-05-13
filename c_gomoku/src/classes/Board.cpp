@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 08:11:45 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:02:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ Board::Board()
 }
 
 // Constructors
-Board::Board(s_game_config config)
+Board::Board(int board_size)
 {
-	this->size = config.board_size;
+	this->size = board_size;
 	this->board.resize(this->size * this->size, EMPTY);
 }
 

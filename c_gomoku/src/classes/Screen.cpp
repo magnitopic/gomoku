@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 12:28:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:13:11 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,12 @@
 #include "Player.hpp"
 #include <string>
 
-Screen::Screen()
-{
-	// Initialize MLX with settings
-	mlx_set_setting(MLX_MAXIMIZED, false);
-	this->mlx = mlx_init(SCREEN_SIZE, SCREEN_SIZE, "Gomoku", false);
-	if (!this->mlx)
-	{
-		fprintf(stderr, "%s", mlx_strerror(mlx_errno));
-		exit(EXIT_FAILURE);
-	}
-
-	// Set up key hooks
-	mlx_key_hook(this->mlx, &Screen::keyCallback, this);
-}
+Screen::Screen() {}
 
 Screen::Screen(int board_size)
 {
 	this->board_size = board_size;
+	this->cell_size = (SCREEN_SIZE - 2 * MARGIN) / (this->board_size - 1);
 	// Initialize MLX with settings
 	mlx_set_setting(MLX_MAXIMIZED, false);
 	this->mlx = mlx_init(SCREEN_SIZE, SCREEN_SIZE, "Gomoku", false);
@@ -63,6 +51,26 @@ Screen::~Screen()
 {
 	if (this->mlx)
 		mlx_terminate(this->mlx);
+}
+
+/* Getters */
+
+mlx_t *Screen::getMLX() const
+{
+	return this->mlx;
+}
+
+/* Callback */
+
+void Screen::keyCallback(mlx_key_data_t keydata, void *param)
+{
+	Screen *screen = static_cast<Screen *>(param);
+
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
+		std::cout << T_RESET << "Exiting..." << std::endl;
+		mlx_close_window(screen->mlx);
+	}
 }
 
 /* Methods */
@@ -168,13 +176,47 @@ void Screen::drawPlayerInfo(Player *player1, Player *player2)
 	mlx_put_string(this->mlx, player2Taken.c_str(), SCREEN_SIZE - 250, SCREEN_SIZE - 30);
 }
 
-void Screen::keyCallback(mlx_key_data_t keydata, void *param)
+void Screen::drawStone(int x, int y, int color)
 {
-	Screen *screen = static_cast<Screen *>(param);
-
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	// Create a small image for the stone
+	int stoneSize = this->cell_size - 4;
+	mlx_image_t *stoneImg = mlx_new_image(this->mlx, stoneSize, stoneSize);
+	if (!stoneImg)
 	{
-		std::cout << T_RESET << "Exiting..." << std::endl;
-		mlx_close_window(screen->mlx);
+		fprintf(stderr, "Failed to create stone image\n");
+		return;
 	}
+
+	// Calculate center position
+	int centerX = MARGIN + x * this->cell_size;
+	int centerY = MARGIN + y * this->cell_size;
+
+	// Draw a filled circle for the stone
+	int radius = stoneSize / 2;
+
+	// Set all pixels of the image to transparent
+	for (uint32_t i = 0; i < stoneImg->width * stoneImg->height; ++i)
+	{
+		((uint32_t *)stoneImg->pixels)[i] = 0;
+	}
+
+	// Fill with the stone color for pixels within the radius
+	for (int dx = -radius; dx <= radius; ++dx)
+	{
+		for (int dy = -radius; dy <= radius; ++dy)
+		{
+			if (dx * dx + dy * dy <= radius * radius)
+			{
+				int px = radius + dx;
+				int py = radius + dy;
+				if (px >= 0 && px < stoneSize && py >= 0 && py < stoneSize)
+				{
+					((uint32_t *)stoneImg->pixels)[py * stoneSize + px] = color;
+				}
+			}
+		}
+	}
+
+	// Place the stone image at the correct position
+	mlx_image_to_window(this->mlx, stoneImg, centerX - radius, centerY - radius);
 }

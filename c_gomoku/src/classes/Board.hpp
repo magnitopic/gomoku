@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 08:15:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:02:07 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ private:
 
 public:
 	Board();
-	Board(s_game_config config);
+	Board(int board_size);
 	Board(const Board &copy);
 	Board &operator=(const Board &assign);
 	~Board();
