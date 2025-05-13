@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:11:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/12 13:58:45 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:44:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ static bool isValidYesNo(const std::string &response)
 s_game_config initial_game_config()
 {
 	s_game_config config;
+
+	config.is_ai = true;
+	config.difficulty = "standard";
+	config.board_size = 19;
+	config.save_history = false;
+	config.game_mode = "subject";
 
 	std::cout << T_CYAN << "-- Welcome to GOMOKU ⚫️⚪️ --" << std::endl
 			  << std::endl;
