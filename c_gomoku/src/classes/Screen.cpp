@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 18:07:16 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/14 10:49:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,24 @@ Screen::~Screen()
 {
 	if (this->mlx)
 		mlx_terminate(this->mlx);
+}
+
+void Screen::drawCircle(mlx_image_t *img, int centerX, int centerY, int radius, int color)
+{
+	for (int dx = -radius; dx <= radius; ++dx)
+	{
+		for (int dy = -radius; dy <= radius; ++dy)
+		{
+			if (dx * dx + dy * dy <= radius * radius)
+			{
+				uint32_t px = centerX + dx;
+				uint32_t py = centerY + dy;
+
+				if (px >= 0 && px < img->width && py >= 0 && py < img->height)
+					((uint32_t *)img->pixels)[py * img->width + px] = color;
+			}
+		}
+	}
 }
 
 /* Getters */
@@ -116,7 +134,7 @@ void Screen::drawBoard(Player *player1, Player *player2)
 			mlx_put_pixel(img, x, MARGIN + i * cell_size, BLACK);
 	}
 
-	// Draw star points (similar to the Python implementation)
+	// Draw star points
 	std::vector<int> star_points;
 	if (this->board_size == 15)
 		star_points = {3, 7, 11};
@@ -133,20 +151,9 @@ void Screen::drawBoard(Player *player1, Player *player2)
 			if (y >= this->board_size)
 				continue;
 
-			// Draw a small filled circle at star points
 			int center_x = MARGIN + x * cell_size;
 			int center_y = MARGIN + y * cell_size;
-			int radius = 4;
-
-			// Simple circle drawing
-			for (int dx = -radius; dx <= radius; ++dx)
-			{
-				for (int dy = -radius; dy <= radius; ++dy)
-				{
-					if (dx * dx + dy * dy <= radius * radius)
-						mlx_put_pixel(img, center_x + dx, center_y + dy, BLACK);
-				}
-			}
+			drawCircle(img, center_x, center_y, 4, BLACK);
 		}
 	}
 
@@ -197,7 +204,6 @@ void Screen::drawPlayerInfo(Player *player1, Player *player2)
 
 void Screen::drawStone(int x, int y, int color)
 {
-	// Create a small image for the stone
 	int stoneSize = this->cell_size - 4;
 	mlx_image_t *stoneImg = mlx_new_image(this->mlx, stoneSize, stoneSize);
 	if (!stoneImg)
@@ -206,38 +212,18 @@ void Screen::drawStone(int x, int y, int color)
 		return;
 	}
 
-	// Calculate center position
-	int centerX = MARGIN + x * this->cell_size;
-	int centerY = MARGIN + y * this->cell_size;
-
-	// Draw a filled circle for the stone
+	int centerX = stoneSize / 2;
+	int centerY = stoneSize / 2;
 	int radius = stoneSize / 2;
 
-	// Set all pixels of the image to transparent
 	for (uint32_t i = 0; i < stoneImg->width * stoneImg->height; ++i)
-	{
 		((uint32_t *)stoneImg->pixels)[i] = 0;
-	}
 
-	// Fill with the stone color for pixels within the radius
-	for (int dx = -radius; dx <= radius; ++dx)
-	{
-		for (int dy = -radius; dy <= radius; ++dy)
-		{
-			if (dx * dx + dy * dy <= radius * radius)
-			{
-				int px = radius + dx;
-				int py = radius + dy;
-				if (px >= 0 && px < stoneSize && py >= 0 && py < stoneSize)
-				{
-					((uint32_t *)stoneImg->pixels)[py * stoneSize + px] = color;
-				}
-			}
-		}
-	}
+	drawCircle(stoneImg, centerX, centerY, radius, color);
 
-	// Place the stone image at the correct position
-	mlx_image_to_window(this->mlx, stoneImg, centerX - radius, centerY - radius);
+	int boardX = MARGIN + x * this->cell_size;
+	int boardY = MARGIN + y * this->cell_size;
+	mlx_image_to_window(this->mlx, stoneImg, boardX - radius, boardY - radius);
 }
 
 void Screen::drawAllStones(const Board *board)

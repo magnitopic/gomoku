@@ -6,21 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:10 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 13:56:12 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:40:42 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCREEN_HPP_
 #define SCREEN_HPP_
 
-#include <iostream>
 #include <iomanip>
-#include <limits>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <numbers>
-#include <string>
 #include <sstream>
 #include "MLX42.h"
 #include "../include/consts.hpp"
@@ -34,6 +27,8 @@ private:
 	static void keyCallback(mlx_key_data_t keydata, void *param);
 	int board_size;
 	int cell_size;
+
+	void drawCircle(mlx_image_t *img, int centerX, int centerY, int radius, int color);
 
 public:
 	Screen();
