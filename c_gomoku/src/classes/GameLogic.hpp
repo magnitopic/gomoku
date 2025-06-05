@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 13:08:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/05/14 11:07:32 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ private:
 	static void mouseButtonCallback(mouse_key_t button, action_t action, modifier_key_t mods, void *param);
 
 	bool applyMove(const std::pair<int, int> &cell);
+	bool checkIllegalMove(const std::pair<int, int> &cell);
 
 public:
 	GameLogic();

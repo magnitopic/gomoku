@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 13:02:07 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/03 20:27:14 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ class Board
 private:
 	std::vector<int> board;
 	int size;
-
-	const std::vector<std::pair<int, int>> DIRECTIONS = {
-		{1, 0}, // Horizontal
-		{0, 1}, // Vertical
-		{1, 1}, // Diagonal (up-right)
-		{1, -1} // Diagonal (up-left)
-	};
 
 public:
 	Board();

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 13:45:40 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/03 20:37:56 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ GameLogic &GameLogic::operator=(const GameLogic &assign)
 GameLogic::~GameLogic()
 {
 	delete this->screen;
+	delete this->board;
 }
 
 /* Mouse Callback */
@@ -91,6 +92,29 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 }
 
 /* Methods */
+
+bool GameLogic::checkIllegalMove(const std::pair<int, int> &cell)
+{
+	int col = cell.first;
+	int row = cell.second;
+
+	// Check if the move is out of bounds
+	if (!this->board->inBounds(col, row))
+		return true;
+
+	// Check if the cell is already occupied
+	if (checkOccupiedCell(*this->board, col, row))
+		return true;
+
+	// Check if the move creates a double three
+	if (checkDoubleThree(*this->board, cell, this->currentPlayer->getColor()))
+	{
+		std::cout << T_WHITE << "Illegal move: Double three detected!" << T_GRAY << std::endl;
+		return true;
+	}
+
+	return false;
+}
 
 bool GameLogic::applyMove(const std::pair<int, int> &cell)
 {
@@ -121,8 +145,8 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 bool GameLogic::handleTurn(const std::pair<int, int> &cell)
 {
 
-	/* if (this->checkIllegalMove(cell))
-		return true; */
+	if (this->checkIllegalMove(cell))
+		return true;
 
 	return this->applyMove(cell);
 }

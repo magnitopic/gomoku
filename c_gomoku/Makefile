@@ -3,6 +3,7 @@ NAME			=	Gomoku
 
 SRC				=	src/gomoku.cpp \
 					src/game_config.cpp \
+					src/board_checks.cpp \
 					src/classes/Board.cpp \
 					src/classes/Player.cpp \
 					src/classes/Screen.cpp \

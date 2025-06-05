@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:10 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 18:40:42 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:33:18 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iomanip>
 #include <sstream>
 #include "MLX42.h"
-#include "../include/consts.hpp"
+#include "../include/Consts.hpp"
 #include "../classes/Player.hpp"
 #include "../classes/Board.hpp"
 

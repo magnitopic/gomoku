@@ -37,7 +37,7 @@ def check_n_in_a_row(board, last_move, color, direction, n):
     return count >= n
 
 
-def check_three(board, last_move, color) -> bool:
+def check_three(board, last_move, color) -> list:
     x, y = last_move
     free_threes = []
 
