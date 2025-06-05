@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/03 20:37:56 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:28:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ bool GameLogic::checkIllegalMove(const std::pair<int, int> &cell)
 	// Check if the move creates a double three
 	if (checkDoubleThree(*this->board, cell, this->currentPlayer->getColor()))
 	{
-		std::cout << T_WHITE << "Illegal move: Double three detected!" << T_GRAY << std::endl;
+		std::cout << T_PURPLE << "Illegal move: Double three detected!" << T_GRAY << std::endl;
 		return true;
 	}
 
