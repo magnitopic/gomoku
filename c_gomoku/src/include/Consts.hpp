@@ -6,12 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:57:18 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/03 20:27:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/06 20:44:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONSTS_HPP_
 #define CONSTS_HPP_
+
+#include <vector>
 
 const std::vector<std::pair<int, int>> DIRECTIONS = {
 	{1, 0}, // Horizontal

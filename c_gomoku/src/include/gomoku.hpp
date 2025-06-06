@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:36:16 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 13:54:14 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/06 20:45:44 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 #include "Consts.hpp"
 #include "structs.hpp"
+#include <vector>
+#include <chrono>
+#include <cmath>
 
 class Board;
 

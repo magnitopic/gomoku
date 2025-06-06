@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 17:08:34 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:41:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 
 		// Calculate the closest intersection
 		int cell_size = (SCREEN_SIZE - 2 * MARGIN) / (game->board_size - 1);
-		int col = round((xpos - MARGIN) / static_cast<double>(cell_size));
-		int row = round((ypos - MARGIN) / static_cast<double>(cell_size));
+		int col = std::round((xpos - MARGIN) / static_cast<double>(cell_size));
+		int row = std::round((ypos - MARGIN) / static_cast<double>(cell_size));
 
 		// Ensure the position is within bounds
 		if (col < 0 || col >= game->board_size || row < 0 || row >= game->board_size)

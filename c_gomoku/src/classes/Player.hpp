@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 18:18:41 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:42:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define PLAYER_HPP_
 
 #include <string>
+#include <chrono>
 
 class Player
 {
