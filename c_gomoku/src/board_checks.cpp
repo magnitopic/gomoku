@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 05:50:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 13:49:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:06:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,66 @@ bool checkDoubleThree(Board &board, const std::pair<int, int> &lastMove, int col
 	board.set(x, y, EMPTY);
 
 	return (freeThreeCount >= 2);
+}
+
+std::vector<std::pair<int, int>> checkCapture(const Board &board, const std::pair<int, int> &lastMove, int color)
+{
+	int x = lastMove.first;
+	int y = lastMove.second;
+
+	std::vector<std::pair<int, int>> stonesToDelete;
+	std::vector<std::pair<int, int>> currentStonesToDelete;
+
+	for (std::pair<int, int> direction : DIRECTIONS)
+	{
+		int dx = direction.first;
+		int dy = direction.second;
+
+		for (int i = 1; i <= 3; i++)
+		{
+			int nx = x + dx * i;
+			int ny = y + dy * i;
+
+			if (!board.inBounds(nx, ny))
+				break;
+
+			if (board.get(nx, ny) == -color && i == 1)
+				currentStonesToDelete.push_back({nx, ny});
+			else if (board.get(nx, ny) == -color && i == 2)
+				currentStonesToDelete.push_back({nx, ny});
+			else if (board.get(nx, ny) == color && i == 3)
+			{
+				stonesToDelete.insert(stonesToDelete.end(), currentStonesToDelete.begin(), currentStonesToDelete.end());
+				break;
+			}
+			else
+				break;
+		}
+		currentStonesToDelete.clear();
+
+		for (int i = 1; i <= 3; i++)
+		{
+			int nx = x - dx * i;
+			int ny = y - dy * i;
+
+			if (!board.inBounds(nx, ny))
+				break;
+
+			if (board.get(nx, ny) == -color && i == 1)
+				currentStonesToDelete.push_back({nx, ny});
+			else if (board.get(nx, ny) == -color && i == 2)
+				currentStonesToDelete.push_back({nx, ny});
+			else if (board.get(nx, ny) == color && i == 3)
+			{
+				stonesToDelete.insert(stonesToDelete.end(), currentStonesToDelete.begin(), currentStonesToDelete.end());
+				break;
+			}
+			else
+				break;
+		}
+		currentStonesToDelete.clear();
+	}
+	return stonesToDelete;
 }
 
 bool checkMoveIntoCapture(Board &board, const std::pair<int, int> &lastMove, int color)

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 12:58:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:08:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ bool GameLogic::checkIllegalMove(const std::pair<int, int> &cell)
 
 	if (checkMoveIntoCapture(*this->board, cell, this->currentPlayer->getColor()))
 	{
-		std::cout << T_PURPLE << "Illegal move: Capture detected!" << T_GRAY << std::endl;
+		std::cout << T_PURPLE << "Illegal move: Cannot move into capture!" << T_GRAY << std::endl;
 		return true;
 	}
 
@@ -134,6 +134,15 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	this->screen->drawStone(col, row, this->currentPlayer->getColor() == BLACK_STONE ? BLACK : WHITE);
 
 	this->currentPlayer->stopTimer();
+
+	// Check for capture
+	std::vector<std::pair<int, int>> capturedStones = checkCapture(*this->board, cell, this->currentPlayer->getColor());
+	std::cout << T_GREEN << "Captured stones: " << capturedStones.size() << T_GRAY << std::endl;
+	if (capturedStones.size() > 0)
+	{
+		std::cout << T_YELLOW << "Capture detected!" << T_GRAY << std::endl;
+		this->handleCapture(capturedStones);
+	}
 
 	// Change active player
 	Player *temp = this->currentPlayer;
@@ -155,6 +164,22 @@ bool GameLogic::handleTurn(const std::pair<int, int> &cell)
 		return true;
 
 	return this->applyMove(cell);
+}
+
+void GameLogic::handleCapture(const std::vector<std::pair<int, int>> &takenStones)
+{
+	this->currentPlayer->addTakenStones(takenStones.size());
+	for (const std::pair<int, int> &stone : takenStones)
+	{
+		int col = stone.first;
+		int row = stone.second;
+
+		this->board->set(col, row, EMPTY);
+
+		// Draw the empty cell on screen
+		this->screen->drawBoard(&this->player1, &this->player2);
+		this->screen->drawAllStones(this->board);
+	}
 }
 
 void GameLogic::startGame()
