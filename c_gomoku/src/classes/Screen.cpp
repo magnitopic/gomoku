@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/14 10:49:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/07 12:44:05 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void Screen::drawBoard(Player *player1, Player *player2)
 	int border_width = (this->board_size - 1) * (SCREEN_SIZE - 2 * MARGIN) / (this->board_size - 1) + 2 * BORDER_MARGIN;
 	int border_height = border_width;
 
-	// Draw border (rectangle outline)
+	// Draw border
 	for (int i = 0; i < border_width; ++i)
 	{
 		mlx_put_pixel(img, border_start_x + i, border_start_y, BORDER_COLOR);
@@ -161,9 +161,6 @@ void Screen::drawBoard(Player *player1, Player *player2)
 
 	// draw player info on top of the board
 	Screen::drawPlayerInfo(player1, player2);
-
-	// Start the main loop
-	mlx_loop(this->mlx);
 }
 
 void Screen::drawPlayerInfo(Player *player1, Player *player2)
@@ -234,9 +231,7 @@ void Screen::drawAllStones(const Board *board)
 		{
 			int cell_value = board->get(x, y);
 			if (cell_value != EMPTY)
-			{
 				this->drawStone(x, y, (cell_value == BLACK_STONE) ? BLACK : WHITE);
-			}
 		}
 	}
 }

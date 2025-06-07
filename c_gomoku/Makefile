@@ -7,6 +7,7 @@ SRC				=	src/gomoku.cpp \
 					src/classes/Board.cpp \
 					src/classes/Player.cpp \
 					src/classes/Screen.cpp \
+					src/classes/History.cpp \
 					src/classes/GameLogic.cpp
 
 OBJS			= $(SRC:.cpp=.o)

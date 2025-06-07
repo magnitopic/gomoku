@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:19:32 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 18:33:47 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/07 13:02:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 // Forward declaration to avoid circular dependency
 class Player;
 
-enum class EventType
+enum EventType
 {
 	MOVE,
 	CAPTURE,

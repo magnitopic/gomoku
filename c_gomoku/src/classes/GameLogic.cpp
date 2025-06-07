@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 19:41:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/07 13:15:04 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ GameLogic::GameLogic(s_game_config config)
 
 	this->board = new Board(config.board_size);
 	this->screen = new Screen(this->board_size);
+	this->history = new History();
 }
 
 GameLogic::GameLogic(const GameLogic &copy)
@@ -64,6 +65,14 @@ GameLogic::~GameLogic()
 {
 	delete this->screen;
 	delete this->board;
+	delete this->history;
+}
+
+/* Getter */
+
+History *GameLogic::getHistory() const
+{
+	return this->history;
 }
 
 /* Mouse Callback */
@@ -135,13 +144,20 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 
 	this->currentPlayer->stopTimer();
 
+	// Add move to history
+	if (this->save_history)
+		this->history->addMove(cell, this->currentPlayer);
+
 	// Check for capture
 	std::vector<std::pair<int, int>> capturedStones = checkCapture(*this->board, cell, this->currentPlayer->getColor());
-	std::cout << T_GREEN << "Captured stones: " << capturedStones.size() << T_GRAY << std::endl;
 	if (capturedStones.size() > 0)
 	{
 		std::cout << T_YELLOW << "Capture detected!" << T_GRAY << std::endl;
 		this->handleCapture(capturedStones);
+
+		// Add capture to history
+		if (this->save_history)
+			this->history->addCapture(this->currentPlayer, this->inactivePlayer);
 	}
 
 	// Change active player
@@ -175,11 +191,9 @@ void GameLogic::handleCapture(const std::vector<std::pair<int, int>> &takenStone
 		int row = stone.second;
 
 		this->board->set(col, row, EMPTY);
-
-		// Draw the empty cell on screen
-		this->screen->drawBoard(&this->player1, &this->player2);
-		this->screen->drawAllStones(this->board);
 	}
+	this->screen->drawBoard(&this->player1, &this->player2);
+	this->screen->drawAllStones(this->board);
 }
 
 void GameLogic::startGame()

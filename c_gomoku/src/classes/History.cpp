@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:21:15 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 18:33:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/07 13:26:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ History::~History() {}
 void History::addMove(const std::pair<int, int> &move, Player *player)
 {
 	HistoryEvent event;
-	event.type = EventType::MOVE;
+	event.type = MOVE;
 	event.timestamp = std::time(nullptr);
 
 	std::stringstream ss;
-	ss << "Player " << player->getName() << " placed a stone at position ("
+	ss << player->getName() << " Player placed a stone at position ("
 	   << move.first << ", " << move.second << ")";
 	event.message = ss.str();
 
@@ -53,13 +53,13 @@ void History::addMove(const std::pair<int, int> &move, Player *player)
 void History::addCapture(Player *current, Player *inactive)
 {
 	HistoryEvent event;
-	event.type = EventType::CAPTURE;
+	event.type = CAPTURE;
 	event.timestamp = std::time(nullptr);
 
 	std::string playerName = current->getName();
 	std::string opponentName = inactive->getName();
 	std::stringstream ss;
-	ss << "Player " << playerName << " captured stones from Player " << opponentName;
+	ss << playerName << " Player captured stones from " << opponentName << " Player (" << current->getTakenStones() << " in total)";
 	event.message = ss.str();
 
 	this->events.push_back(event);
@@ -68,11 +68,11 @@ void History::addCapture(Player *current, Player *inactive)
 void History::addWin(Player *player)
 {
 	HistoryEvent event;
-	event.type = EventType::WIN;
+	event.type = WIN;
 	event.timestamp = std::time(nullptr);
 
 	std::stringstream ss;
-	ss << "Player " << player->getName() << " won the game!";
+	ss << player->getName() << " Player won the game!";
 	event.message = ss.str();
 
 	this->events.push_back(event);
@@ -81,7 +81,7 @@ void History::addWin(Player *player)
 void History::addTie()
 {
 	HistoryEvent event;
-	event.type = EventType::TIE;
+	event.type = TIE;
 	event.timestamp = std::time(nullptr);
 
 	event.message = "The game ended in a tie!";

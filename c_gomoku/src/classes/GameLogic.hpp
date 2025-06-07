@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 14:00:57 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/07 13:12:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "Board.hpp"
 #include "Player.hpp"
 #include "Screen.hpp"
+#include "History.hpp"
 
 class GameLogic
 {
@@ -35,6 +36,7 @@ private:
 	std::string gameMode;
 
 	Screen *screen;
+	History *history;
 
 	// Mouse event handling
 	static void mouseButtonCallback(mouse_key_t button, action_t action, modifier_key_t mods, void *param);
@@ -49,6 +51,9 @@ public:
 	GameLogic(const GameLogic &copy);
 	GameLogic &operator=(const GameLogic &assign);
 	~GameLogic();
+
+	// Getters
+	History *getHistory() const;
 
 	bool handleTurn(const std::pair<int, int> &cell);
 	void startGame();

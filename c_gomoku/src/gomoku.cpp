@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:24:58 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 12:17:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/07 13:14:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,8 @@ int main(void)
 
 	GameLogic game(config);
 	game.startGame();
+
+	if (config.save_history)
+		game.getHistory()->createHistoryFile(config);
 	return (EXIT_SUCCESS);
 }
