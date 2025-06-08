@@ -6,12 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/07 13:15:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/08 13:18:18 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "GameLogic.hpp"
+#include <unistd.h>
 
 GameLogic::GameLogic() {}
 
@@ -96,7 +97,8 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 			return;
 
 		std::pair<int, int> cell = {col, row};
-		game->handleTurn(cell);
+		if (!game->handleTurn(cell))
+			mlx_close_window(game->screen->getMLX());
 	}
 }
 
@@ -131,6 +133,39 @@ bool GameLogic::checkIllegalMove(const std::pair<int, int> &cell)
 	return false;
 }
 
+bool GameLogic::checkGameEnd(const std::pair<int, int> &lastMove)
+{
+	int x = lastMove.first;
+	int y = lastMove.second;
+	if (this->board->checkWin(x, y, this->currentPlayer->getColor()))
+	{
+		std::cout << T_WHITE << "-----------------------------------" << std::endl;
+		std::cout << T_YELLOW << "Five in a row!" << std::endl;
+		std::cout << T_GREEN << this->currentPlayer->getName() << " Player wins!" << T_GRAY << std::endl;
+		if (this->save_history)
+			this->history->addWin(this->currentPlayer);
+		return true;
+	}
+	else if (this->currentPlayer->getTakenStones() >= 10)
+	{
+		std::cout << T_WHITE << "-----------------------------------" << std::endl;
+		std::cout << T_YELLOW << "The game is over due to " << this->currentPlayer->getTakenStones() << " stones taken!" << std::endl;
+		std::cout << T_GREEN << this->currentPlayer->getName() << " Player wins!" << T_GRAY << std::endl;
+		if (this->save_history)
+			this->history->addWin(this->currentPlayer);
+		return true;
+	}
+	else if (this->board->isFull())
+	{
+		std::cout << T_WHITE << "-----------------------------------" << std::endl;
+		std::cout << T_YELLOW << "The game is a draw!" << T_GRAY << std::endl;
+		if (this->save_history)
+			this->history->addTie();
+		return true;
+	}
+	return false;
+}
+
 bool GameLogic::applyMove(const std::pair<int, int> &cell)
 {
 	int col = cell.first;
@@ -159,6 +194,10 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 		if (this->save_history)
 			this->history->addCapture(this->currentPlayer, this->inactivePlayer);
 	}
+
+	// Check for end game conditions
+	if (checkGameEnd(cell))
+		return false;
 
 	// Change active player
 	Player *temp = this->currentPlayer;
@@ -192,6 +231,7 @@ void GameLogic::handleCapture(const std::vector<std::pair<int, int>> &takenStone
 
 		this->board->set(col, row, EMPTY);
 	}
+	this->screen->clearArea(0, 0, SCREEN_SIZE, SCREEN_SIZE, BLACK);
 	this->screen->drawBoard(&this->player1, &this->player2);
 	this->screen->drawAllStones(this->board);
 }

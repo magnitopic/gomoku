@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:10 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 19:42:54 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/08 13:02:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ public:
 	void drawPlayerInfo(Player *player1, Player *player2);
 	void drawStone(int x, int y, int color);
 	void drawAllStones(const Board *board);
-	void drawWinScreen();
-	void drawTieScreen();
 
 	// Helper method to clear a rectangle area
 	void clearArea(int x, int y, int width, int height, int color);

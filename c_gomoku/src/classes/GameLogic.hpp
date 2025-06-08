@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/07 13:12:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/07 14:07:16 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ private:
 	bool applyMove(const std::pair<int, int> &cell);
 	bool checkIllegalMove(const std::pair<int, int> &cell);
 	void handleCapture(const std::vector<std::pair<int, int>> &takenStones);
+	bool checkGameEnd(const std::pair<int, int> &lastMove);
 
 public:
 	GameLogic();
