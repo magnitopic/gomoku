@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/08 13:18:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:50:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,17 +117,21 @@ bool GameLogic::checkIllegalMove(const std::pair<int, int> &cell)
 	if (checkOccupiedCell(*this->board, col, row))
 		return true;
 
-	// Check if the move creates a double three
-	if (checkDoubleThree(*this->board, cell, this->currentPlayer->getColor()))
+	if (this->gameMode != "standard")
 	{
-		std::cout << T_PURPLE << "Illegal move: Double three detected!" << T_GRAY << std::endl;
-		return true;
-	}
+		// Check if the move creates a double three
+		if (checkDoubleThree(*this->board, cell, this->currentPlayer->getColor()))
+		{
+			std::cout << T_PURPLE << "Illegal move: Double three detected!" << T_GRAY << std::endl;
+			return true;
+		}
 
-	if (checkMoveIntoCapture(*this->board, cell, this->currentPlayer->getColor()))
-	{
-		std::cout << T_PURPLE << "Illegal move: Cannot move into capture!" << T_GRAY << std::endl;
-		return true;
+		// Check if the move is into a capture
+		if (checkMoveIntoCapture(*this->board, cell, this->currentPlayer->getColor()))
+		{
+			std::cout << T_PURPLE << "Illegal move: Cannot move into capture!" << T_GRAY << std::endl;
+			return true;
+		}
 	}
 
 	return false;
@@ -146,7 +150,7 @@ bool GameLogic::checkGameEnd(const std::pair<int, int> &lastMove)
 			this->history->addWin(this->currentPlayer);
 		return true;
 	}
-	else if (this->currentPlayer->getTakenStones() >= 10)
+	else if (this->currentPlayer->getTakenStones() >= 10 && this->gameMode == "subject")
 	{
 		std::cout << T_WHITE << "-----------------------------------" << std::endl;
 		std::cout << T_YELLOW << "The game is over due to " << this->currentPlayer->getTakenStones() << " stones taken!" << std::endl;
@@ -184,15 +188,18 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 		this->history->addMove(cell, this->currentPlayer);
 
 	// Check for capture
-	std::vector<std::pair<int, int>> capturedStones = checkCapture(*this->board, cell, this->currentPlayer->getColor());
-	if (capturedStones.size() > 0)
+	if (this->gameMode != "standard")
 	{
-		std::cout << T_YELLOW << "Capture detected!" << T_GRAY << std::endl;
-		this->handleCapture(capturedStones);
+		std::vector<std::pair<int, int>> capturedStones = checkCapture(*this->board, cell, this->currentPlayer->getColor());
+		if (capturedStones.size() > 0)
+		{
+			std::cout << T_YELLOW << "Capture detected!" << T_GRAY << std::endl;
+			this->handleCapture(capturedStones);
 
-		// Add capture to history
-		if (this->save_history)
-			this->history->addCapture(this->currentPlayer, this->inactivePlayer);
+			// Add capture to history
+			if (this->save_history)
+				this->history->addCapture(this->currentPlayer, this->inactivePlayer);
+		}
 	}
 
 	// Check for end game conditions
@@ -229,7 +236,10 @@ void GameLogic::handleCapture(const std::vector<std::pair<int, int>> &takenStone
 		int col = stone.first;
 		int row = stone.second;
 
-		this->board->set(col, row, EMPTY);
+		if (this->gameMode == "subject")
+			this->board->set(col, row, EMPTY);
+		else if (this->gameMode == "reversi")
+			this->board->set(col, row, this->currentPlayer->getColor());
 	}
 	this->screen->clearArea(0, 0, SCREEN_SIZE, SCREEN_SIZE, BLACK);
 	this->screen->drawBoard(&this->player1, &this->player2);

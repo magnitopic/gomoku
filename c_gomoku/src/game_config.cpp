@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:11:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 11:44:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:47:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool isValidDifficulty(const std::string &difficulty)
 
 bool isValidGameMode(const std::string &mode)
 {
-	return (mode == "standard" || mode == "subject");
+	return (mode == "standard" || mode == "subject" || mode == "reversi");
 }
 
 static bool isValidYesNo(const std::string &response)
@@ -165,8 +165,11 @@ s_game_config initial_game_config()
 
 	// Game Mode
 	std::cout << "\n"
-			  << T_BLUE << "5. Choose game mode: (standard/"
+			  << T_BLUE << "5. Choose game mode: (standard/reversi/"
 			  << T_GREEN << "subject" << T_BLUE << ")" << std::endl;
+	std::cout << "\t-" << T_CYAN << " Standard: " << T_BLUE << " Classic Gomoku rules with no restrictions." << std::endl;
+	std::cout << "\t-" << T_CYAN << " Reversi: " << T_BLUE << " Captured stones turn to your colour." << std::endl;
+	std::cout << "\t-" << T_CYAN << " Subject: " << T_BLUE << " Gomoku with subject mode rules (captures, no double three)." << std::endl;
 	std::string game_mode = config_input();
 
 	if (game_mode.empty())
