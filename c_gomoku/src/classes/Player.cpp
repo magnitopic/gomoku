@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/05/13 18:06:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:24:03 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ Player::Player(int color, bool ai)
 	this->is_ai = ai;
 	this->takenStones = 0;
 	this->timer = 0;
+	this->ai = new AI();
 }
 
 Player::Player(const Player &copy)
@@ -41,7 +42,10 @@ Player &Player::operator=(const Player &assign)
 	return *this;
 }
 
-Player::~Player() {}
+Player::~Player()
+{
+	delete this->ai;
+}
 
 /* Getters */
 
@@ -63,6 +67,11 @@ int Player::getTakenStones() const
 double Player::getTimer() const
 {
 	return this->timer;
+}
+
+bool Player::isAI() const
+{
+	return this->is_ai;
 }
 
 /* Methods */
@@ -89,4 +98,11 @@ bool Player::addTakenStones(int count)
 		return true;
 	}
 	return false;
+}
+
+std::pair<int, int> Player::getAIMove(Board *board) const
+{
+	std::pair<int, int> bestMove = this->ai->getMove(board, this->color);
+	std::cout << "AI Move: (" << bestMove.first << ", " << bestMove.second << ")" << std::endl;
+	return bestMove;
 }

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/13 14:10:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:31:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static std::vector<std::pair<int, int>> getValidMoves(Board *board)
 	return validMoves;
 }
 
-static int evaluateBoard(Board *board, int player)
+static int evaluateBoard(Board *board)
 {
 	// Simple evaluation function
 	int score = 0;
@@ -43,52 +43,35 @@ static int evaluateBoard(Board *board, int player)
 			if (board->get(i, j) == EMPTY)
 				continue;
 
-			int currentPlayer = board->get(i, j);
-			int count = 1;
-			int open_ends = 0;
+			int player = board->get(i, j);
 
-			for (const auto &direction : DIRECTIONS)
+			// Check all 4 directions
+			for (std::pair<int, int> dir : DIRECTIONS)
 			{
-				int dx = direction.first;
-				int dy = direction.second;
+				int dx = dir.first;
+				int dy = dir.second;
+				int count = 1;
+				int open_ends = 0;
 
 				// Check backward
-				for (int k = 1; k < 5; k++)
+				int r = i - dx;
+				int c = j - dy;
+				if (r >= 0 && r < board->getSize() && c >= 0 && c < board->getSize())
 				{
-					int r = i - k * dx;
-					int c = j - k * dy;
-					if (!board->inBounds(r, c))
-						break;
-
-					if (board->get(r, c) == currentPlayer)
-						count++;
-					else if (board->get(r, c) == EMPTY)
-					{
+					if (board->get(r, c) == EMPTY)
 						open_ends++;
-						break;
-					}
-					else
-						break;
 				}
 
-				// Check if the next cell is empty
-				int r = i + dx;
-				int c = j + dy;
-				if (board->inBounds(r, c) && board->get(r, c) == EMPTY)
-					open_ends++;
-				else if (board->inBounds(r, c) && board->get(r, c) != currentPlayer)
-					continue;
 				// Check forward
-
 				for (int k = 1; k < 5; k++)
 				{
 					r = i + k * dx;
 					c = j + k * dy;
 
-					if (!board->inBounds(r, c))
+					if (r < 0 || r >= board->getSize() || c < 0 || c >= board->getSize())
 						break;
 
-					if (board->get(r, c) == currentPlayer)
+					if (board->get(r, c) == player)
 						count++;
 					else if (board->get(r, c) == EMPTY)
 					{
@@ -98,8 +81,10 @@ static int evaluateBoard(Board *board, int player)
 					else
 						break;
 				}
+
 				// Assign score based on pattern
 				int pattern_score = 0;
+
 				if (count >= 5)
 					pattern_score = FIVE_IN_A_ROW;
 				else if (count == 4 && open_ends == 2)
@@ -114,20 +99,16 @@ static int evaluateBoard(Board *board, int player)
 					pattern_score = OPEN_TWO;
 				else if (count == 2 && open_ends == 1)
 					pattern_score = TWO;
-				else
-					pattern_score = 0;
 
-				if (currentPlayer == BLACK)
+				if (player == BLACK)
 					black_score += pattern_score;
 				else
 					white_score += pattern_score;
 			}
 		}
 	}
-	if (player == BLACK)
-		score = black_score - white_score;
-	else
-		score = white_score - black_score;
+
+	score = black_score - white_score;
 	return score;
 }
 
@@ -136,13 +117,13 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 	// If at maximum depth, evaluate the board
 	if (depth >= MAX_DEPTH)
 	{
-		bestMove->score = evaluateBoard(board, player);
+		bestMove->score = evaluateBoard(board);
 		return bestMove->score;
 	}
 
 	std::vector<std::pair<int, int>> validMoves = getValidMoves(board);
 	if (validMoves.empty())
-		return evaluateBoard(board, player);
+		return evaluateBoard(board);
 
 	if (maximizingPlayer)
 	{

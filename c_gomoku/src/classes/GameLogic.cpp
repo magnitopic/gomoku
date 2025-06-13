@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/10 21:16:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:24:25 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,14 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 			return;
 
 		std::pair<int, int> cell = {col, row};
-		if (!game->handleTurn(cell))
+		int continueGame = game->handleTurn(cell);
+		if (!continueGame)
 			mlx_close_window(game->screen->getMLX());
+		else if (game->player2.isAI() && game->currentPlayer == &game->player2)
+		{
+			std::pair<int, int> aiMove = game->player2.getAIMove(game->board);
+			game->handleTurn(aiMove);
+		}
 	}
 }
 
