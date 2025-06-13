@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/13 14:24:03 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:39:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ Player::Player(int color, bool ai)
 	this->is_ai = ai;
 	this->takenStones = 0;
 	this->timer = 0;
-	this->ai = new AI();
 }
 
 Player::Player(const Player &copy)
@@ -42,10 +41,7 @@ Player &Player::operator=(const Player &assign)
 	return *this;
 }
 
-Player::~Player()
-{
-	delete this->ai;
-}
+Player::~Player() {}
 
 /* Getters */
 
@@ -81,8 +77,6 @@ void Player::startTimer()
 	this->startTime = std::chrono::high_resolution_clock::now();
 }
 
-#include <iostream>
-
 void Player::stopTimer()
 {
 	auto endTime = std::chrono::high_resolution_clock::now();
@@ -102,7 +96,11 @@ bool Player::addTakenStones(int count)
 
 std::pair<int, int> Player::getAIMove(Board *board) const
 {
-	std::pair<int, int> bestMove = this->ai->getMove(board, this->color);
-	std::cout << "AI Move: (" << bestMove.first << ", " << bestMove.second << ")" << std::endl;
-	return bestMove;
+	t_move *bestMove = new t_move{-1, -1, 0};
+
+	minMax(board, 0, INT_MIN, INT_MAX, true, this->color, bestMove);
+
+	std::pair<int, int> result = std::make_pair(bestMove->row, bestMove->col);
+	delete bestMove;
+	return result;
 }

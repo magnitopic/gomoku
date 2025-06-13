@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/13 14:22:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:37:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <string>
 #include <chrono>
-#include "../ai/AI.hpp"
+#include "../ai/ai_config.hpp"
 
 class Player
 {
@@ -24,7 +24,6 @@ private:
 	int color; // 1 for black, -1 for white
 	std::string name;
 	bool is_ai;
-	AI *ai;
 	int takenStones;
 	double timer;
 	std::chrono::time_point<std::chrono::high_resolution_clock> startTime;

@@ -2,7 +2,6 @@
 NAME			=	Gomoku
 
 SRC				=	src/gomoku.cpp \
-					src/ai/AI.cpp \
 					src/ai/min_max.cpp \
 					src/game_config.cpp \
 					src/board_checks.cpp \
