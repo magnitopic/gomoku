@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:22:51 by alaparic          #+#    #+#             */
-/*   Updated: 2025/04/16 22:39:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:21:54 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 int minMax(int board_size, int **board, int maximizingPlayer, int depth, int alpha, int beta, t_move *bestMove)
 {
-	// Debug output - uncomment this to see call stack
-	// printf("minMax call - depth: %d, maximizingPlayer: %d\n", depth, maximizingPlayer);
-
 	// If we've reached maximum depth, evaluate the board
 	if (depth >= MAX_DEPTH)
 	{
