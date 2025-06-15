@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/07 14:07:16 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 13:07:07 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ private:
 public:
 	GameLogic();
 	GameLogic(s_game_config config);
-	GameLogic(const GameLogic &copy);
-	GameLogic &operator=(const GameLogic &assign);
 	~GameLogic();
 
 	// Getters

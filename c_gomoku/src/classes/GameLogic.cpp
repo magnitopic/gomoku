@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 08:12:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 13:06:56 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,35 +31,9 @@ GameLogic::GameLogic(s_game_config config)
 
 	this->currentPlayer->startTimer();
 
-	this->board = new Board(config.board_size);
+	this->board = new Board(config.board_size, config);
 	this->screen = new Screen(this->board_size);
 	this->history = new History();
-}
-
-GameLogic::GameLogic(const GameLogic &copy)
-{
-	*this = copy;
-}
-
-GameLogic &GameLogic::operator=(const GameLogic &assign)
-{
-	if (this != &assign)
-	{
-		this->board_size = assign.board_size;
-		this->save_history = assign.save_history;
-		this->subject_mode = assign.subject_mode;
-		this->gameMode = assign.gameMode;
-
-		this->board = new Board(assign.board_size);
-		this->screen = new Screen(assign.board_size);
-		this->player1 = assign.player1;
-		this->player2 = assign.player2;
-		this->currentPlayer = (assign.currentPlayer == &assign.player1) ? &this->player1 : &this->player2;
-		this->inactivePlayer = (assign.inactivePlayer == &assign.player1) ? &this->player1 : &this->player2;
-
-		this->currentPlayer->startTimer();
-	}
-	return *this;
 }
 
 GameLogic::~GameLogic()

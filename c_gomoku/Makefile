@@ -40,7 +40,7 @@ all:		$(MLX) $(NAME)
 			@printf "$(BLUE)==> $(CYAN)$(NAME) compiled ✅\n\n$(RESET)"
 
 $(NAME):	$(OBJS)
-			@$(CXX) $(CXXFLAGS) $(LIBX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
+			@$(CXX) $(CXXFLAGS) $(LX_LIBX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
 #			@$(CXX) $(CXXFLAGS) $(LX_LIBX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
 
 $(MLX):

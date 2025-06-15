@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 05:50:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 17:06:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 13:09:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,9 @@ static int checkThree(Board &board, const std::pair<int, int> &lastMove, int col
 
 		// Check if we have a free three
 		if (stones == 3 && spacesBefore > 0 && spacesAfter > 0 && !separateThree)
-		{
 			freeThreeCount++;
-			std::cout << T_YELLOW << "Found free three!" << T_GRAY << std::endl;
-		}
 		else if (stones == 3 && ((spacesBefore == 2 && spacesAfter == 1) || (spacesBefore == 1 && spacesAfter == 2)) && separateThree)
-		{
 			freeThreeCount++;
-			std::cout << T_YELLOW << "Found free three with a space!" << T_GRAY << std::endl;
-		}
 	}
 	return freeThreeCount;
 }

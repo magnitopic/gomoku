@@ -6,15 +6,41 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 08:58:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 13:33:54 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ai_config.hpp"
 
-static std::vector<std::pair<int, int>> getValidMoves(Board *board)
+static bool checkIllegalMove(Board *board, const std::pair<int, int> &cell, int color)
 {
-	// TODO: add check for valid moves
+	int col = cell.first;
+	int row = cell.second;
+
+	// Check if the move is out of bounds
+	if (!board->inBounds(col, row))
+		return true;
+
+	// Check if the cell is already occupied
+	if (checkOccupiedCell(*board, col, row))
+		return true;
+
+	if (board->getGameMode() != "standard")
+	{
+		// Check if the move creates a double three
+		if (checkDoubleThree(*board, cell, color))
+			return true;
+
+		// Check if the move is into a capture
+		if (checkMoveIntoCapture(*board, cell, color))
+			return true;
+	}
+
+	return false;
+}
+
+static std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
+{
 	std::vector<std::pair<int, int>> validMoves;
 	std::vector<std::pair<int, int>> occupiedTiles = board->getOccupiedTiles();
 	for (const std::pair<int, int> &tile : occupiedTiles)
@@ -30,7 +56,7 @@ static std::vector<std::pair<int, int>> getValidMoves(Board *board)
 				int newRow = row + dir.first * i;
 				int newCol = col + dir.second * i;
 
-				if (board->inBounds(newRow, newCol) && board->isEmpty(newRow, newCol))
+				if (board->inBounds(newRow, newCol) && board->isEmpty(newRow, newCol) && !checkIllegalMove(board, {newRow, newCol}, color))
 					validMoves.push_back({newRow, newCol});
 			}
 		}
@@ -131,7 +157,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 		return bestMove->score;
 	}
 
-	std::vector<std::pair<int, int>> validMoves = getValidMoves(board);
+	std::vector<std::pair<int, int>> validMoves = getValidMoves(board, player);
 	if (validMoves.empty())
 		return evaluateBoard(board);
 

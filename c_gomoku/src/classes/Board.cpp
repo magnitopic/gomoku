@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 08:55:19 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 13:04:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ Board::Board()
 }
 
 // Constructors
-Board::Board(int board_size)
+Board::Board(int board_size, s_game_config config)
 {
 	this->size = board_size;
 	this->board.resize(this->size * this->size, EMPTY);
+	this->gameMode = config.game_mode;
+	this->difficulty = config.difficulty;
 }
 
 Board::Board(const Board &copy)
@@ -48,6 +50,11 @@ Board::~Board() {}
 int Board::getSize() const
 {
 	return this->size;
+}
+
+std::string Board::getGameMode() const
+{
+	return this->gameMode;
 }
 
 int Board::get(int x, int y) const

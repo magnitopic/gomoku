@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 08:55:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 13:02:33 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,18 @@ class Board
 private:
 	std::vector<int> board;
 	int size;
+	std::string gameMode;
+	std::string difficulty;
 
 public:
 	Board();
-	Board(int board_size);
+	Board(int board_size, s_game_config config);
 	Board(const Board &copy);
 	Board &operator=(const Board &assign);
 	~Board();
 
 	int getSize() const;
+	std::string getGameMode() const;
 	int get(int x, int y) const;
 	void set(int x, int y, int value);
 	bool isEmpty(int x, int y) const;
