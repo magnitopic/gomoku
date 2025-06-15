@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/13 19:39:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 07:56:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,7 @@ bool Player::addTakenStones(int count)
 {
 	this->takenStones += count;
 	if (this->takenStones >= 10)
-	{
 		return true;
-	}
 	return false;
 }
 

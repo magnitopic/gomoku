@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/03 20:27:14 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 08:55:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ public:
 	bool isFull() const;
 
 	bool inBounds(int x, int y) const;
+	std::vector<std::pair<int, int>> getOccupiedTiles() const;
 	bool checkNInARow(const std::pair<int, int> &lastMove, int color, const std::pair<int, int> &direction, int n) const;
 	bool checkWin(int x, int y, int player) const;
 	std::vector<std::pair<int, int>> checkCapture(const std::pair<int, int> &lastMove, int color) const;

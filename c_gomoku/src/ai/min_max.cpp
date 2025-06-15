@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/13 14:31:46 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 08:58:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,25 @@
 
 static std::vector<std::pair<int, int>> getValidMoves(Board *board)
 {
-	// ! -> Temporary function, should only return positions near to stones
+	// TODO: add check for valid moves
 	std::vector<std::pair<int, int>> validMoves;
-	int size = board->getSize();
-	for (int i = 0; i < size; i++)
+	std::vector<std::pair<int, int>> occupiedTiles = board->getOccupiedTiles();
+	for (const std::pair<int, int> &tile : occupiedTiles)
 	{
-		for (int j = 0; j < size; j++)
+		int row = tile.first;
+		int col = tile.second;
+
+		// Check all 4 directions for valid moves
+		for (const std::pair<int, int> &dir : DIRECTIONS)
 		{
-			if (board->isEmpty(i, j))
-				validMoves.emplace_back(i, j);
+			for (int i = -1; i <= 1; i += 2) // Check both directions
+			{
+				int newRow = row + dir.first * i;
+				int newCol = col + dir.second * i;
+
+				if (board->inBounds(newRow, newCol) && board->isEmpty(newRow, newCol))
+					validMoves.push_back({newRow, newCol});
+			}
 		}
 	}
 	return validMoves;

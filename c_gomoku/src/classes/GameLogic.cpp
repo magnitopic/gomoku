@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/13 14:24:25 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 08:12:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	if (this->gameMode != "standard")
 	{
 		std::vector<std::pair<int, int>> capturedStones = checkCapture(*this->board, cell, this->currentPlayer->getColor());
-		if (capturedStones.empty())
+		if (!capturedStones.empty())
 		{
 			std::cout << T_YELLOW << "Capture detected!" << T_GRAY << std::endl;
 			this->handleCapture(capturedStones);

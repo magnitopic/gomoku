@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/13 19:29:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 08:14:25 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_move
 
 /* AI configuration parameters */
 
-#define MAX_DEPTH 1 // Maximum depth for the Min-Max algorithm
+#define MAX_DEPTH 3 // Maximum depth for the Min-Max algorithm
 
 // Pattern scores for the heuristic
 #define FIVE_IN_A_ROW 100000

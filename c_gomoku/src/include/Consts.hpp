@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:57:18 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/06 20:44:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 07:49:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ const std::vector<std::pair<int, int>> DIRECTIONS = {
 #define SCREEN_SIZE 920
 #define MARGIN 90
 #define BORDER_MARGIN 30
-
-#define BPP sizeof(int32_t)
 
 // Board values
 #define EMPTY 0

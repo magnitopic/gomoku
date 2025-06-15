@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/07 13:59:56 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 08:55:19 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,25 @@ bool Board::isFull() const
 bool Board::inBounds(int x, int y) const
 {
 	return (x >= 0 && x < this->size && y >= 0 && y < this->size);
+}
+
+std::vector<std::pair<int, int>> Board::getOccupiedTiles() const
+{
+	std::vector<std::pair<int, int>> occupiedTiles;
+
+	// Reserve space to avoid reallocations (worst case: all tiles occupied)
+	occupiedTiles.reserve(this->size * this->size);
+
+	for (int y = 0; y < this->size; ++y)
+	{
+		for (int x = 0; x < this->size; ++x)
+		{
+			if (!isEmpty(x, y))
+				occupiedTiles.push_back({x, y});
+		}
+	}
+
+	return occupiedTiles;
 }
 
 bool Board::checkNInARow(const std::pair<int, int> &lastMove, int color, const std::pair<int, int> &direction, int n) const
