@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 13:33:54 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/15 13:59:45 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,9 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 				bestMove->col = move.second;
 				bestMove->score = eval;
 			}
+			alpha = std::max(alpha, eval);
+			if (beta <= alpha)
+				break;
 		}
 		return maxEval;
 	}
@@ -194,6 +197,9 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 				bestMove->col = move.second;
 				bestMove->score = eval;
 			}
+			beta = std::min(beta, eval);
+			if (beta <= alpha)
+				break;
 		}
 		return minEval;
 	}
