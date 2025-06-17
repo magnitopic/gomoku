@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:10 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/09 18:40:20 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:34:47 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ public:
 	mlx_t *getMLX() const;
 
 	// Draw methods
-	void drawBoard(Player *player1, Player *player2);
-	void drawPlayerInfo(Player *player1, Player *player2);
+	void drawBoard();
+	void drawPlayerInfo(Player *player1, Player *player2, Player *currentPlayer);
 	void drawStone(int x, int y, int color);
 	void drawAllStones(const Board *board);
 

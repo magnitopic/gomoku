@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/08 12:46:28 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:34:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void Screen::keyCallback(mlx_key_data_t keydata, void *param)
 
 /* Methods */
 
-void Screen::drawBoard(Player *player1, Player *player2)
+void Screen::drawBoard()
 {
 	mlx_image_t *img = mlx_new_image(this->mlx, SCREEN_SIZE, SCREEN_SIZE);
 	if (!img)
@@ -158,12 +158,9 @@ void Screen::drawBoard(Player *player1, Player *player2)
 	}
 
 	mlx_image_to_window(this->mlx, img, 0, 0);
-
-	// draw player info on top of the board
-	Screen::drawPlayerInfo(player1, player2);
 }
 
-void Screen::drawPlayerInfo(Player *player1, Player *player2)
+void Screen::drawPlayerInfo(Player *player1, Player *player2, Player *currentPlayer)
 {
 	// Clear previous info areas
 	this->clearArea(10, 10, SCREEN_SIZE - 20, 30, WOOD);
@@ -171,6 +168,8 @@ void Screen::drawPlayerInfo(Player *player1, Player *player2)
 
 	// Player 1 info
 	std::string player1Info = "Player 1: Black";
+	if (currentPlayer && currentPlayer->getColor() == BLACK_STONE)
+		player1Info += " (Current Player)";
 	std::stringstream p1Timer;
 	double p1Time = player1->getTimer();
 	int seconds = static_cast<int>(p1Time);
@@ -181,6 +180,8 @@ void Screen::drawPlayerInfo(Player *player1, Player *player2)
 
 	// Player 2 info
 	std::string player2Info = "Player 2: White";
+	if (currentPlayer && currentPlayer->getColor() == WHITE_STONE)
+		player2Info += " (Current Player)";
 	std::stringstream p2Timer;
 	double p2Time = player2->getTimer();
 	seconds = static_cast<int>(p2Time);

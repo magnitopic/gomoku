@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 13:06:56 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:34:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	this->currentPlayer->startTimer();
 
 	// Update player info display
-	this->screen->drawPlayerInfo(&this->player1, &this->player2);
+	this->screen->drawPlayerInfo(&this->player1, &this->player2, this->currentPlayer);
 
 	return true;
 }
@@ -222,7 +222,7 @@ void GameLogic::handleCapture(const std::vector<std::pair<int, int>> &takenStone
 			this->board->set(col, row, this->currentPlayer->getColor());
 	}
 	this->screen->clearArea(0, 0, SCREEN_SIZE, SCREEN_SIZE, BLACK);
-	this->screen->drawBoard(&this->player1, &this->player2);
+	this->screen->drawBoard();
 	this->screen->drawAllStones(this->board);
 }
 
@@ -232,7 +232,10 @@ void GameLogic::startGame()
 	mlx_mouse_hook(this->screen->getMLX(), &GameLogic::mouseButtonCallback, this);
 
 	// Draw the initial board
-	this->screen->drawBoard(&this->player1, &this->player2);
+	this->screen->drawBoard();
+
+	// Draw player info
+	this->screen->drawPlayerInfo(&this->player1, &this->player2, this->currentPlayer);
 
 	// Start the main loop
 	mlx_loop(this->screen->getMLX());
