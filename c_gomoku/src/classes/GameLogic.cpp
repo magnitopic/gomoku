@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/17 12:34:41 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:27:08 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 		else if (game->player2.isAI() && game->currentPlayer == &game->player2)
 		{
 			std::pair<int, int> aiMove = game->player2.getAIMove(game->board);
-			game->handleTurn(aiMove);
+			if (!game->handleTurn(aiMove))
+				mlx_close_window(game->screen->getMLX());
 		}
 	}
 }
@@ -154,6 +155,10 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 {
 	int col = cell.first;
 	int row = cell.second;
+
+	// ! Temp
+	std::cout << T_CYAN << "Board evaluation for " << this->currentPlayer->getName() << " Player:" << std::endl;
+	std::cout << staticBoardEvaluation(this->board, this->currentPlayer->getColor()) << T_GRAY << std::endl;
 
 	// Place stone on board
 	this->board->set(col, row, this->currentPlayer->getColor());
