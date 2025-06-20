@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 13:02:33 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:55:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <vector>
 #include <numeric>
 #include "../include/gomoku.hpp"
+#include "./Player.hpp"
 
 class Board
 {
@@ -25,6 +26,8 @@ private:
 	int size;
 	std::string gameMode;
 	std::string difficulty;
+	Player *player1;
+	Player *player2;
 
 public:
 	Board();
@@ -35,6 +38,9 @@ public:
 
 	int getSize() const;
 	std::string getGameMode() const;
+	std::string getDifficulty() const;
+	Player *getPlayer1() const;
+	Player *getPlayer2() const;
 	int get(int x, int y) const;
 	void set(int x, int y, int value);
 	bool isEmpty(int x, int y) const;

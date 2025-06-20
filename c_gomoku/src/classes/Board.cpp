@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 13:04:47 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/20 10:45:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,21 @@ std::string Board::getGameMode() const
 	return this->gameMode;
 }
 
+std::string Board::getDifficulty() const
+{
+	return this->difficulty;
+}
+
+Player *Board::getPlayer1() const
+{
+	return this->player1;
+}
+
+Player *Board::getPlayer2() const
+{
+	return this->player2;
+}
+
 int Board::get(int x, int y) const
 {
 	if (Board::inBounds(x, y))
@@ -102,7 +117,6 @@ std::vector<std::pair<int, int>> Board::getOccupiedTiles() const
 {
 	std::vector<std::pair<int, int>> occupiedTiles;
 
-	// Reserve space to avoid reallocations (worst case: all tiles occupied)
 	occupiedTiles.reserve(this->size * this->size);
 
 	for (int y = 0; y < this->size; ++y)

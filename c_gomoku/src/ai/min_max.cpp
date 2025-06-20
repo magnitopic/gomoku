@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 13:59:45 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:34:14 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
 		// Check all 4 directions for valid moves
 		for (const std::pair<int, int> &dir : DIRECTIONS)
 		{
-			for (int i = -1; i <= 1; i += 2) // Check both directions
+			for (int i = -1; i <= 1; i += 2)
 			{
 				int newRow = row + dir.first * i;
 				int newCol = col + dir.second * i;
@@ -64,7 +64,7 @@ static std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
 	return validMoves;
 }
 
-static int evaluateBoard(Board *board)
+/* static int evaluateBoard(Board *board)
 {
 	// Simple evaluation function
 	int score = 0;
@@ -146,20 +146,20 @@ static int evaluateBoard(Board *board)
 
 	score = black_score - white_score;
 	return score;
-}
+} */
 
 int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, t_move *bestMove)
 {
 	// If at maximum depth, evaluate the board
 	if (depth >= MAX_DEPTH)
 	{
-		bestMove->score = evaluateBoard(board);
+		bestMove->score = staticBoardEvaluation(board, player);
 		return bestMove->score;
 	}
 
 	std::vector<std::pair<int, int>> validMoves = getValidMoves(board, player);
 	if (validMoves.empty())
-		return evaluateBoard(board);
+		return staticBoardEvaluation(board, player);
 
 	if (maximizingPlayer)
 	{
