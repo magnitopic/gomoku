@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/20 10:45:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:21:44 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,84 @@ bool Board::checkWin(int x, int y, int player) const
 			return true;
 	}
 	return false;
+}
+
+std::vector<int> Board::getLine(const std::pair<int, int> &direction, int lineIndex) const
+{
+	std::vector<int> stones;
+	int dx = direction.first;
+	int dy = direction.second;
+
+	if (dx == 1 && dy == 0) // Horizontal lines (rows)
+	{
+		if (lineIndex < 0 || lineIndex >= this->size)
+			return stones;
+
+		for (int x = 0; x < this->size; x++)
+			stones.push_back(get(x, lineIndex));
+	}
+	else if (dx == 0 && dy == 1) // Vertical lines (columns)
+	{
+		if (lineIndex < 0 || lineIndex >= this->size)
+			return stones;
+
+		for (int y = 0; y < this->size; y++)
+			stones.push_back(get(lineIndex, y));
+	}
+	else if (dx == 1 && dy == 1) // Main diagonals (top-left to bottom-right)
+	{
+		if (lineIndex < 0 || lineIndex >= 2 * this->size - 1)
+			return stones;
+
+		int startX, startY;
+		if (lineIndex < this->size)
+		{
+			startX = 0;
+			startY = lineIndex;
+		}
+		else
+		{
+			startX = lineIndex - this->size + 1;
+			startY = 0;
+		}
+
+		int x = startX;
+		int y = startY;
+		while (inBounds(x, y))
+		{
+			stones.push_back(get(x, y));
+			x += dx;
+			y += dy;
+		}
+	}
+	else if (dx == 1 && dy == -1) // Anti-diagonals (top-right to bottom-left)
+	{
+		if (lineIndex < 0 || lineIndex >= 2 * this->size - 1)
+			return stones;
+
+		int startX, startY;
+		if (lineIndex < this->size)
+		{
+			startX = 0;
+			startY = this->size - 1 - lineIndex;
+		}
+		else
+		{
+			startX = lineIndex - this->size + 1;
+			startY = this->size - 1;
+		}
+
+		int x = startX;
+		int y = startY;
+		while (inBounds(x, y))
+		{
+			stones.push_back(get(x, y));
+			x += dx;
+			y += dy;
+		}
+	}
+
+	return stones;
 }
 
 std::vector<std::pair<int, int>> Board::checkCapture(const std::pair<int, int> &lastMove, int color) const

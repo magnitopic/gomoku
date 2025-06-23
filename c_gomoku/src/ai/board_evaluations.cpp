@@ -6,158 +6,176 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 13:49:45 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/20 12:37:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:13:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ai_config.hpp"
 
-static bool isOpen(Board *board, int x, int y)
+static std::vector<t_pattern> analyzeLine(std::vector<int> line)
 {
-	return board->inBounds(x, y) && board->get(x, y) == EMPTY;
-}
+	std::vector<t_pattern> patterns;
+	int line_size = static_cast<int>(line.size());
 
-static t_pattern analyzeLine(Board *board, int startX, int startY, int dx, int dy, int color)
-{
-	t_pattern pattern = {0, 0, false, -1, 0};
-
-	// Count stones and check for patterns with gaps
-	int x = startX;
-	int y = startY;
-	int consecutiveStones = 0;
-	int totalStones = 0;
-	int maxConsecutive = 0;
-	int emptyCount = 0;
-	int sequenceLength = 0;
-
-	// First, check backward for open end
-	if (isOpen(board, startX - dx, startY - dy))
-		pattern.openEnds++;
-
-	// Analyze forward direction
-	std::vector<int> sequence; // 1 for stone, 0 for empty, -1 for enemy/boundary
-
-	for (int i = 0; i < 6; i++)
-	{ // Check up to 6 positions
-		if (!board->inBounds(x, y))
-		{
-			sequence.push_back(-1);
-			break;
-		}
-
-		int cell = board->get(x, y);
-		if (cell == color)
-		{
-			sequence.push_back(1);
-			consecutiveStones++;
-			totalStones++;
-			maxConsecutive = std::max(maxConsecutive, consecutiveStones);
-		}
-		else if (cell == EMPTY)
-		{
-			sequence.push_back(0);
-			emptyCount++;
-			if (consecutiveStones > 0 && emptyCount == 1 && !pattern.hasGap)
-			{
-				// First gap encountered
-				pattern.hasGap = true;
-				pattern.gapPosition = i;
-			}
-			consecutiveStones = 0;
-
-			// Stop if we encounter second empty space
-			if (emptyCount > 1)
-				break;
-		}
-		else
-		{
-			// Enemy stone or boundary
-			sequence.push_back(-1);
-			break;
-		}
-
-		x += dx;
-		y += dy;
-		sequenceLength++;
-	}
-
-	// Check for open end at the end
-	if (sequenceLength > 0 && sequence.back() == 0)
-		pattern.openEnds++;
-	else if (board->inBounds(x, y) && board->get(x, y) == EMPTY)
-		pattern.openEnds++;
-
-	pattern.length = maxConsecutive;
-	pattern.totalPotential = totalStones;
-
-	// Special pattern recognition for gaps
-	if (pattern.hasGap && pattern.totalPotential >= 4)
+	for (int start = 0; start < line_size; start++)
 	{
-		// This could be a dangerous pattern like XXX_X or XX_XX
-		pattern.length = pattern.totalPotential; // Treat as potential threat
-	}
+		int color = line[start];
+		if (color == EMPTY)
+			continue;
 
-	return pattern;
+		// Count consecutive stones of this color
+		int length = 0;
+		int end = start;
+
+		// Look for consecutive stones, allowing for one gap
+		while (end < line_size)
+		{
+			if (line[end] == color)
+			{
+				length++;
+				end++;
+			}
+			else if (line[end] == EMPTY && end + 1 < line_size && line[end + 1] == color)
+			{
+				// Found a gap - this creates a "jump" pattern
+				t_pattern gapPattern;
+				gapPattern.length = length;
+				gapPattern.hasGap = true;
+				gapPattern.gapPosition = end - start;
+				gapPattern.totalPotential = length + 1; // Include the potential stone
+
+				// Check open ends around the gap pattern
+				gapPattern.openEnds = 0;
+				if (start > 0 && line[start - 1] == EMPTY)
+					gapPattern.openEnds++;
+				if (end + 2 < line_size && line[end + 2] == EMPTY)
+					gapPattern.openEnds++;
+
+				patterns.push_back(gapPattern);
+				end += 2; // Skip the gap and next stone
+				length++; // Count the stone after gap
+			}
+			else
+			{
+				break; // Sequence ended
+			}
+
+			// Create pattern for consecutive sequence
+			if (length >= 2)
+			{
+				t_pattern pattern;
+				pattern.length = length;
+				pattern.hasGap = false;
+				pattern.gapPosition = -1;
+				pattern.totalPotential = length;
+
+				// Check for open ends
+				pattern.openEnds = 0;
+				if (start > 0 && line[start - 1] == EMPTY)
+					pattern.openEnds++;
+				if (end < line_size && line[end] == EMPTY)
+					pattern.openEnds++;
+
+				patterns.push_back(pattern);
+			}
+
+			start = end - 1; // Continue from where this sequence ended
+		}
+	}
+	return patterns;
 }
 
-std::vector<t_pattern> detectPatterns(Board *board, std::pair<int, int> start, std::pair<int, int> direction, int color)
+std::vector<t_pattern> detectPatterns(Board *board, int color)
 {
 	std::vector<t_pattern> patterns;
 
-	int x = start.first;
-	int y = start.second;
-	int dx = direction.first;
-	int dy = direction.second;
+	for (std::pair<int, int> direction : DIRECTIONS)
+	{
+		int iterations = direction == DIRECTIONS[0] || direction == DIRECTIONS[1] ? board->getSize() - 1 : (board->getSize() * 2) - 1;
 
-	t_pattern forward = analyzeLine(board, x, y, dx, dy, color);
-	t_pattern backward = analyzeLine(board, x, y, -dx, -dy, color);
+		for (int i = 0; i <= iterations; i++)
+		{
+			std::vector<int> line = board->getLine(direction, i);
+			if (line.size() < 5) // if line is less than five no win possible
+				continue;
 
-	t_pattern combinedPattern;
-	combinedPattern.length = forward.length + backward.length;
-	combinedPattern.openEnds = forward.openEnds + backward.openEnds;
-	combinedPattern.hasGap = forward.hasGap || backward.hasGap;
-	combinedPattern.totalPotential = forward.totalPotential + backward.totalPotential - 1; // Subtract 1 for the overlap at the start position
+			std::vector<int> filteredLine;
+			for (int cell : line)
+			{
+				if (cell == color || cell == EMPTY)
+					filteredLine.push_back(cell);
+				else
+					filteredLine.push_back(-1);
+			}
 
-	if (isOpen(board, x + dx * forward.length, y + dy * forward.length))
-		combinedPattern.openEnds++;
-	if (isOpen(board, x - dx * backward.length, y - dy * backward.length))
-		combinedPattern.openEnds++;
+			std::vector<t_pattern> linePatterns = analyzeLine(filteredLine);
 
-	if (combinedPattern.length >= 2)
-		patterns.push_back(combinedPattern);
+			patterns.insert(patterns.end(), linePatterns.begin(), linePatterns.end());
+		}
+	}
 
 	return patterns;
 }
 
-int evaluatePosition(Board *board, int x, int y, int color)
+static int evaluatePosition(Board *board, int color)
 {
 	int score = 0;
 
-	for (std::pair<int, int> direction : DIRECTIONS)
+	std::vector<s_pattern> patterns = detectPatterns(board, color);
+
+	for (const t_pattern &pattern : patterns)
 	{
-		std::vector<s_pattern> patterns = detectPatterns(board, {x, y}, direction, color);
-
-		for (const s_pattern &pattern : patterns)
+		// immediate win
+		if (pattern.length >= 5)
 		{
-			if (pattern.length >= 5)
-				return FIVE_IN_A_ROW;
-			else if (pattern.openEnds == 2 && pattern.length == 4)
-				score += OPEN_FOUR;
-			else if (pattern.openEnds == 1 && pattern.length == 4)
-				score += FOUR;
-			else if (pattern.openEnds == 2 && pattern.length == 3)
-				score += OPEN_THREE;
-			else if (pattern.openEnds == 1 && pattern.length == 3)
-				score += THREE;
-			else if (pattern.openEnds == 2 && pattern.length == 2)
-				score += OPEN_TWO;
-			else if (pattern.openEnds == 1 && pattern.length == 2)
-				score += TWO;
-
-			// Bonus for patterns with strategic gaps
-			if (pattern.hasGap && pattern.totalPotential >= 4)
-				score += THREE;
+			std::cout << "Found a Five" << std::endl;
+			return FIVE_IN_A_ROW;
 		}
+
+		// score based patterns
+		if (pattern.length == 4)
+		{
+			if (pattern.openEnds == 2)
+			{
+				std::cout << "Found a Four open" << std::endl;
+				score += OPEN_FOUR;
+			}
+			else if (pattern.openEnds == 1)
+			{
+				std::cout << "Found a Four closed" << std::endl;
+				score += FOUR;
+			}
+		}
+		else if (pattern.length == 3)
+		{
+			if (pattern.openEnds == 2)
+			{
+				std::cout << "Found a Three Open" << std::endl;
+				score += OPEN_THREE;
+			}
+			else if (pattern.openEnds == 1)
+			{
+				std::cout << "Found a Three closed" << std::endl;
+				score += THREE;
+			}
+		}
+		else if (pattern.length == 2)
+		{
+			if (pattern.openEnds == 2)
+			{
+				std::cout << "Found a Two open" << std::endl;
+				score += OPEN_TWO;
+			}
+			else if (pattern.openEnds == 1)
+			{
+				std::cout << "Found a Two closed" << std::endl;
+				score += TWO;
+			}
+		}
+
+		// Bonus for gap patterns (they can be deceptive)
+		if (pattern.hasGap && pattern.totalPotential >= 4)
+			score += (pattern.openEnds == 2) ? OPEN_THREE / 2 : THREE / 2;
 	}
 
 	return score;
@@ -165,19 +183,14 @@ int evaluatePosition(Board *board, int x, int y, int color)
 
 int staticBoardEvaluation(Board *board, int player)
 {
-	int blackScore = 0;
-	int whiteScore = 0;
+	std::cout << T_BLUE << "Evaluating board!" << std::endl;
+	// Evaluate both colors
+	int blackScore = evaluatePosition(board, BLACK_STONE);
+	int whiteScore = evaluatePosition(board, WHITE_STONE);
 
-	board->getOccupiedTiles();
-
-	for (const auto &tile : board->getOccupiedTiles())
-	{
-		int posScore = evaluatePosition(board, tile.first, tile.second, player);
-		if (board->get(tile.first, tile.second) == BLACK_STONE)
-			blackScore += posScore;
-		else
-			whiteScore += posScore;
-	}
-
-	return whiteScore - blackScore;
+	// Return score from the perspective of the current player
+	if (player == BLACK_STONE)
+		return blackScore - whiteScore;
+	else
+		return whiteScore - blackScore;
 }

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/20 12:34:02 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:18:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_pattern
 
 /* AI configuration parameters */
 
-#define MAX_DEPTH 3		// Maximum depth for the Min-Max algorithm
+#define MAX_DEPTH 2		// Maximum depth for the Min-Max algorithm
 #define MAX_BRANCHING 6 // Maximum number of branches for each node
 
 // Pattern scores for the heuristic
@@ -53,5 +53,6 @@ typedef struct s_pattern
 // Algorithm functions
 int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, t_move *bestMove);
 int staticBoardEvaluation(Board *board, int player);
+t_pattern analyzeLine(Board *board, int startX, int startY, int dx, int dy, int color);
 
 #endif

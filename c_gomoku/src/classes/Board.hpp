@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/18 13:55:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:32:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ public:
 	Player *getPlayer1() const;
 	Player *getPlayer2() const;
 	int get(int x, int y) const;
+	std::vector<int> getLine(const std::pair<int, int> &direction, int lineIndex) const;
 	void set(int x, int y, int value);
 	bool isEmpty(int x, int y) const;
 	bool isEmpty() const;
