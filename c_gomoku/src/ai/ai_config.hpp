@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/23 21:48:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:16:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ class Player;
 
 #include <iostream>
 #include <climits>
+#include <map>
 #include "../classes/Board.hpp"
 #include "../classes/Player.hpp"
 
@@ -32,14 +33,15 @@ typedef struct s_pattern
 	int length;
 	int openEnds; // 0, 1, or 2 open ends
 	bool hasGap;
-	int gapPosition;
-	int totalPotential; // Total length including gaps
+	int player;
+	int threatLevel;								 // 0-5, 5 being immediate win/block needed
+	std::vector<std::pair<int, int>> blockPositions; // Where to block this threat
 } t_pattern;
 
-/* AI configuration parameters */
+/* AI configuration parameters - AGGRESSIVE SETTINGS */
 
-#define MAX_DEPTH 3		// Maximum depth for the Min-Max algorithm
-#define MAX_BRANCHING 6 // Maximum number of branches for each node
+#define MAX_DEPTH 4		 // Deeper search for aggressive play
+#define MAX_BRANCHING 10 // More branches to find forcing moves
 
 // Pattern scores for the heuristic
 #define FIVE_IN_A_ROW 1000000
@@ -52,7 +54,8 @@ typedef struct s_pattern
 
 // Algorithm functions
 int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, t_move *bestMove);
-int staticBoardEvaluation(Board *board, int player);
-t_pattern analyzeLine(Board *board, int startX, int startY, int dx, int dy, int color);
+int staticBoardEvaluation(Board *board, int player, int depth);
+std::vector<t_pattern> detectPatterns(Board *board, int color);
+std::vector<std::pair<int, int>> findCriticalMoves(Board *board, int opponent);
 
 #endif
