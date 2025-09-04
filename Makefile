@@ -18,9 +18,7 @@ OBJS			= $(SRC:.cpp=.o)
 CXX				=	c++
 RM				=	rm -f
 CXXFLAGS		=	-Wall -Werror -Wextra -std=c++11 #-g3 -fsanitize=address
-LIBX_FLAGS		=	-framework Cocoa -framework OpenGL -framework IOKit -L$(MLX_SRC)/build -lmlx42 -lglfw
-# Flags for linux
-LX_LIBX_FLAGS	=	-Iinclude -ldl -lglfw -pthread -lm
+MLX_FLAGS	=	-Iinclude -ldl -lglfw -pthread -lm
 
 # MLX42
 MLX				=	$(MLX_SRC)/build/libmlx42.a
@@ -41,10 +39,11 @@ all:		$(MLX) $(NAME)
 			@printf "$(BLUE)==> $(CYAN)$(NAME) compiled ✅\n\n$(RESET)"
 
 $(NAME):	$(OBJS)
-			@$(CXX) $(CXXFLAGS) $(LX_LIBX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
-#			@$(CXX) $(CXXFLAGS) $(LX_LIBX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
+			@$(CXX) $(CXXFLAGS) $(MLX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
 
 $(MLX):
+			@git submodule init
+			@git submodule update
 			@printf "$(BLUE)==> $(CYAN)Building MLX42 library... 🔧$(RESET)\n"
 			@cmake -B $(MLX_SRC)/build -S $(MLX_SRC)
 			@cmake --build $(MLX_SRC)/build -j4
