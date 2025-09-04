@@ -6,14 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 13:49:45 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/25 12:16:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:00:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./ai_config.hpp"
 #include <algorithm>
 #include <memory>
-
+#include "../../include/ai/ai_config.hpp"
 
 // CRITICAL: Find immediate win/block positions
 static std::vector<std::pair<int, int>> findImmediateThreats(Board *board, int player)

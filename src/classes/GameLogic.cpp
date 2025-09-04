@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/24 09:53:25 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:59:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "GameLogic.hpp"
 #include <unistd.h>
+#include "../../include/classes/GameLogic.hpp"
 
 GameLogic::GameLogic() {}
 

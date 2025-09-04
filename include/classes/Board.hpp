@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/20 20:32:59 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:55:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
-#include "../include/gomoku.hpp"
+#include "../gomoku.hpp"
 #include "./Player.hpp"
 
 class Board

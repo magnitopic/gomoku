@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:19:32 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/07 13:02:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:55:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <string>
 #include <ctime>
 #include <fstream>
-#include "../include/gomoku.hpp"
+#include "../gomoku.hpp"
 #include "Player.hpp"
 
 // Forward declaration to avoid circular dependency

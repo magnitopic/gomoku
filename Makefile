@@ -1,19 +1,30 @@
 # Gomoku
 NAME			=	Gomoku
 
-OBJS			=	build \
-					dist
+SRC				=	src/main.cpp \
+					src/ai/min_max.cpp \
+					src/game_config.cpp \
+					src/board_checks.cpp \
+					src/classes/Board.cpp \
+					src/classes/Player.cpp \
+					src/classes/Screen.cpp \
+					src/classes/History.cpp \
+					src/classes/GameLogic.cpp \
+					src/ai/board_evaluations.cpp
 
-GOMOKU_SRC		=	src/min-max/min-max.c \
-					src/min-max/debug-visualizer.c \
-					src/min-max/direction-vectors.c
+OBJS			= $(SRC:.cpp=.o)
 
-C_OBJS			=	src/min-max/min-max.so
+# Compiler
+CXX				=	c++
+RM				=	rm -f
+CXXFLAGS		=	-Wall -Werror -Wextra -std=c++11 #-g3 -fsanitize=address
+LIBX_FLAGS		=	-framework Cocoa -framework OpenGL -framework IOKit -L$(MLX_SRC)/build -lmlx42 -lglfw
+# Flags for linux
+LX_LIBX_FLAGS	=	-Iinclude -ldl -lglfw -pthread -lm
 
-CC				=	cc
-RM				=	rm -fr
-CCFLAGS			=	-shared -fPIC -Wall -Werror #-Wextra -g3 -fsanitize=address
-
+# MLX42
+MLX				=	$(MLX_SRC)/build/libmlx42.a
+MLX_SRC			=	./MLX42
 
 # Colours
 RED				=	\033[0;31m
@@ -26,28 +37,27 @@ WHITE			=	\033[0;37m
 RESET			=	\033[0m
 
 # Rules
-all:		$(NAME)
-			@printf "$(BLUE)==> $(CYAN)Gomoku compiled ✅\n\n$(RESET)"
+all:		$(MLX) $(NAME)
+			@printf "$(BLUE)==> $(CYAN)$(NAME) compiled ✅\n\n$(RESET)"
 
-$(NAME):	
-			@pyinstaller --onefile --distpath . src/gomoku.py
-			@rm -f $(NAME).spec
-			@${CC} $(CCFLAGS) -o $(C_OBJS) $(GOMOKU_SRC)
+$(NAME):	$(OBJS)
+			@$(CXX) $(CXXFLAGS) $(LX_LIBX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
+#			@$(CXX) $(CXXFLAGS) $(LX_LIBX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
 
-ai:
-			@$(RM) $(C_OBJS)
-			@${CC} $(CCFLAGS) -o $(C_OBJS) $(GOMOKU_SRC)
-			@printf "$(BLUE)==> $(CYAN)Gomoku AI compiled ✅\n\n$(RESET)"
+$(MLX):
+			@printf "$(BLUE)==> $(CYAN)Building MLX42 library... 🔧$(RESET)\n"
+			@cmake -B $(MLX_SRC)/build -S $(MLX_SRC)
+			@cmake --build $(MLX_SRC)/build -j4
 
 clean:
-			@$(RM) $(OBJS) $(NAME).spec
-			@$(RM) $(C_OBJS)
-			@printf "\n$(BLUE)==> $(RED)Removed Gomoku 🗑️\n$(RESET)"
+			@$(RM) $(OBJS)
+			@printf "\n$(BLUE)==> $(RED)Removed $(NAME) 🗑️\n$(RESET)"
 
 fclean:		clean
+			@$(RM) game_history.txt
 			@$(RM) $(NAME)
 
 re:			fclean all
-			@printf "$(BLUE)==> $(CYAN)Gomoku recompiled 🔄\n$(RESET)"
+			@printf "$(BLUE)==> $(CYAN)$(NAME) recompiled 🔄\n$(RESET)"
 
-.PHONY:		all ai clean fclean re
+.PHONY:		all clean fclean re

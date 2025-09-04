@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/25 12:14:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:00:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ai_config.hpp"
 #include <set>
 #include <algorithm>
+#include "../../include/ai/ai_config.hpp"
 
 static bool checkIllegalMove(Board *board, const std::pair<int, int> &cell, int color)
 {

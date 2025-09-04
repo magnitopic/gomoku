@@ -6,12 +6,12 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/17 12:34:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:59:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Screen.hpp"
-#include "Player.hpp"
+#include "../../include/classes/Screen.hpp"
+#include "../../include/classes/Player.hpp"
 
 Screen::Screen() {}
 

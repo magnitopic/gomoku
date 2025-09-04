@@ -12,5 +12,4 @@ Gomoku
 *.so
 history.txt
 *.o
-MLX42/
 game_history.txt

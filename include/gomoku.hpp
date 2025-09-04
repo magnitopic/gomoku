@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:36:16 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/23 21:44:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:19:04 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iostream>
 #include <string>
 
-#include "Consts.hpp"
+#include "consts.hpp"
 #include "structs.hpp"
 #include <vector>
 #include <algorithm>

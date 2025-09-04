@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:10 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/17 12:34:47 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:19:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include <iomanip>
 #include <sstream>
 #include "../../MLX42/include/MLX42/MLX42.h"
-#include "../include/Consts.hpp"
-#include "../classes/Player.hpp"
-#include "../classes/Board.hpp"
+#include "../consts.hpp"
+#include "./Player.hpp"
+#include "./Board.hpp"
 
 class Screen
 {

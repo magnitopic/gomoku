@@ -6,12 +6,12 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:11:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/09 18:47:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:00:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/gomoku.hpp"
 #include <algorithm>
+#include "../include/gomoku.hpp"
 
 struct ToLower
 {

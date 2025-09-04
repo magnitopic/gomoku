@@ -6,12 +6,12 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 05:50:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/15 13:09:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:58:49 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/gomoku.hpp"
-#include "classes/Board.hpp"
+#include "../include/gomoku.hpp"
+#include "../include/classes/Board.hpp"
 
 /******************************
  Helper functions
