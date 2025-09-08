@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/06/25 12:16:59 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:18:09 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ typedef struct s_pattern
 	std::vector<std::pair<int, int>> blockPositions; // Where to block this threat
 } t_pattern;
 
+enum e_patterns
+{
+	e_FIVE_IN_A_ROW,
+	e_OPEN_FOUR,
+	e_FOUR,
+	e_OPEN_THREE,
+	e_THREE,
+	e_OPEN_TWO,
+	e_TWO
+};
+
 /* AI configuration parameters - AGGRESSIVE SETTINGS */
 
 #define MAX_DEPTH 4		 // Deeper search for aggressive play
@@ -51,11 +62,12 @@ typedef struct s_pattern
 #define THREE 1000
 #define OPEN_TWO 200
 #define TWO 50
+#define BLOCKED_TWO 10
 
 // Algorithm functions
 int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, t_move *bestMove);
-int staticBoardEvaluation(Board *board, int player, int depth);
-std::vector<t_pattern> detectPatterns(Board *board, int color);
-std::vector<std::pair<int, int>> findCriticalMoves(Board *board, int opponent);
+int staticBoardEvaluation(Board *board, int player);
+bool hasWon(Board *board, int player);
+bool isIllegalMove(Board *board, int x, int y, int player);
 
 #endif

@@ -3,6 +3,7 @@ NAME			=	Gomoku
 
 SRC				=	src/main.cpp \
 					src/ai/min_max.cpp \
+					src/ai/patters.cpp \
 					src/game_config.cpp \
 					src/board_checks.cpp \
 					src/classes/Board.cpp \
@@ -10,7 +11,7 @@ SRC				=	src/main.cpp \
 					src/classes/Screen.cpp \
 					src/classes/History.cpp \
 					src/classes/GameLogic.cpp \
-					src/ai/board_evaluations.cpp
+					src/ai/static_board_evaluations.cpp
 
 OBJS			= $(SRC:.cpp=.o)
 

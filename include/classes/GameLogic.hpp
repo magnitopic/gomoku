@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/04 12:56:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:42:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ private:
 	// Mouse event handling
 	static void mouseButtonCallback(mouse_key_t button, action_t action, modifier_key_t mods, void *param);
 
+	// TODO-> move checks to board_checks.cpp
 	bool applyMove(const std::pair<int, int> &cell);
 	bool checkIllegalMove(const std::pair<int, int> &cell);
 	void handleCapture(const std::vector<std::pair<int, int>> &takenStones);
