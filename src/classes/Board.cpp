@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/04 12:59:18 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/10 22:58:56 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,9 +246,17 @@ std::vector<int> Board::getLine(const std::pair<int, int> &direction, int lineIn
 			y += dy;
 		}
 	}
+
+	if ((direction.first == 1 && direction.second == 1) ||
+		(direction.first == 1 && direction.second == -1))
+		std::cout << T_PURPLE << "Line number: " << lineIndex << ". Line length: " << stones.size() << T_BLUE << std::endl;
+
 	// if no stones return empty vector
 	if (std::all_of(stones.begin(), stones.end(), [](int stone)
 					{ return stone == 0; }))
+		return std::vector<int>();
+	// if the line is less than 5 positions long return empty vector
+	if (stones.size() < 5)
 		return std::vector<int>();
 
 	return stones;

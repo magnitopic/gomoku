@@ -6,14 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 23:36:17 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/08 18:37:04 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/10 22:36:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ai/ai_config.hpp"
 
 // TODO -> optimize by using board->checkWin, passing the x y values that have changed
-bool hasWon(Board *board, int player)
+/* bool hasWon(Board *board, int player)
 {
 	for (int x = 0; x < board->getSize(); x++)
 	{
@@ -45,11 +45,11 @@ bool isIllegalMove(Board *board, int x, int y, int player)
 			return true;
 	}
 	return false;
-}
+} */
 
-e_patterns classifyPattern(std::vector<int> line, int player)
+/* e_patterns classifyPattern(std::vector<int> line, int player)
 {
-	int opponent = player * -1;
+	int opponent = -player;
 	std::vector<std::pair<std::vector<int>, e_patterns>> patterns = {
 		{{player, player, player, player, player}, e_FIVE_IN_A_ROW},
 		{{0, player, player, player, player, 0}, e_OPEN_FOUR},
@@ -71,6 +71,6 @@ e_patterns classifyPattern(std::vector<int> line, int player)
 		{{opponent, player, 0, player, 0, 0}, e_TWO},
 		{{opponent, player, 0, 0, player, 0}, e_TWO},
 		{{0, player, player, 0, 0}, e_OPEN_TWO},
-
 	};
 }
+ */

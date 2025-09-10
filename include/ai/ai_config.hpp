@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/08 18:18:09 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/10 22:14:18 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ typedef struct s_pattern
 	int length;
 	int openEnds; // 0, 1, or 2 open ends
 	bool hasGap;
-	int player;
-	int threatLevel;								 // 0-5, 5 being immediate win/block needed
-	std::vector<std::pair<int, int>> blockPositions; // Where to block this threat
+	int gapPosition;
+	int totalPotential; // Total length including gaps
 } t_pattern;
 
 enum e_patterns
@@ -62,7 +61,6 @@ enum e_patterns
 #define THREE 1000
 #define OPEN_TWO 200
 #define TWO 50
-#define BLOCKED_TWO 10
 
 // Algorithm functions
 int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, t_move *bestMove);

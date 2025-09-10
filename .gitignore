@@ -13,3 +13,4 @@ Gomoku
 history.txt
 *.o
 game_history.txt
+*.out
