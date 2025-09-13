@@ -3,13 +3,13 @@ NAME			=	Gomoku
 
 SRC				=	src/main.cpp \
 					src/ai/min_max.cpp \
-					src/ai/patters.cpp \
 					src/game_config.cpp \
 					src/board_checks.cpp \
 					src/classes/Board.cpp \
 					src/classes/Player.cpp \
 					src/classes/Screen.cpp \
 					src/classes/History.cpp \
+					src/ai/evaluate_line.cpp \
 					src/classes/GameLogic.cpp \
 					src/ai/static_board_evaluations.cpp
 
@@ -18,7 +18,7 @@ OBJS			= $(SRC:.cpp=.o)
 # Compiler
 CXX				=	c++
 RM				=	rm -f
-CXXFLAGS		=	-Wall -Werror -Wextra -std=c++11 #-g3 -fsanitize=address
+CXXFLAGS		=	-Wall -Werror -Wextra -std=c++11 -g3 -fsanitize=address
 MLX_FLAGS	=	-Iinclude -ldl -lglfw -pthread -lm
 
 # MLX42
