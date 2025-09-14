@@ -6,14 +6,14 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 16:56:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/14 17:30:48 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <algorithm>
 #include "../../include/ai/ai_config.hpp"
+#include "../../include/structs.hpp"
 
-int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, t_move *bestMove)
+int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove)
 {
 	// If at maximum depth, evaluate the board
 	if (depth >= MAX_DEPTH)
@@ -48,7 +48,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 				return FIVE_IN_A_ROW;
 			}
 
-			t_move tempMove;
+			s_move tempMove;
 			int eval = minMax(board, depth + 1, alpha, beta, false, player, &tempMove);
 
 			board->set(move.first, move.second, EMPTY);
@@ -88,7 +88,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 				return -FIVE_IN_A_ROW;
 			}
 
-			t_move tempMove;
+			s_move tempMove;
 			int eval = minMax(board, depth + 1, alpha, beta, true, player, &tempMove);
 
 			board->set(move.first, move.second, EMPTY);

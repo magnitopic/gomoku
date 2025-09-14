@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/04 12:59:37 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/14 17:32:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	/* std::cout << T_CYAN << "Board evaluation for " << this->currentPlayer->getName() << " Player:" << std::endl;
 	std::cout << staticBoardEvaluation(this->board, this->currentPlayer->getColor()) << T_GRAY << std::endl; */
 
-	/* t_pattern line = analyzeLine(this->board, cell.first, cell.second, int dx, int dy, int color) */
+	/* s_pattern line = analyzeLine(this->board, cell.first, cell.second, int dx, int dy, int color) */
 
 	// Place stone on board
 	this->board->set(col, row, this->currentPlayer->getColor());

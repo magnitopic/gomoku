@@ -6,12 +6,10 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 13:49:45 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/13 13:37:01 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/14 17:14:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <algorithm>
-#include <memory>
 #include "../../include/ai/ai_config.hpp"
 
 int detectPatterns(Board *board, int color)
@@ -21,8 +19,7 @@ int detectPatterns(Board *board, int color)
 	for (std::pair<int, int> direction : DIRECTIONS)
 	{
 		// get the number of lines to check based on direction
-		int iterations = direction == DIRECTIONS[0] || direction == DIRECTIONS[1] ? board->getSize() - 1 : (board->getSize() * 2) - 1;
-		/* int starter = direction == DIRECTIONS[0] || direction == DIRECTIONS[1] ? 0 : 3; */
+		int iterations = direction == DIRECTIONS[0] || direction == DIRECTIONS[1] ? board->getSize() - 1 : (board->getSize() * 2) - 2;
 
 		for (int i = 0; i <= iterations; i++)
 		{

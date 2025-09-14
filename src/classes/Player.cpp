@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/04 12:59:50 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/14 17:30:57 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ bool Player::addTakenStones(int count)
 
 std::pair<int, int> Player::getAIMove(Board *board) const
 {
-	t_move *bestMove = new t_move{-1, -1, 0};
+	s_move *bestMove = new s_move{-1, -1, 0};
 
 	minMax(board, 0, INT_MIN, INT_MAX, true, this->color, bestMove);
 

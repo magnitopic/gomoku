@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:03:00 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/13 13:36:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/14 17:36:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ std::vector<s_pattern> resolveOverlaps(std::vector<s_pattern> &matches)
 		result.push_back(matches[i]);
 
 		// Find the pattern definition to get actual length
-		std::vector<s_pattern_match> patternDefs = getPatternDefinitions(1); // Dummy player for length lookup
+		std::vector<s_pattern_match> patternDefs = getPatternDefinitions(1);
 		int length1 = 0;
 		for (const s_pattern_match &def : patternDefs)
 		{
