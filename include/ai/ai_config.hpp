@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/13 16:17:17 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/14 16:36:44 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ typedef struct s_pattern_match
 int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, t_move *bestMove);
 int staticBoardEvaluation(Board *board, int player);
 int evaluateLine(const std::vector<int> &line, int player);
+std::vector<std::pair<int, int>> getValidMoves(Board *board, int color);
 
 #endif
