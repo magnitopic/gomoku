@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/19 12:38:49 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:41:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Player;
 #include "../classes/Player.hpp"
 #include "../structs.hpp"
 
-/* AI configuration parameters - AGGRESSIVE SETTINGS */
+/* AI configuration parameters */
 
 #define MAX_DEPTH 5	   // Deeper search for aggressive play
 #define MAX_BRANCHES 2 // More branches to find forcing moves

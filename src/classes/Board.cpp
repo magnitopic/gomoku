@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:41:00 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:54:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,22 +113,38 @@ bool Board::inBounds(int x, int y) const
 	return (x >= 0 && x < this->size && y >= 0 && y < this->size);
 }
 
-std::vector<std::pair<int, int>> Board::getOccupiedTiles() const
+std::vector<std::pair<int, int>> Board::getAdjacentEmptyPositions() const
 {
-	std::vector<std::pair<int, int>> occupiedTiles;
+	std::vector<std::pair<int, int>> adjacentEmpty;
+	std::vector<std::vector<bool>> visited(this->size, std::vector<bool>(this->size, false));
 
-	occupiedTiles.reserve(this->size * this->size);
-
+	// Iterate through all occupied positions
 	for (int y = 0; y < this->size; ++y)
 	{
 		for (int x = 0; x < this->size; ++x)
 		{
-			if (!isEmpty(x, y))
-				occupiedTiles.push_back({x, y});
+			if (get(x, y) != EMPTY)
+			{
+				// Check all 8 adjacent positions
+				for (const auto &dir : ALL_DIRECTIONS)
+				{
+					int newX = x + dir.first;
+					int newY = y + dir.second;
+
+					// Check if position is empty and not already processed
+					if (get(newX, newY) == EMPTY &&
+						!visited[newY][newX])
+					{
+
+						adjacentEmpty.push_back({newX, newY});
+						visited[newY][newX] = true;
+					}
+				}
+			}
 		}
 	}
 
-	return occupiedTiles;
+	return adjacentEmpty;
 }
 
 bool Board::checkNInARow(const std::pair<int, int> &lastMove, int color, const std::pair<int, int> &direction, int n) const

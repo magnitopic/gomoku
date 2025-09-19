@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Consts.hpp                                         :+:      :+:    :+:   */
+/*   consts.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:57:18 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/04 13:18:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:54:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ const std::vector<std::pair<int, int>> DIRECTIONS = {
 	{0, 1}, // Vertical
 	{1, 1}, // Diagonal (up-right)
 	{1, -1} // Diagonal (up-left)
+};
+
+const std::vector<std::pair<int, int>> ALL_DIRECTIONS = {
+	{-1, -1}, // Diagonal (down-left)
+	{-1, 0},  // Vertical (up)
+	{-1, 1},  // Diagonal (down-right)
+	{0, -1},  // Horizontal (left)
+	{0, 1},	  // Horizontal (right)
+	{1, -1},  // Diagonal (up-left)
+	{1, 0},	  // Vertical (down)
+	{1, 1}	  // Diagonal (up-right)
 };
 
 // Screen dimensions

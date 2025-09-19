@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:43:49 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:50:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,23 @@ static void sortMoves(Board *board, int color, std::vector<std::pair<int, int>> 
 
 std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
 {
-	// use a set to avoid duplicate moves
-	std::set<std::pair<int, int>> validMoves;
-	std::vector<std::pair<int, int>> occupiedTiles = board->getOccupiedTiles();
-	for (const std::pair<int, int> &tile : occupiedTiles)
-	{
-		int row = tile.first;
-		int col = tile.second;
+	std::vector<std::pair<int, int>> candidates = board->getAdjacentEmptyPositions();
+	std::vector<std::pair<int, int>> validMoves;
 
-		// Check all 4 directions for valid moves
-		for (const std::pair<int, int> &dir : DIRECTIONS)
+	if (board->getGameMode() == "standard")
+	{
+		for (const auto &move : candidates)
 		{
-			for (int i = -1; i <= 1; i += 2)
-			{
-				int newRow = row + dir.first * i;
-				int newCol = col + dir.second * i;
-				if (!checkIllegalMove(board, {newRow, newCol}, color))
-					validMoves.insert({newRow, newCol});
-			}
+			if (!checkIllegalMove(board, move, color))
+				validMoves.push_back(move);
 		}
 	}
+	else
+	{
+		// In non-standard modes, all adjacent empty positions are valid
+		validMoves = candidates;
+	}
 
-	std::vector<std::pair<int, int>> sortedMoves(validMoves.begin(), validMoves.end());
-	sortMoves(board, color, sortedMoves);
-	return sortedMoves;
+	sortMoves(board, color, validMoves);
+	return validMoves;
 }

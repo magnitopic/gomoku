@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:30:57 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/19 13:17:02 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ std::pair<int, int> Player::getAIMove(Board *board) const
 
 	minMax(board, 0, INT_MIN, INT_MAX, true, this->color, bestMove);
 
+	std::cout << T_CYAN << "(AI) chooses move: (" << bestMove->row << ", " << bestMove->col << ") With a score of: " << bestMove->score << T_GRAY << std::endl;
 	std::pair<int, int> result = std::make_pair(bestMove->row, bestMove->col);
 	delete bestMove;
 	return result;
