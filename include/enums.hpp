@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 17:34:09 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:35:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/19 12:39:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 enum e_patterns
 {
 	e_FIVE_IN_A_ROW,
+	e_STONE_CAPTURE,
 	e_OPEN_FOUR,
 	e_FOUR,
 	e_OPEN_THREE,

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:03:00 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:36:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/19 12:40:26 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,15 @@
 
 std::vector<s_pattern_match> getPatternDefinitions(int player)
 {
+	int opponent = -player;
+
 	return {
 		// Five in a row
 		{{player, player, player, player, player}, e_FIVE_IN_A_ROW, FIVE_IN_A_ROW},
+
+		// Capture opportunities
+		{{player, opponent, opponent, player}, e_STONE_CAPTURE, STONE_CAPTURE},
+		{{opponent, player, player, opponent}, e_STONE_CAPTURE, -STONE_CAPTURE},
 
 		// Open four
 		{{0, player, player, player, player, 0}, e_OPEN_FOUR, OPEN_FOUR},
@@ -141,7 +147,7 @@ std::vector<s_pattern> findPatterns(const std::vector<int> &line, int player)
 		size_t patternSize = patternDef.pattern.size();
 
 		if (patternSize > line.size())
-				continue;
+			continue;
 		for (size_t i = 0; i <= line.size() - patternSize; i++)
 		{
 			bool matches = true;
