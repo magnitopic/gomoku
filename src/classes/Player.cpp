@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/19 13:17:02 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:05:53 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ Player::Player(int color, bool ai)
 	this->is_ai = ai;
 	this->takenStones = 0;
 	this->timer = 0;
+	this->totalTime = 0;
+	this->playsCount = 0;
 }
 
 Player::Player(const Player &copy)
@@ -82,6 +84,7 @@ void Player::stopTimer()
 	auto endTime = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration<double>(endTime - this->startTime);
 	this->timer = duration.count();
+	this->totalTime += duration.count();
 }
 
 bool Player::addTakenStones(int count)
@@ -102,4 +105,11 @@ std::pair<int, int> Player::getAIMove(Board *board) const
 	std::pair<int, int> result = std::make_pair(bestMove->row, bestMove->col);
 	delete bestMove;
 	return result;
+}
+
+void Player::printTimeAverage()
+{
+	this->playsCount++;
+	double averageTime = this->totalTime / this->playsCount;
+	std::cout << "Average time per move: " << std::fixed << std::setprecision(3) << averageTime << "s" << std::endl;
 }

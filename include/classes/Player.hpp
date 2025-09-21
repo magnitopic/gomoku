@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/04 12:56:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:05:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <string>
 #include <chrono>
+#include <iomanip>
 #include "../ai/ai_config.hpp"
 
 class Player
@@ -27,6 +28,8 @@ private:
 	int takenStones;
 	double timer;
 	std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
+	double totalTime;
+	int playsCount = 0;
 
 public:
 	Player();
@@ -47,6 +50,7 @@ public:
 	void stopTimer();
 	bool addTakenStones(int count);
 	std::pair<int, int> getAIMove(Board *board) const;
+	void printTimeAverage();
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/19 13:11:17 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:05:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,9 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	this->screen->drawStone(col, row, this->currentPlayer->getColor() == BLACK_STONE ? BLACK : WHITE);
 
 	this->currentPlayer->stopTimer();
+	
+	// Increment play count for the player who just made the move
+	this->currentPlayer->printTimeAverage();
 
 	// Add move to history
 	if (this->save_history)
