@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/23 16:50:34 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/23 17:09:29 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
 	std::vector<std::pair<int, int>> candidates = board->getAdjacentEmptyPositions();
 	std::vector<std::pair<int, int>> validMoves;
 
-	if (board->getGameMode() == "standard")
+	if (board->getGameMode() == "subject")
 	{
 		for (const auto &move : candidates)
 		{
