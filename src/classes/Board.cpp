@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/19 18:54:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/20 18:48:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,4 +328,13 @@ std::vector<std::pair<int, int>> Board::checkCapture(const std::pair<int, int> &
 	}
 
 	return stonesToDelete;
+}
+
+uint64_t Board::getCurrentBoardHash() const
+{
+	uint64_t hash = 0;
+
+	for (int i = 0; i < this->size * this->size; ++i)
+		hash = hash * 31 + (this->board[i] + 1);
+	return hash;
 }

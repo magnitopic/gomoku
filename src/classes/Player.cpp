@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/21 14:05:53 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:14:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,5 @@ void Player::printTimeAverage()
 {
 	this->playsCount++;
 	double averageTime = this->totalTime / this->playsCount;
-	std::cout << "Average time per move: " << std::fixed << std::setprecision(3) << averageTime << "s" << std::endl;
+	std::cout << T_BLUE << "Average time per move: " << std::fixed << std::setprecision(3) << averageTime << "s" << std::endl;
 }

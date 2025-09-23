@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:30:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/21 13:33:55 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 	// If at maximum depth, evaluate the board
 	if (depth >= MAX_DEPTH)
 	{
-		bestMove->score = staticBoardEvaluation(board, player);
+		bestMove->score = getBoardValue(board, player);
 		return bestMove->score;
 	}
 
@@ -28,7 +28,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 	std::cout << T_YELLOW << "Depth: " << depth << " | Valid moves: " << validMoves.size() << T_BLUE << std::endl;
 
 	if (validMoves.empty())
-		return staticBoardEvaluation(board, player);
+		return getBoardValue(board, player);
 
 	if (maximizingPlayer)
 	{

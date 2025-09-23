@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 13:49:45 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:14:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:25:01 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,24 @@ int staticBoardEvaluation(Board *board, int player)
 		return blackScore - whiteScore;
 	else
 		return whiteScore - blackScore;
+}
+
+int getBoardValue(Board *board, int player)
+{
+	uint64_t hash = board->getCurrentBoardHash();
+
+	// look for board hash in cache
+	auto it = board->cache.find(hash);
+	if (it != board->cache.end())
+	{
+		std::cout << T_BLUE << "Found a pattern! Total patterns: " << board->cache.size() << std::endl;
+		return it->second;
+	}
+
+	// if value for board was not found make board evaluations and store in cache
+	int evaluation = staticBoardEvaluation(board, player);
+	if (board->cache.size() >= board->MAX_ENTRIES)
+		board->cache.clear();
+	board->cache[hash] = evaluation;
+	return evaluation;
 }

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/19 18:55:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:14:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,27 @@ public:
 	Board &operator=(const Board &assign);
 	~Board();
 
+	std::unordered_map<uint64_t, float> cache;
+	static const size_t MAX_ENTRIES = 10000000;
+
 	int getSize() const;
 	std::string getGameMode() const;
 	std::string getDifficulty() const;
 	Player *getPlayer1() const;
 	Player *getPlayer2() const;
+
 	int get(int x, int y) const;
 	std::vector<int> getLine(const std::pair<int, int> &direction, int lineIndex) const;
 	void set(int x, int y, int value);
 	bool isEmpty(int x, int y) const;
 	bool isEmpty() const;
 	bool isFull() const;
-
 	bool inBounds(int x, int y) const;
 	std::vector<std::pair<int, int>> getAdjacentEmptyPositions() const;
 	bool checkNInARow(const std::pair<int, int> &lastMove, int color, const std::pair<int, int> &direction, int n) const;
 	bool checkWin(int x, int y, int player) const;
 	std::vector<std::pair<int, int>> checkCapture(const std::pair<int, int> &lastMove, int color) const;
+	uint64_t getCurrentBoardHash() const;
 };
 
 #endif
