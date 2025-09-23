@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/19 18:50:52 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:50:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void sortMoves(Board *board, int color, std::vector<std::pair<int, int>> 
 	for (const auto &move : moves)
 	{
 		board->set(move.first, move.second, color);
-		int score = staticBoardEvaluation(board, color);
+		int score = getBoardValue(board, color);
 		scoredMoves.push_back({move, score});
 		board->set(move.first, move.second, EMPTY);
 	}
