@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 17:34:01 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:18:31 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ GameLogic::GameLogic(s_game_config config)
 	this->currentPlayer->startTimer();
 
 	this->board = new Board(config.board_size, config);
+	this->ai = AI(config.difficulty);
 	this->screen = new Screen(this->board_size);
 	this->history = new History();
 }
@@ -72,7 +73,7 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 			mlx_close_window(game->screen->getMLX());
 		else if (game->player2.isAI() && game->currentPlayer == &game->player2)
 		{
-			std::pair<int, int> aiMove = game->player2.getAIMove(game->board);
+			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->player2.getColor());
 			if (!game->handleTurn(aiMove))
 				mlx_close_window(game->screen->getMLX());
 		}

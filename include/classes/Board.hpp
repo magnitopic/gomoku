@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/21 14:14:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 17:46:24 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ public:
 	Board(const Board &copy);
 	Board &operator=(const Board &assign);
 	~Board();
-
-	std::unordered_map<uint64_t, float> cache;
-	static const size_t MAX_ENTRIES = 10000000;
 
 	int getSize() const;
 	std::string getGameMode() const;

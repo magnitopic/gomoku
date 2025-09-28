@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 17:30:59 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:01:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ai/ai_config.hpp"
+#include "../../include/ai/AI.hpp"
 
-static bool checkIllegalMove(Board *board, const std::pair<int, int> &cell, int color)
+bool AI::checkIllegalMove(Board *board, const std::pair<int, int> &cell, int color)
 {
 	int col = cell.first;
 	int row = cell.second;
@@ -39,7 +39,7 @@ static bool checkIllegalMove(Board *board, const std::pair<int, int> &cell, int 
 	return false;
 }
 
-static void sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &moves)
+void AI::sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &moves)
 {
 	std::vector<s_scored_move> scoredMoves;
 
@@ -64,7 +64,7 @@ static void sortMoves(Board *board, int color, std::vector<std::pair<int, int>> 
 		moves.push_back(scoredMoves[i].move);
 }
 
-std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
+std::vector<std::pair<int, int>> AI::getValidMoves(Board *board, int color)
 {
 	std::vector<std::pair<int, int>> candidates = board->getAdjacentEmptyPositions();
 	std::vector<std::pair<int, int>> validMoves;
@@ -73,7 +73,7 @@ std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
 	{
 		for (const std::pair<int, int> &move : candidates)
 		{
-			if (!checkIllegalMove(board, move, color))
+			if (!this->checkIllegalMove(board, move, color))
 				validMoves.push_back(move);
 		}
 	}
@@ -83,6 +83,6 @@ std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
 		validMoves = candidates;
 	}
 
-	sortMoves(board, color, validMoves);
+	this->sortMoves(board, color, validMoves);
 	return validMoves;
 }

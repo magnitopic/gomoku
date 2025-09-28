@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 16:10:57 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:03:35 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,5 @@ class Player;
 #define THREE 1000
 #define OPEN_TWO 200
 #define TWO 50
-
-// Algorithm functions
-int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove);
-int staticBoardEvaluation(Board *board, int player);
-int getBoardValue(Board *board, int player);
-int evaluateLine(const std::vector<int> &line, int player);
-std::vector<std::pair<int, int>> getValidMoves(Board *board, int color);
 
 #endif

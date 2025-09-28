@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 13:49:45 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 17:10:14 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:05:12 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ai/ai_config.hpp"
+#include "../../include/ai/AI.hpp"
 
-int detectPatterns(Board *board, int color)
+int AI::detectPatterns(Board *board, int color)
 {
 	int boardScore = 0;
 
@@ -26,7 +26,7 @@ int detectPatterns(Board *board, int color)
 			std::vector<int> line = board->getLine(direction, i);
 			if (line.empty())
 				continue;
-			int linePatterns = evaluateLine(line, color);
+			int linePatterns = this->evaluateLine(line, color);
 			boardScore += linePatterns;
 		}
 	}
@@ -34,11 +34,11 @@ int detectPatterns(Board *board, int color)
 	return boardScore;
 }
 
-int staticBoardEvaluation(Board *board, int player)
+int AI::staticBoardEvaluation(Board *board, int player)
 {
 	// Evaluate both colors
-	int blackScore = detectPatterns(board, BLACK_STONE);
-	int whiteScore = detectPatterns(board, WHITE_STONE);
+	int blackScore = this->detectPatterns(board, BLACK_STONE);
+	int whiteScore = this->detectPatterns(board, WHITE_STONE);
 
 	// Return score from the perspective of the current player
 	if (player == BLACK_STONE)
@@ -47,22 +47,22 @@ int staticBoardEvaluation(Board *board, int player)
 		return whiteScore - blackScore;
 }
 
-int getBoardValue(Board *board, int player)
+int AI::getBoardValue(Board *board, int player)
 {
 	uint64_t hash = board->getCurrentBoardHash();
 
 	// look for board hash in cache
-	auto it = board->cache.find(hash);
-	if (it != board->cache.end())
+	auto it = this->cache.find(hash);
+	if (it != this->cache.end())
 	{
-		/* std::cout << T_BLUE << "Found a pattern! Total patterns: " << board->cache.size() << std::endl; */
+		/* std::cout << T_BLUE << "Found a pattern! Total patterns: " << this->cache.size() << std::endl; */
 		return it->second;
 	}
 
 	// if value for board was not found make board evaluations and store in cache
-	int evaluation = staticBoardEvaluation(board, player);
-	if (board->cache.size() >= board->MAX_ENTRIES)
-		board->cache.clear();
-	board->cache[hash] = evaluation;
+	int evaluation = this->staticBoardEvaluation(board, player);
+	if (this->cache.size() >= this->MAX_ENTRIES)
+		this->cache.clear();
+	this->cache[hash] = evaluation;
 	return evaluation;
 }

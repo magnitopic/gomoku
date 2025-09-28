@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:29:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:08:21 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <chrono>
 #include "../gomoku.hpp"
+#include "../ai/AI.hpp"
 #include "./Board.hpp"
 #include "./Player.hpp"
 #include "./Screen.hpp"
@@ -29,6 +30,7 @@ private:
 	bool subject_mode;
 
 	Board *board;
+	AI ai;
 	Player player1;
 	Player player2;
 	Player *currentPlayer;

@@ -6,29 +6,28 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 17:10:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:06:51 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ai/ai_config.hpp"
-#include "../../include/structs.hpp"
+#include "../../include/ai/AI.hpp"
 
-int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove)
+int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove)
 {
 	// If at maximum depth, evaluate the board
 	if (depth >= MAX_DEPTH)
 	{
-		bestMove->score = getBoardValue(board, player);
+		bestMove->score = this->getBoardValue(board, player);
 		return bestMove->score;
 	}
 
 	int currentPlayer = maximizingPlayer ? player : -player;
-	std::vector<std::pair<int, int>> validMoves = getValidMoves(board, currentPlayer);
+	std::vector<std::pair<int, int>> validMoves = this->getValidMoves(board, currentPlayer);
 
 	/* std::cout << T_YELLOW << "Depth: " << depth << " | Valid moves: " << validMoves.size() << T_BLUE << std::endl; */
 
 	if (validMoves.empty())
-		return getBoardValue(board, player);
+		return this->getBoardValue(board, player);
 
 	if (maximizingPlayer)
 	{

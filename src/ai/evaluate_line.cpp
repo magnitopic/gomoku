@@ -6,13 +6,13 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:03:00 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 16:11:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 17:51:46 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ai/ai_config.hpp"
+#include "../../include/ai/AI.hpp"
 
-std::vector<s_pattern_match> getPatternDefinitions(int player)
+std::vector<s_pattern_match> AI::getPatternDefinitions(int player)
 {
 	int opponent = -player;
 
@@ -67,7 +67,7 @@ std::vector<s_pattern_match> getPatternDefinitions(int player)
 }
 
 // Remove overlapping patterns, keeping highest scoring ones
-std::vector<s_pattern> resolveOverlaps(std::vector<s_pattern> &matches)
+std::vector<s_pattern> AI::resolveOverlaps(std::vector<s_pattern> &matches)
 {
 	if (matches.empty())
 		return matches;
@@ -92,7 +92,7 @@ std::vector<s_pattern> resolveOverlaps(std::vector<s_pattern> &matches)
 		result.push_back(matches[i]);
 
 		// Find the pattern definition to get actual length
-		std::vector<s_pattern_match> patternDefs = getPatternDefinitions(1);
+		std::vector<s_pattern_match> patternDefs = this->getPatternDefinitions(1);
 		int length1 = 0;
 		for (const s_pattern_match &def : patternDefs)
 		{
@@ -136,10 +136,10 @@ std::vector<s_pattern> resolveOverlaps(std::vector<s_pattern> &matches)
 	return result;
 }
 
-std::vector<s_pattern> findPatterns(const std::vector<int> &line, int player)
+std::vector<s_pattern> AI::findPatterns(const std::vector<int> &line, int player)
 {
 	std::vector<s_pattern> foundPatterns;
-	std::vector<s_pattern_match> patternDefs = getPatternDefinitions(player);
+	std::vector<s_pattern_match> patternDefs = this->getPatternDefinitions(player);
 
 	// Search for each pattern in the line
 	for (const s_pattern_match &patternDef : patternDefs)
@@ -174,12 +174,12 @@ std::vector<s_pattern> findPatterns(const std::vector<int> &line, int player)
 	}
 
 	// Remove overlapping patterns to avoid double counting
-	return resolveOverlaps(foundPatterns);
+	return this->resolveOverlaps(foundPatterns);
 }
 
-int evaluateLine(const std::vector<int> &line, int player)
+int AI::evaluateLine(const std::vector<int> &line, int player)
 {
-	std::vector<s_pattern> patterns = findPatterns(line, player);
+	std::vector<s_pattern> patterns = this->findPatterns(line, player);
 	int totalScore = 0;
 
 	for (const s_pattern &pattern : patterns)

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/21 14:05:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:17:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ public:
 	void startTimer();
 	void stopTimer();
 	bool addTakenStones(int count);
-	std::pair<int, int> getAIMove(Board *board) const;
 	void printTimeAverage();
 };
 
