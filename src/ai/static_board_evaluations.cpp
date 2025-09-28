@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 13:49:45 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/21 14:25:01 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 17:10:14 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int getBoardValue(Board *board, int player)
 	auto it = board->cache.find(hash);
 	if (it != board->cache.end())
 	{
-		std::cout << T_BLUE << "Found a pattern! Total patterns: " << board->cache.size() << std::endl;
+		/* std::cout << T_BLUE << "Found a pattern! Total patterns: " << board->cache.size() << std::endl; */
 		return it->second;
 	}
 

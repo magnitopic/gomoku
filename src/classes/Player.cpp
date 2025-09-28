@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/21 14:14:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 17:14:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ std::pair<int, int> Player::getAIMove(Board *board) const
 
 	minMax(board, 0, INT_MIN, INT_MAX, true, this->color, bestMove);
 
-	std::cout << T_CYAN << "(AI) chooses move: (" << bestMove->row << ", " << bestMove->col << ") With a score of: " << bestMove->score << T_GRAY << std::endl;
+	/* std::cout << T_CYAN << "(AI) chooses move: (" << bestMove->row << ", " << bestMove->col << ") With a score of: " << bestMove->score << T_GRAY << std::endl; */
 	std::pair<int, int> result = std::make_pair(bestMove->row, bestMove->col);
 	delete bestMove;
 	return result;
@@ -111,5 +111,5 @@ void Player::printTimeAverage()
 {
 	this->playsCount++;
 	double averageTime = this->totalTime / this->playsCount;
-	std::cout << T_BLUE << "Average time per move: " << std::fixed << std::setprecision(3) << averageTime << "s" << std::endl;
+	std::cout << T_BLUE << "Average time per move for player " << this->name << ": " << std::fixed << std::setprecision(3) << averageTime << "s" << std::endl;
 }

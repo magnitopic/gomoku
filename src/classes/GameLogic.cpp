@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/23 16:50:57 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 17:14:41 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,16 +152,16 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	int col = cell.first;
 	int row = cell.second;
 
+	this->currentPlayer->stopTimer();
 	// Place stone on board
 	this->board->set(col, row, this->currentPlayer->getColor());
 
 	// Draw the stone on screen
 	this->screen->drawStone(col, row, this->currentPlayer->getColor() == BLACK_STONE ? BLACK : WHITE);
 
-	this->currentPlayer->stopTimer();
-
 	// Increment play count for the player who just made the move
-	this->currentPlayer->printTimeAverage();
+	if (this->currentPlayer->isAI())
+		this->currentPlayer->printTimeAverage();
 
 	// Add move to history
 	if (this->save_history)
@@ -191,10 +191,10 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	this->currentPlayer = this->inactivePlayer;
 	this->inactivePlayer = temp;
 
-	this->currentPlayer->startTimer();
-
 	// Update player info display
 	this->screen->drawPlayerInfo(&this->player1, &this->player2, this->currentPlayer);
+
+	this->currentPlayer->startTimer();
 
 	return true;
 }
