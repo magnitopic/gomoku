@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 17:14:41 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 17:34:01 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ bool GameLogic::checkIllegalMove(const std::pair<int, int> &cell)
 		return true;
 
 	// Check if the cell is already occupied
-	if (checkOccupiedCell(*this->board, col, row))
+	if (!this->board->isEmpty(col, row))
 		return true;
 
 	if (this->gameMode != "standard")
@@ -170,7 +170,7 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	// Check for capture
 	if (this->gameMode != "standard")
 	{
-		std::vector<std::pair<int, int>> capturedStones = checkCapture(*this->board, cell, this->currentPlayer->getColor());
+		std::vector<std::pair<int, int>> capturedStones = this->board->checkCapture(cell, this->currentPlayer->getColor());
 		if (!capturedStones.empty())
 		{
 			std::cout << T_YELLOW << "Capture detected!" << T_GRAY << std::endl;

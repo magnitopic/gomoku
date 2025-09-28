@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 15:31:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 17:30:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool checkIllegalMove(Board *board, const std::pair<int, int> &cell, int 
 		return true;
 
 	// Check if the cell is already occupied
-	if (checkOccupiedCell(*board, col, row))
+	if (!board->isEmpty(col, row))
 		return true;
 
 	if (board->getGameMode() != "standard")
