@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/23 17:09:29 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 15:31:27 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void sortMoves(Board *board, int color, std::vector<std::pair<int, int>> 
 {
 	std::vector<s_scored_move> scoredMoves;
 
-	for (const auto &move : moves)
+	for (const std::pair<int, int> &move : moves)
 	{
 		board->set(move.first, move.second, color);
 		int score = getBoardValue(board, color);
@@ -71,7 +71,7 @@ std::vector<std::pair<int, int>> getValidMoves(Board *board, int color)
 
 	if (board->getGameMode() == "subject")
 	{
-		for (const auto &move : candidates)
+		for (const std::pair<int, int> &move : candidates)
 		{
 			if (!checkIllegalMove(board, move, color))
 				validMoves.push_back(move);

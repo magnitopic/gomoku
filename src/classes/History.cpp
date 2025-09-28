@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:21:15 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/14 17:29:32 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 15:59:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,10 @@ void History::createHistoryFile(const s_game_config &config)
 	historyFile << std::endl;
 	historyFile << "===== GAME EVENTS =====" << std::endl;
 
-	for (const auto &event : this->events)
+	for (const HistoryEvent &event : this->events)
 	{
 		// Format timestamp
-		auto time = event.timestamp;
+		std::time_t time = event.timestamp;
 		historyFile << "[" << std::put_time(std::localtime(&time), "%H:%M:%S") << "] ";
 
 		historyFile << event.message << std::endl;

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/20 18:48:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 15:58:34 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ std::vector<std::pair<int, int>> Board::getAdjacentEmptyPositions() const
 			if (get(x, y) != EMPTY)
 			{
 				// Check all 8 adjacent positions
-				for (const auto &dir : ALL_DIRECTIONS)
+				for (const std::pair<int, int> &dir : ALL_DIRECTIONS)
 				{
 					int newX = x + dir.first;
 					int newY = y + dir.second;
@@ -180,7 +180,7 @@ bool Board::checkNInARow(const std::pair<int, int> &lastMove, int color, const s
 
 bool Board::checkWin(int x, int y, int player) const
 {
-	for (const auto &direction : DIRECTIONS)
+	for (const std::pair<int, int> &direction : DIRECTIONS)
 	{
 		if (checkNInARow({x, y}, player, direction, 5))
 			return true;
@@ -280,7 +280,7 @@ std::vector<std::pair<int, int>> Board::checkCapture(const std::pair<int, int> &
 	int y = lastMove.second;
 	std::vector<std::pair<int, int>> stonesToDelete;
 
-	for (const auto &direction : DIRECTIONS)
+	for (const std::pair<int, int> &direction : DIRECTIONS)
 	{
 		int dx = direction.first;
 		int dy = direction.second;

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:03:00 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/19 12:40:26 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 16:11:21 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,9 +183,7 @@ int evaluateLine(const std::vector<int> &line, int player)
 	int totalScore = 0;
 
 	for (const s_pattern &pattern : patterns)
-	{
 		totalScore += pattern.score;
-	}
 
 	return totalScore;
 }

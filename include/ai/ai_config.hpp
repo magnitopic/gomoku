@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/21 13:34:08 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 16:10:57 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ class Player;
 
 /* AI configuration parameters */
 
-#define MAX_DEPTH 5	   // Deeper search for aggressive play
-#define MAX_BRANCHES 2 // More branches to find forcing moves
+#define MAX_DEPTH 3	   // Deeper search for aggressive play
+#define MAX_BRANCHES 20 // More branches to find forcing moves
 
 // Pattern scores for the heuristic
 #define FIVE_IN_A_ROW 1000000

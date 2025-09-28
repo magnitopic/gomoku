@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/21 13:33:55 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/28 15:55:54 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 	{
 		int maxEval = INT_MIN;
 
-		for (const auto &move : validMoves)
+		for (const std::pair<int, int> &move : validMoves)
 		{
 			board->set(move.first, move.second, player);
 
@@ -63,9 +63,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 
 			alpha = std::max(alpha, eval);
 			if (beta <= alpha)
-			{
 				break; // Alpha-beta pruning
-			}
 		}
 		return maxEval;
 	}
@@ -74,7 +72,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 		int minEval = INT_MAX;
 		int opponent = (player == BLACK_STONE) ? WHITE_STONE : BLACK_STONE;
 
-		for (const auto &move : validMoves)
+		for (const std::pair<int, int> &move : validMoves)
 		{
 			board->set(move.first, move.second, opponent);
 
@@ -103,9 +101,7 @@ int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, 
 
 			beta = std::min(beta, eval);
 			if (beta <= alpha)
-			{
 				break; // Alpha-beta pruning
-			}
 		}
 		return minEval;
 	}
