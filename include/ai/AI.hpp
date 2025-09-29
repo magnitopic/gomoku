@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 17:42:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 18:16:35 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:47:06 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define AI_HPP_
 
 #include <iostream>
+#include <unordered_map>
 #include "./ai_config.hpp"
 #include "../structs.hpp"
 
