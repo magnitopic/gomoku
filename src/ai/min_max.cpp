@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 18:06:51 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:54:20 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlay
 			board->set(move.first, move.second, player);
 
 			// Check for immediate win
-			if (board->checkWin(move.first, move.second, player))
+			if (board->simpleCheckWin(move.first, move.second, player))
 			{
 				board->set(move.first, move.second, EMPTY);
 				bestMove->row = move.first;
@@ -76,7 +76,7 @@ int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlay
 			board->set(move.first, move.second, opponent);
 
 			// Check for immediate opponent win
-			if (board->checkWin(move.first, move.second, opponent))
+			if (board->simpleCheckWin(move.first, move.second, opponent))
 			{
 				board->set(move.first, move.second, EMPTY);
 				bestMove->row = move.first;

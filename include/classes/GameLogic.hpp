@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 18:08:21 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:42:59 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ private:
 	int board_size;
 	bool save_history;
 	bool subject_mode;
+	bool prevCaptureCancel = false;
 
 	Board *board;
 	AI ai;

@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 05:50:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 17:33:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:59:32 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int checkThree(Board &board, const std::pair<int, int> &lastMove, int col
 		// Check forwards
 		int spacesAfter = 0;
 		int i = 1;
-		while (42)
+		while (true)
 		{
 			int nx = x + dx * i;
 			int ny = y + dy * i;
@@ -72,7 +72,7 @@ static int checkThree(Board &board, const std::pair<int, int> &lastMove, int col
 		// Check backwards
 		int spacesBefore = 0;
 		i = 1;
-		while (42)
+		while (true)
 		{
 			int nx = x - dx * i;
 			int ny = y - dy * i;

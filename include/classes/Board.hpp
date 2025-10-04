@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:35 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 17:46:24 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:31:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ public:
 	bool inBounds(int x, int y) const;
 	std::vector<std::pair<int, int>> getAdjacentEmptyPositions() const;
 	bool checkNInARow(const std::pair<int, int> &lastMove, int color, const std::pair<int, int> &direction, int n) const;
-	bool checkWin(int x, int y, int player) const;
+	bool checkCaptureCancelWin(const std::pair<int, int> &lastMove, int color, const std::pair<int, int> &direction) const;
+	bool checkWin(int x, int y, int player, bool &prevCaptureCancel) const;
+	bool simpleCheckWin(int x, int y, int player) const;
 	std::vector<std::pair<int, int>> checkCapture(const std::pair<int, int> &lastMove, int color) const;
 	uint64_t getCurrentBoardHash() const;
 };

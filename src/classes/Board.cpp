@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 15:58:34 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:44:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,89 @@ bool Board::checkNInARow(const std::pair<int, int> &lastMove, int color, const s
 	return count >= n;
 }
 
-bool Board::checkWin(int x, int y, int player) const
+bool Board::checkCaptureCancelWin(const std::pair<int, int> &lastMove, int color, const std::pair<int, int> &direction) const
+{
+	int x = lastMove.first;
+	int y = lastMove.second;
+	int i = 1;
+
+	// Check forwards
+	while (true)
+	{
+		int nx = x + direction.first * i;
+		int ny = y + direction.second * i;
+		if (!inBounds(nx, ny) || get(nx, ny) != color)
+			break;
+		for (std::pair<int, int> dir : ALL_DIRECTIONS)
+		{
+			if (dir == direction || dir == std::make_pair(-direction.first, -direction.second))
+				continue;
+			int adjX = nx + dir.first;
+			int adjY = ny + dir.second;
+			if (inBounds(adjX, adjY) && get(adjX, adjY) == EMPTY)
+			{
+				if (this->checkCapture({adjX, adjY}, -color).size() == 0)
+					continue;
+			}
+			else
+				continue;
+			return true;
+		}
+		i++;
+	}
+	i = 1;
+	// Check backwards
+	while (true)
+	{
+		int nx = x - direction.first * i;
+		int ny = y - direction.second * i;
+		if (!inBounds(nx, ny) || get(nx, ny) != color)
+			break;
+		for (std::pair<int, int> dir : ALL_DIRECTIONS)
+		{
+			if (dir == direction || dir == std::make_pair(-direction.first, -direction.second))
+				continue;
+			int adjX = nx + dir.first;
+			int adjY = ny + dir.second;
+			if (inBounds(adjX, adjY) && get(adjX, adjY) == EMPTY)
+			{
+				if (this->checkCapture({adjX, adjY}, -color).size() == 0)
+					continue;
+			}
+			else
+				continue;
+			return true;
+		}
+		i++;
+	}
+	return false;
+}
+
+bool Board::checkWin(int x, int y, int player, bool &prevCaptureCancel) const
+{
+	for (const std::pair<int, int> &direction : DIRECTIONS)
+	{
+		if (prevCaptureCancel)
+		{
+			std::cout << T_PURPLE << "Previous capture cancel win was ignored." << std::endl;
+			return true;
+		}
+		if (checkNInARow({x, y}, player, direction, 5))
+		{
+			if (this->gameMode != "standard" && checkCaptureCancelWin({x, y}, player, direction))
+			{
+				std::cout << T_PURPLE << "Capture cancel win detected!" << std::endl;
+				prevCaptureCancel = true;
+				return false;
+			}
+			return true;
+		}
+	}
+	prevCaptureCancel = false;
+	return false;
+}
+
+bool Board::simpleCheckWin(int x, int y, int player) const
 {
 	for (const std::pair<int, int> &direction : DIRECTIONS)
 	{

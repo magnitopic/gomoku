@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 18:29:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:38:10 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ bool GameLogic::checkGameEnd(const std::pair<int, int> &lastMove)
 {
 	int x = lastMove.first;
 	int y = lastMove.second;
-	if (this->board->checkWin(x, y, this->currentPlayer->getColor()))
+	if (this->board->checkWin(x, y, this->currentPlayer->getColor(), this->prevCaptureCancel))
 	{
 		std::cout << T_WHITE << "-----------------------------------" << std::endl;
 		std::cout << T_YELLOW << "Five in a row!" << std::endl;
@@ -176,6 +176,9 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 		{
 			std::cout << T_YELLOW << "Capture detected!" << T_GRAY << std::endl;
 			this->handleCapture(capturedStones);
+
+			// If there was a capture, reset the prevCaptureCancel flag
+			this->prevCaptureCancel = false;
 
 			// Add capture to history
 			if (this->save_history)
