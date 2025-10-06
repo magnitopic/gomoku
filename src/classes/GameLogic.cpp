@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/04 19:38:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/06 11:01:38 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ GameLogic::GameLogic(s_game_config config)
 	this->save_history = config.save_history;
 	this->subject_mode = (config.game_mode == "subject");
 	this->gameMode = config.game_mode;
+	this->multiplayer_game = !config.is_ai;
 
 	// Initialize players
 	this->player1 = Player(BLACK_STONE, false);
@@ -197,6 +198,16 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 
 	// Update player info display
 	this->screen->drawPlayerInfo(&this->player1, &this->player2, this->currentPlayer);
+
+	// If multiplayer, draw AI suggestion
+	if (this->multiplayer_game)
+	{
+		this->screen->clearArea(0, 0, SCREEN_SIZE, SCREEN_SIZE, BLACK);
+		this->screen->drawBoard();
+		this->screen->drawAllStones(this->board);
+		std::pair<int, int> aiMove = this->ai.getAIMove(this->board, this->inactivePlayer->getColor());
+		this->screen->drawStone(aiMove.first, aiMove.second, LIGHT_GRAY);
+	}
 
 	this->currentPlayer->startTimer();
 

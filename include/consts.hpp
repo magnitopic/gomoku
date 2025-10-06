@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:57:18 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/19 18:54:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/06 11:02:40 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ const std::vector<std::pair<int, int>> ALL_DIRECTIONS = {
 // Colors
 const int BLACK = 0xFF000000;
 const int WHITE = 0xFFFFFFFF;
+const int LIGHT_GRAY = 0x80C0C0C0;
 const int BORDER_COLOR = 0xFF969696;
 const int WOOD = 0xFF87B8DE;
 const int RED = 0xFF0000FF;
