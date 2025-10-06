@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:43 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 18:17:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:12:52 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ public:
 	int getTakenStones() const;
 	double getTimer() const;
 	bool isAI() const;
+	void toggleIsAI();
 
 	// Methods
 	void startTimer();

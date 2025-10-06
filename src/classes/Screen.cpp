@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:59:12 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/04 12:59:59 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:19:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ Screen::Screen(int board_size)
 		fprintf(stderr, "%s", mlx_strerror(mlx_errno));
 		exit(EXIT_FAILURE);
 	}
-
-	// Set up key hooks
-	mlx_key_hook(this->mlx, &Screen::keyCallback, this);
 }
 
 Screen::Screen(const Screen &copy)
@@ -75,19 +72,6 @@ void Screen::drawCircle(mlx_image_t *img, int centerX, int centerY, int radius, 
 mlx_t *Screen::getMLX() const
 {
 	return this->mlx;
-}
-
-/* Callback */
-
-void Screen::keyCallback(mlx_key_data_t keydata, void *param)
-{
-	Screen *screen = static_cast<Screen *>(param);
-
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-	{
-		std::cout << T_RESET << "Exiting..." << std::endl;
-		mlx_close_window(screen->mlx);
-	}
 }
 
 /* Methods */

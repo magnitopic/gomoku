@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:05 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/05 14:43:16 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/06 12:47:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ private:
 
 	// Mouse event handling
 	static void mouseButtonCallback(mouse_key_t button, action_t action, modifier_key_t mods, void *param);
+	// Key event handling
+	static void keyPressCallback(mlx_key_data_t keydata, void *param);
 
 	// TODO-> move checks to board_checks.cpp
 	bool applyMove(const std::pair<int, int> &cell);

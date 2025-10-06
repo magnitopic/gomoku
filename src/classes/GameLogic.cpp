@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/06 11:01:38 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:19:37 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ History *GameLogic::getHistory() const
 	return this->history;
 }
 
-/* Mouse Callback */
+/* Callbacks */
 void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifier_key_t mods, void *param)
 {
 	(void)mods;
@@ -81,6 +81,33 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 	}
 }
 
+void GameLogic::keyPressCallback(mlx_key_data_t keydata, void *param)
+{
+	GameLogic *game = static_cast<GameLogic *>(param);
+
+	// Pressing 's' key switches the current player
+	if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS && !game->multiplayer_game)
+	{
+		std::cout << T_YELLOW << "Switching players..." << T_GRAY << std::endl;
+		// Change active player
+		game->player1.toggleIsAI();
+		game->player2.toggleIsAI();
+
+		if (game->currentPlayer->isAI())
+		{
+			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor());
+			if (!game->handleTurn(aiMove))
+				mlx_close_window(game->screen->getMLX());
+		}
+	}
+
+	// Pressing 'ESC' key exits the game
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
+		std::cout << T_RESET << "Exiting..." << std::endl;
+		mlx_close_window(game->screen->getMLX());
+	}
+}
 /* Methods */
 
 bool GameLogic::checkIllegalMove(const std::pair<int, int> &cell)
@@ -161,7 +188,7 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 	// Draw the stone on screen
 	this->screen->drawStone(col, row, this->currentPlayer->getColor() == BLACK_STONE ? BLACK : WHITE);
 
-	// Increment play count for the player who just made the move
+	// Print time taken for the move
 	if (this->currentPlayer->isAI())
 		this->currentPlayer->printTimeAverage();
 
@@ -205,8 +232,9 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 		this->screen->clearArea(0, 0, SCREEN_SIZE, SCREEN_SIZE, BLACK);
 		this->screen->drawBoard();
 		this->screen->drawAllStones(this->board);
-		std::pair<int, int> aiMove = this->ai.getAIMove(this->board, this->inactivePlayer->getColor());
+		std::pair<int, int> aiMove = this->ai.getAIMove(this->board, this->currentPlayer->getColor());
 		this->screen->drawStone(aiMove.first, aiMove.second, LIGHT_GRAY);
+		this->screen->drawPlayerInfo(&this->player1, &this->player2, this->currentPlayer);
 	}
 
 	this->currentPlayer->startTimer();
@@ -245,6 +273,9 @@ void GameLogic::startGame()
 {
 	// Set up the mouse callback
 	mlx_mouse_hook(this->screen->getMLX(), &GameLogic::mouseButtonCallback, this);
+
+	// Set up the key callback for switching players
+	mlx_key_hook(this->screen->getMLX(), &GameLogic::keyPressCallback, this);
 
 	// Draw the initial board
 	this->screen->drawBoard();

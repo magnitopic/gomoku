@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:26:30 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 18:15:48 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:21:15 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ bool Player::isAI() const
 	return this->is_ai;
 }
 
+void Player::toggleIsAI()
+{
+	this->is_ai = !this->is_ai;
+}
+
 /* Methods */
 
 void Player::startTimer()
@@ -99,5 +104,5 @@ void Player::printTimeAverage()
 {
 	this->playsCount++;
 	double averageTime = this->totalTime / this->playsCount;
-	std::cout << T_BLUE << "Average time per move for player " << this->name << ": " << std::fixed << std::setprecision(3) << averageTime << "s" << std::endl;
+	std::cout << T_BLUE << "Average time per move for AI player : " << std::fixed << std::setprecision(3) << averageTime << "s" << std::endl;
 }
