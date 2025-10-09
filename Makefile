@@ -20,7 +20,7 @@ OBJS			= $(SRC:.cpp=.o)
 # Compiler
 CXX				=	c++
 RM				=	rm -f
-CXXFLAGS		=	-Wall -Werror -Wextra -std=c++11 #-g3 -fsanitize=address
+CXXFLAGS		=	-Wall -std=c++11 #-Werror -Wextra  -g3 -fsanitize=address
 MLX_FLAGS	=	-Iinclude -ldl -lglfw -pthread -lm
 
 # MLX42
@@ -42,7 +42,7 @@ all:		$(MLX) $(NAME)
 			@printf "$(BLUE)==> $(CYAN)$(NAME) compiled ✅\n\n$(RESET)"
 
 $(NAME):	$(OBJS)
-			@$(CXX) $(CXXFLAGS) $(MLX_FLAGS) $(OBJS) $(MXL_SRC)$(MLX)  -o $(NAME)
+			@$(CXX) $(CXXFLAGS) $(OBJS) $(MLX) $(MLX_FLAGS) -o $(NAME)
 
 $(MLX):
 			@git submodule init
