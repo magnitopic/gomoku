@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AI.hpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 17:42:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/29 12:47:06 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:48:26 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ public:
 
 	/** min_max.cpp **/
 	int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove);
+	
+	/** detect_threats.cpp **/
+	std::pair<int, int> *detectImmediateThreat(Board *board, int aiColor);
 
 	/** static_board_evaluations.cpp **/
 	int detectPatterns(Board *board, int color);

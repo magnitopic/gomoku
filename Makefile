@@ -13,7 +13,8 @@ SRC				=	src/main.cpp \
 					src/classes/History.cpp \
 					src/ai/evaluate_line.cpp \
 					src/classes/GameLogic.cpp \
-					src/ai/static_board_evaluations.cpp
+					src/ai/static_board_evaluations.cpp \
+					src/ai/detect_threats.cpp
 
 OBJS			= $(SRC:.cpp=.o)
 
