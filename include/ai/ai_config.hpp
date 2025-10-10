@@ -6,7 +6,7 @@
 /*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/10 12:01:01 by adiaz-uf         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:56:24 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class Player;
 
 /* AI configuration parameters */
 
-#define MAX_DEPTH 5	   // Maximum search depth
+#define MAX_DEPTH 10	   // Maximum search depth
 #define MAX_BRANCHES 2 // Maximum branches to explore at each node
 
 // Pattern scores for the heuristic
