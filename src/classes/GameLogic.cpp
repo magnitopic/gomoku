@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/06 13:19:37 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/12 18:01:30 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,12 @@ bool GameLogic::checkGameEnd(const std::pair<int, int> &lastMove)
 	int y = lastMove.second;
 	if (this->board->checkWin(x, y, this->currentPlayer->getColor(), this->prevCaptureCancel))
 	{
+		if (prevCaptureCancel)
+		{
+			Player *temp = this->currentPlayer;
+			this->currentPlayer = this->inactivePlayer;
+			this->inactivePlayer = temp;
+		}
 		std::cout << T_WHITE << "-----------------------------------" << std::endl;
 		std::cout << T_YELLOW << "Five in a row!" << std::endl;
 		std::cout << T_GREEN << this->currentPlayer->getName() << " Player wins!" << T_GRAY << std::endl;
