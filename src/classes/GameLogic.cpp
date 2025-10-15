@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   GameLogic.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:06:26 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/12 18:01:30 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:35:19 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 			mlx_close_window(game->screen->getMLX());
 		else if (game->currentPlayer->isAI())
 		{
-			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor());
+			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor(), game->ai.difficulty);
 			if (!game->handleTurn(aiMove))
 				mlx_close_window(game->screen->getMLX());
 		}
@@ -95,7 +95,7 @@ void GameLogic::keyPressCallback(mlx_key_data_t keydata, void *param)
 
 		if (game->currentPlayer->isAI())
 		{
-			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor());
+			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor(), game->ai.difficulty);
 			if (!game->handleTurn(aiMove))
 				mlx_close_window(game->screen->getMLX());
 		}
@@ -238,7 +238,7 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 		this->screen->clearArea(0, 0, SCREEN_SIZE, SCREEN_SIZE, BLACK);
 		this->screen->drawBoard();
 		this->screen->drawAllStones(this->board);
-		std::pair<int, int> aiMove = this->ai.getAIMove(this->board, this->currentPlayer->getColor());
+		std::pair<int, int> aiMove = this->ai.getAIMove(this->board, this->currentPlayer->getColor(), this->ai.difficulty);
 		this->screen->drawStone(aiMove.first, aiMove.second, LIGHT_GRAY);
 		this->screen->drawPlayerInfo(&this->player1, &this->player2, this->currentPlayer);
 	}

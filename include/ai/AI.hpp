@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AI.hpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 17:42:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/15 13:27:13 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:25:21 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ class AI
 {
 private:
 	std::unordered_map<uint64_t, float> cache;
-	std::string difficulty;
 	static const size_t MAX_ENTRIES = 10000000;
 	bool isFirstMove = true;
-
+	
 public:
+	std::string difficulty;
 	AI();
 	AI(std::string difficulty);
 	AI(const AI &copy);
@@ -34,10 +34,10 @@ public:
 	~AI();
 
 	// Main AI function
-	std::pair<int, int> getAIMove(Board *board, int color);
+	std::pair<int, int> getAIMove(Board *board, int color, std::string difficulty);
 
 	/** min_max.cpp **/
-	int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove, int maxDepth);
+	int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove, std::string difficulty, int maxDepth = MAX_DEPTH);
 
 	/** detect_threats.cpp **/
 	int evaluateThreatScore(Board *board, const std::pair<int, int> &move, int aiColor);
@@ -56,8 +56,8 @@ public:
 	/** get_moves.cpp **/
 	int quickEvaluatePos(const std::pair<int, int> &pos, Board *board, int color);
 	bool checkIllegalMove(Board *board, const std::pair<int, int> &cell, int color);
-	void sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &moves);
-	std::vector<std::pair<int, int>> getValidMoves(Board *board, int color);
+	void sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &moves, std::string difficulty);
+	std::vector<std::pair<int, int>> getValidMoves(Board *board, int color, std::string difficulty);
 };
 
 #endif

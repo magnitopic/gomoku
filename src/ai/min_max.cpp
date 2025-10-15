@@ -6,13 +6,13 @@
 /*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/15 14:35:12 by adiaz-uf         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:43:37 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ai/AI.hpp"
 
-int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove, int maxDepth = MAX_DEPTH)
+int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove, std::string difficulty, int maxDepth)
 {
 	// If at maximum depth, evaluate the board
 	if (depth >= maxDepth)
@@ -22,7 +22,7 @@ int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlay
 	}
 
 	int currentPlayer = maximizingPlayer ? player : -player;
-	std::vector<std::pair<int, int>> validMoves = this->getValidMoves(board, currentPlayer);
+	std::vector<std::pair<int, int>> validMoves = this->getValidMoves(board, currentPlayer, difficulty);
 
 	//std::cout << T_YELLOW << "Depth: " << depth << " | Valid moves: " << validMoves.size() << T_BLUE << std::endl;
 	if (validMoves.empty())
@@ -49,10 +49,9 @@ int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlay
 
 			s_move tempMove;
 			int searchDepth = (isFirstMove) ? maxDepth : 3;
-			int eval = minMax(board, depth + 1, alpha, beta, false, player, &tempMove, searchDepth);
+			int eval = minMax(board, depth + 1, alpha, beta, false, player, &tempMove, difficulty, searchDepth);
 
-			board->set(move.first, move.second, EMPTY);
-
+			board->set(move.first, move.second, EMPTY);			
 			if (eval > maxEval)
 			{
 				maxEval = eval;
@@ -91,10 +90,9 @@ int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlay
 
 			s_move tempMove;
 			int searchDepth = (isFirstMove) ? maxDepth : 3;
-			int eval = minMax(board, depth + 1, alpha, beta, true, player, &tempMove, searchDepth);
+			int eval = minMax(board, depth + 1, alpha, beta, true, player, &tempMove, difficulty, searchDepth);
 
-			board->set(move.first, move.second, EMPTY);
-
+			board->set(move.first, move.second, EMPTY);	
 			if (eval < minEval)
 			{
 				minEval = eval;

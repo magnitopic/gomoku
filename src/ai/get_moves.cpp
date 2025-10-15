@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_moves.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/14 16:32:22 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:52:18 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ai/AI.hpp"
+#include <cstdlib>  // For rand()
+#include <cmath>    // For abs()
 
 bool AI::checkIllegalMove(Board *board, const std::pair<int, int> &cell, int color)
 {
@@ -71,32 +73,60 @@ int AI::quickEvaluatePos(const std::pair<int, int> &pos, Board *board, int color
 	return score;
 }
 
-void AI::sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &moves)
+void AI::sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &moves, std::string difficulty)
 {
 	std::vector<s_scored_move> scoredMoves;
+	
+	// Determine randomness factor based on difficulty
+	float randomFactor = 0.0f;
+	if (difficulty.compare("easy") == 0)
+		randomFactor = 3.0f;      // 200% randomness - very unpredictable (can reverse order)
+	else if (difficulty.compare("middle") == 0)
+		randomFactor = 1.5f;      // 100% randomness - significant variation
+	else
+		randomFactor = 0.0f;      // 0% randomness - perfect play
 
+	// Evaluate all moves and store base scores
 	for (const std::pair<int, int> &move : moves)
 	{
 		board->set(move.first, move.second, color);
-		int score = quickEvaluatePos(move, board, color);
-		scoredMoves.push_back({move, score});
+		int baseScore = quickEvaluatePos(move, board, color);
+		scoredMoves.push_back({move, baseScore});
 		board->set(move.first, move.second, EMPTY);
 	}
 
-	// Sort scored moves by score
-	std::sort(scoredMoves.begin(), scoredMoves.end(),
-			  [](const s_scored_move &a, const s_scored_move &b)
-			  {
-				  return a.score > b.score;
-			  });
+	// Apply randomness to the scores AFTER evaluation
+	if (randomFactor > 0.0f)
+	{
+		for (auto &scoredMove : scoredMoves)
+		{
+			int baseScore = scoredMove.score;
+			
+			// Generate random noise proportional to the base score
+			// Use a larger base value to ensure significant randomness even for low scores
+			int scoreForNoise = std::max(std::abs(baseScore), 1000);  // Minimum 1000 for noise calculation
+			int maxNoise = static_cast<int>(scoreForNoise * randomFactor);
+			
+			// Generate random number in range [-maxNoise, +maxNoise]
+			int randValue = rand();
+			int noise = (randValue % (2 * maxNoise + 1)) - maxNoise;
+			scoredMove.score = baseScore + noise;
+		}
+	}
 
+	// Sort scored moves by (potentially randomized) score
+	std::sort(scoredMoves.begin(), scoredMoves.end(),
+		[](const s_scored_move &a, const s_scored_move &b){
+			return a.score > b.score;
+		});
+		
 	// Clear original moves and add sorted moves
 	moves.clear();
 	for (int i = 0; i < MAX_BRANCHES && i < static_cast<int>(scoredMoves.size()); i++)
 		moves.push_back(scoredMoves[i].move);
 }
 
-std::vector<std::pair<int, int>> AI::getValidMoves(Board *board, int color)
+std::vector<std::pair<int, int>> AI::getValidMoves(Board *board, int color, std::string difficulty)
 {
 	std::vector<std::pair<int, int>> candidates = board->getAdjacentEmptyPositions();
 	std::vector<std::pair<int, int>> validMoves;
@@ -115,6 +145,6 @@ std::vector<std::pair<int, int>> AI::getValidMoves(Board *board, int color)
 		validMoves = candidates;
 	}
 
-	this->sortMoves(board, color, validMoves);
+	this->sortMoves(board, color, validMoves, difficulty);
 	return validMoves;
 }
