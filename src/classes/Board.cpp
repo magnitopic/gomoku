@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:11:46 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/04 19:44:23 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/12 18:21:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,15 +297,19 @@ std::vector<int> Board::getLine(const std::pair<int, int> &direction, int lineIn
 		if (lineIndex < 0 || lineIndex >= 2 * this->size - 1)
 			return stones;
 
+		int diff = lineIndex - (this->size - 1);
+
 		int startX, startY;
-		if (lineIndex < this->size)
+		if (diff <= 0)
 		{
+			// Start from top edge
 			startX = 0;
-			startY = lineIndex;
+			startY = -diff;
 		}
 		else
 		{
-			startX = lineIndex - this->size + 1;
+			// Start from left edge
+			startX = diff;
 			startY = 0;
 		}
 
@@ -323,15 +327,19 @@ std::vector<int> Board::getLine(const std::pair<int, int> &direction, int lineIn
 		if (lineIndex < 0 || lineIndex >= 2 * this->size - 1)
 			return stones;
 
+		int sum = lineIndex;
+
 		int startX, startY;
-		if (lineIndex < this->size)
+		if (sum < this->size)
 		{
+			// Start from top edge
 			startX = 0;
-			startY = this->size - 1 - lineIndex;
+			startY = sum;
 		}
 		else
 		{
-			startX = lineIndex - this->size + 1;
+			// Start from left edge
+			startX = sum - (this->size - 1);
 			startY = this->size - 1;
 		}
 
