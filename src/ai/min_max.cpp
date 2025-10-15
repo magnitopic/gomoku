@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   min_max.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/15 13:26:31 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:57:14 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlay
 	int currentPlayer = maximizingPlayer ? player : -player;
 	std::vector<std::pair<int, int>> validMoves = this->getValidMoves(board, currentPlayer);
 
-	std::cout << T_YELLOW << "Depth: " << depth << " | Valid moves: " << validMoves.size() << T_BLUE << std::endl;
-	// std::cout << T_YELLOW << "Depth: " << depth << std::endl;
+	//std::cout << T_YELLOW << "Depth: " << depth << " | Valid moves: " << validMoves.size() << T_BLUE << std::endl;
 	if (validMoves.empty())
 		return this->getBoardValue(board, player);
 
