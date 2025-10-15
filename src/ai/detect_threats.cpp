@@ -3,189 +3,152 @@
 /*                                                        :::      ::::::::   */
 /*   detect_threats.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:42:12 by adiaz-uf          #+#    #+#             */
-/*   Updated: 2025/10/10 11:42:13 by adiaz-uf         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:27:23 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ai/AI.hpp"
 
 /**
- * Detects immediate threats from the opponent (open three or four in a row)
- * and returns the best blocking position.
- * This function is called before minmax to provide faster response to critical threats.
- * 
+ * Evaluates the threat/opportunity score of a specific position.
+ * Returns a score based on patterns that would be created by playing at this position.
+ * Higher scores indicate better positions.
+ *
+ * Score breakdown:
+ * - AI immediate win: 100000
+ * - Block opponent win: 99999
+ * - AI open four: 4000
+ * - AI four: 3500
+ * - Block opponent open four: 3000
+ * - Block opponent four: 2500
+ * - AI open three: 1500
+ * - Block opponent open three: 1000
+ *
  * @param board The current board state
+ * @param move The position to evaluate
  * @param aiColor The AI's color (BLACK_STONE or WHITE_STONE)
- * @return A pointer to the blocking position, or nullptr if no immediate threat
+ * @return The threat/opportunity score for this position
  */
-std::pair<int, int> *AI::detectImmediateThreat(Board *board, int aiColor)
+int AI::evaluateThreatScore(Board *board, const std::pair<int, int> &move, int aiColor)
 {
 	int opponentColor = -aiColor;
-	std::vector<std::pair<int, int>> adjacentMoves = board->getAdjacentEmptyPositions();
-	
-	// Structure to hold threat information
-	struct ThreatInfo {
-		std::pair<int, int> position;
-		int priority;
-		int score;
-	};
-	
-	std::vector<ThreatInfo> threats;
-	
-	// First, check if opponent can win in next move (has open four or four)
-	for (const std::pair<int, int> &move : adjacentMoves)
+	int totalScore = 0;
+
+	// FIRST PRIORITY: Check if AI can win in next move (immediate win)
+	board->set(move.first, move.second, aiColor);
+
+	if (board->simpleCheckWin(move.first, move.second, aiColor))
 	{
-		// Check what happens if OPPONENT plays at this position
-		board->set(move.first, move.second, opponentColor);
-		
-		// Check if opponent would win
-		if (board->simpleCheckWin(move.first, move.second, opponentColor))
-		{
-			board->set(move.first, move.second, EMPTY);
-			// opponent can win next move, must block!
-			return new std::pair<int, int>(move);
-		}
-		
-		// Check if opponent would create an open four or four
-		bool hasOpenFour = false;
-		bool hasFour = false;
-		int maxScore = 0;
-		
-		for (const std::pair<int, int> &direction : DIRECTIONS)
-		{
-			std::vector<int> line;
-			
-			// Build line in this direction centered on the move
-			for (int offset = -5; offset <= 5; offset++)
-			{
-				int checkX = move.first + (direction.first * offset);
-				int checkY = move.second + (direction.second * offset);
-				
-				if (board->inBounds(checkX, checkY))
-					line.push_back(board->get(checkX, checkY));
-			}
-			
-			if (!line.empty())
-			{
-				std::vector<s_pattern> patterns = this->findPatterns(line, opponentColor);
-				
-				for (const s_pattern &pattern : patterns)
-				{
-					if (pattern.type == e_OPEN_FOUR)
-					{
-						hasOpenFour = true;
-						maxScore = std::max(maxScore, pattern.score);
-					}
-					else if (pattern.type == e_FOUR)
-					{
-						hasFour = true;
-						maxScore = std::max(maxScore, pattern.score);
-					}
-				}
-			}
-		}
-		
 		board->set(move.first, move.second, EMPTY);
-		
-		if (hasOpenFour)
-			threats.push_back({move, 2000, maxScore}); // Open four is very urgent
-		else if (hasFour)
-			threats.push_back({move, 1500, maxScore}); // Four is urgent
+		return 100000; // Immediate win - highest score!
 	}
-	
-	// Second, check for existing open threes that need blocking
-	for (const std::pair<int, int> &move : adjacentMoves)
+
+	board->set(move.first, move.second, EMPTY);
+
+	// SECOND PRIORITY: Check if opponent can win in next move (must block)
+	board->set(move.first, move.second, opponentColor);
+
+	if (board->simpleCheckWin(move.first, move.second, opponentColor))
 	{
-		// Skip if already identified as higher priority threat
-		bool alreadyFound = false;
-		for (const ThreatInfo &threat : threats)
+		board->set(move.first, move.second, EMPTY);
+		return 99999; // Must block opponent win!
+	}
+
+	board->set(move.first, move.second, EMPTY);
+
+	// THIRD PRIORITY: Evaluate AI offensive patterns
+	board->set(move.first, move.second, aiColor);
+
+	bool aiHasOpenFour = false;
+	bool aiHasFour = false;
+	bool aiHasOpenThree = false;
+
+	for (const std::pair<int, int> &direction : DIRECTIONS)
+	{
+		std::vector<int> line;
+
+		for (int offset = -5; offset <= 5; offset++)
 		{
-			if (threat.position == move && threat.priority >= 1500)
+			int checkX = move.first + (direction.first * offset);
+			int checkY = move.second + (direction.second * offset);
+
+			if (board->inBounds(checkX, checkY))
+				line.push_back(board->get(checkX, checkY));
+		}
+
+		if (!line.empty())
+		{
+			std::vector<s_pattern> patterns = this->findPatterns(line, aiColor);
+
+			for (const s_pattern &pattern : patterns)
 			{
-				alreadyFound = true;
-				break;
+				if (pattern.type == e_OPEN_FOUR)
+					aiHasOpenFour = true;
+				else if (pattern.type == e_FOUR)
+					aiHasFour = true;
+				else if (pattern.type == e_OPEN_THREE)
+					aiHasOpenThree = true;
 			}
 		}
-		if (alreadyFound)
-			continue;
-		
-		// Check if placing AI stone here blocks an existing open three
-		bool blocksOpenThree = false;
-		int maxScore = 0;
-		
-		for (const std::pair<int, int> &direction : DIRECTIONS)
+	}
+
+	board->set(move.first, move.second, EMPTY);
+
+	// FOURTH PRIORITY: Evaluate opponent defensive patterns
+	board->set(move.first, move.second, opponentColor);
+
+	bool oppHasOpenFour = false;
+	bool oppHasFour = false;
+	bool oppHasOpenThree = false;
+
+	for (const std::pair<int, int> &direction : DIRECTIONS)
+	{
+		std::vector<int> line;
+
+		for (int offset = -5; offset <= 5; offset++)
 		{
-			std::vector<int> lineWithoutBlock;
-			std::vector<int> lineWithBlock;
-			
-			// Build lines in this direction
-			for (int offset = -5; offset <= 5; offset++)
+			int checkX = move.first + (direction.first * offset);
+			int checkY = move.second + (direction.second * offset);
+
+			if (board->inBounds(checkX, checkY))
+				line.push_back(board->get(checkX, checkY));
+		}
+
+		if (!line.empty())
+		{
+			std::vector<s_pattern> patterns = this->findPatterns(line, opponentColor);
+
+			for (const s_pattern &pattern : patterns)
 			{
-				int checkX = move.first + (direction.first * offset);
-				int checkY = move.second + (direction.second * offset);
-				
-				if (board->inBounds(checkX, checkY))
-				{
-					int value = board->get(checkX, checkY);
-					lineWithoutBlock.push_back(value);
-					lineWithBlock.push_back(offset == 0 ? aiColor : value);
-				}
-			}
-			
-			// Check if opponent has open three in original line
-			if (!lineWithoutBlock.empty())
-			{
-				std::vector<s_pattern> patternsWithout = this->findPatterns(lineWithoutBlock, opponentColor);
-				std::vector<s_pattern> patternsWith = this->findPatterns(lineWithBlock, opponentColor);
-				
-				// Check if we had an open three that gets blocked
-				bool hadOpenThree = false;
-				for (const s_pattern &pattern : patternsWithout)
-				{
-					if (pattern.type == e_OPEN_THREE)
-					{
-						hadOpenThree = true;
-						maxScore = std::max(maxScore, pattern.score);
-						break;
-					}
-				}
-				
-				// Check that placing AI stone removes the threat
-				bool stillHasOpenThree = false;
-				for (const s_pattern &pattern : patternsWith)
-				{
-					if (pattern.type == e_OPEN_THREE)
-					{
-						stillHasOpenThree = true;
-						break;
-					}
-				}
-				
-				if (hadOpenThree && !stillHasOpenThree)
-					blocksOpenThree = true;
+				if (pattern.type == e_OPEN_FOUR)
+					oppHasOpenFour = true;
+				else if (pattern.type == e_FOUR)
+					oppHasFour = true;
+				else if (pattern.type == e_OPEN_THREE)
+					oppHasOpenThree = true;
 			}
 		}
-		
-		if (blocksOpenThree)
-			threats.push_back({move, 1000, maxScore}); // Open three blocking
 	}
-	
-	// If we found threats, return the highest priority one
-	if (!threats.empty())
-	{
-		// Sort by priority (descending), then by score
-		std::sort(threats.begin(), threats.end(),
-			[](const ThreatInfo &a, const ThreatInfo &b) {
-				if (a.priority != b.priority)
-					return a.priority > b.priority;
-				return a.score > b.score;
-			});
-		
-		return new std::pair<int, int>(threats[0].position);
-	}
-	
-	return nullptr;
+
+	board->set(move.first, move.second, EMPTY);
+
+	// Calculate total score based on patterns found
+	if (aiHasOpenFour)
+		totalScore += 4000;
+	else if (aiHasFour)
+		totalScore += 3500;
+	else if (aiHasOpenThree)
+		totalScore += 1500;
+
+	if (oppHasOpenFour)
+		totalScore += 3000;
+	else if (oppHasFour)
+		totalScore += 2500;
+	else if (oppHasOpenThree)
+		totalScore += 1000;
+
+	return totalScore;
 }

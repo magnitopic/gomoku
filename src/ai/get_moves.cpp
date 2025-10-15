@@ -6,7 +6,7 @@
 /*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 18:01:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:32:22 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,38 @@ bool AI::checkIllegalMove(Board *board, const std::pair<int, int> &cell, int col
 	return false;
 }
 
+int AI::quickEvaluatePos(const std::pair<int, int> &pos, Board *board, int color)
+{
+	int score = 0;
+
+	// Use the threat evaluation system for pattern-based scoring
+	int threatScore = this->evaluateThreatScore(board, pos, color);
+	score += threatScore;
+
+	// Add bonus for proximity to existing stones (helps with board control)
+	for (int dx = -1; dx <= 1; dx++)
+	{
+		for (int dy = -1; dy <= 1; dy++)
+		{
+			if (dx == 0 && dy == 0)
+				continue;
+			
+			int nx = pos.first + dx;
+			int ny = pos.second + dy;
+			
+			if (board->inBounds(nx, ny))
+			{
+				if (board->get(nx, ny) == color)
+					score += 10; // Small bonus for being adjacent to own stone
+				else if (board->get(nx, ny) == -color)
+					score += 5; // Smaller bonus for being adjacent to opponent stone
+			}
+		}
+	}
+
+	return score;
+}
+
 void AI::sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &moves)
 {
 	std::vector<s_scored_move> scoredMoves;
@@ -46,7 +78,7 @@ void AI::sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &mo
 	for (const std::pair<int, int> &move : moves)
 	{
 		board->set(move.first, move.second, color);
-		int score = getBoardValue(board, color);
+		int score = quickEvaluatePos(move, board, color);
 		scoredMoves.push_back({move, score});
 		board->set(move.first, move.second, EMPTY);
 	}

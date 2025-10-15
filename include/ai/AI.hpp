@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AI.hpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 17:42:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/10 12:42:59 by adiaz-uf         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:27:13 by alaparic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ private:
 	std::unordered_map<uint64_t, float> cache;
 	std::string difficulty;
 	static const size_t MAX_ENTRIES = 10000000;
+	bool isFirstMove = true;
 
 public:
 	AI();
@@ -37,9 +38,9 @@ public:
 
 	/** min_max.cpp **/
 	int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove, int maxDepth);
-	
+
 	/** detect_threats.cpp **/
-	std::pair<int, int> *detectImmediateThreat(Board *board, int aiColor);
+	int evaluateThreatScore(Board *board, const std::pair<int, int> &move, int aiColor);
 
 	/** static_board_evaluations.cpp **/
 	int detectPatterns(Board *board, int color);
@@ -53,6 +54,7 @@ public:
 	int evaluateLine(const std::vector<int> &line, int player);
 
 	/** get_moves.cpp **/
+	int quickEvaluatePos(const std::pair<int, int> &pos, Board *board, int color);
 	bool checkIllegalMove(Board *board, const std::pair<int, int> &cell, int color);
 	void sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &moves);
 	std::vector<std::pair<int, int>> getValidMoves(Board *board, int color);
