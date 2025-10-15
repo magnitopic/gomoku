@@ -6,7 +6,7 @@
 /*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:42:12 by adiaz-uf          #+#    #+#             */
-/*   Updated: 2025/10/10 11:42:13 by adiaz-uf         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:41:41 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,21 @@ std::pair<int, int> *AI::detectImmediateThreat(Board *board, int aiColor)
 {
 	int opponentColor = -aiColor;
 	std::vector<std::pair<int, int>> adjacentMoves = board->getAdjacentEmptyPositions();
+	std::vector<std::pair<int, int>> validMoves;
+
+	if (board->getGameMode() == "subject")
+	{
+		for (const std::pair<int, int> &move : adjacentMoves)
+		{
+			if (!this->checkIllegalMove(board, move, aiColor))
+				validMoves.push_back(move);
+		}
+	}
+	else
+	{
+		// In non-standard modes, all adjacent empty positions are valid
+		validMoves = adjacentMoves;
+	}
 	
 	// Structure to hold threat information
 	struct ThreatInfo {
@@ -35,9 +50,21 @@ std::pair<int, int> *AI::detectImmediateThreat(Board *board, int aiColor)
 	
 	std::vector<ThreatInfo> threats;
 	
-	// First, check if opponent can win in next move (has open four or four)
-	for (const std::pair<int, int> &move : adjacentMoves)
+	for (const std::pair<int, int> &move : validMoves)
 	{
+		// 1. check if AI can win in next move
+		// Check what happens if AI plays at this position
+		board->set(move.first, move.second, aiColor);
+		
+		// Check if AI would win
+		if (board->simpleCheckWin(move.first, move.second, aiColor))
+		{
+			board->set(move.first, move.second, EMPTY);
+			// AI can win next move, must block!
+			return new std::pair<int, int>(move);
+		}
+		
+		// 2. check if AI can win in next move
 		// Check what happens if OPPONENT plays at this position
 		board->set(move.first, move.second, opponentColor);
 		
@@ -97,7 +124,7 @@ std::pair<int, int> *AI::detectImmediateThreat(Board *board, int aiColor)
 	}
 	
 	// Second, check for existing open threes that need blocking
-	for (const std::pair<int, int> &move : adjacentMoves)
+	for (const std::pair<int, int> &move : validMoves)
 	{
 		// Skip if already identified as higher priority threat
 		bool alreadyFound = false;
