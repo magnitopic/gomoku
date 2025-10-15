@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_moves.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:19:20 by alaparic          #+#    #+#             */
-/*   Updated: 2025/09/28 18:01:27 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:52:45 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ void AI::sortMoves(Board *board, int color, std::vector<std::pair<int, int>> &mo
 
 	// Sort scored moves by score
 	std::sort(scoredMoves.begin(), scoredMoves.end(),
-			  [](const s_scored_move &a, const s_scored_move &b)
-			  {
-				  return a.score > b.score;
-			  });
+		[](const s_scored_move &a, const s_scored_move &b){
+			return a.score > b.score;
+		});
 
 	// Clear original moves and add sorted moves
 	moves.clear();
