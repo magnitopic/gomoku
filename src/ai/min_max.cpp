@@ -6,7 +6,7 @@
 /*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:01:13 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/15 13:57:14 by adiaz-uf         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:35:12 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlay
 			}
 
 			s_move tempMove;
-			int searchDepth = (isFirstMove) ? maxDepth : 2;
+			int searchDepth = (isFirstMove) ? maxDepth : 3;
 			int eval = minMax(board, depth + 1, alpha, beta, false, player, &tempMove, searchDepth);
 
 			board->set(move.first, move.second, EMPTY);
@@ -90,7 +90,7 @@ int AI::minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlay
 			}
 
 			s_move tempMove;
-			int searchDepth = (isFirstMove) ? maxDepth : 2;
+			int searchDepth = (isFirstMove) ? maxDepth : 3;
 			int eval = minMax(board, depth + 1, alpha, beta, true, player, &tempMove, searchDepth);
 
 			board->set(move.first, move.second, EMPTY);

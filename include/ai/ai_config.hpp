@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ai_config.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alaparic <alaparic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adiaz-uf <adiaz-uf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:08:24 by alaparic          #+#    #+#             */
-/*   Updated: 2025/10/14 16:40:10 by alaparic         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:38:22 by adiaz-uf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ class Player;
 /* AI configuration parameters */
 
 #define MAX_DEPTH 10   // Maximum search depth
-#define MAX_BRANCHES 2 // Maximum branches to explore at each node
+#define MAX_BRANCHES 3 // Maximum branches to explore at each node
 
 // Pattern scores for the heuristic
 #define FIVE_IN_A_ROW 1000000
