@@ -34,7 +34,7 @@ public:
 	~AI();
 
 	// Main AI function
-	std::pair<int, int> getAIMove(Board *board, int color, std::string difficulty);
+	std::pair<int, int> getAIMove(Board *board, int color);
 
 	/** min_max.cpp **/
 	int minMax(Board *board, int depth, int alpha, int beta, bool maximizingPlayer, int player, s_move *bestMove, std::string difficulty, int maxDepth = MAX_DEPTH);

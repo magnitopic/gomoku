@@ -74,7 +74,7 @@ void GameLogic::mouseButtonCallback(mouse_key_t button, action_t action, modifie
 			mlx_close_window(game->screen->getMLX());
 		else if (game->currentPlayer->isAI())
 		{
-			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor(), game->ai.difficulty);
+			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor());
 			if (!game->handleTurn(aiMove))
 				mlx_close_window(game->screen->getMLX());
 		}
@@ -95,7 +95,7 @@ void GameLogic::keyPressCallback(mlx_key_data_t keydata, void *param)
 
 		if (game->currentPlayer->isAI())
 		{
-			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor(), game->ai.difficulty);
+			std::pair<int, int> aiMove = game->ai.getAIMove(game->board, game->currentPlayer->getColor());
 			if (!game->handleTurn(aiMove))
 				mlx_close_window(game->screen->getMLX());
 		}
@@ -238,7 +238,7 @@ bool GameLogic::applyMove(const std::pair<int, int> &cell)
 		this->screen->clearArea(0, 0, SCREEN_SIZE, SCREEN_SIZE, BLACK);
 		this->screen->drawBoard();
 		this->screen->drawAllStones(this->board);
-		std::pair<int, int> aiMove = this->ai.getAIMove(this->board, this->currentPlayer->getColor(), this->ai.difficulty);
+		std::pair<int, int> aiMove = this->ai.getAIMove(this->board, this->currentPlayer->getColor());
 		this->screen->drawStone(aiMove.first, aiMove.second, LIGHT_GRAY);
 		this->screen->drawPlayerInfo(&this->player1, &this->player2, this->currentPlayer);
 	}

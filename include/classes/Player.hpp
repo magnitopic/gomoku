@@ -29,7 +29,6 @@ private:
 	double timer;
 	std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
 	double totalTime;
-	double lastTime;
 	int playsCount = 0;
 
 public:

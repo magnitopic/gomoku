@@ -54,7 +54,7 @@ AI &AI::operator=(const AI &assign)
 
 AI::~AI() {}
 
-std::pair<int, int> AI::getAIMove(Board *board, int color, std::string difficulty)
+std::pair<int, int> AI::getAIMove(Board *board, int color)
 {
 	s_move *bestMove = new s_move{-1, -1, 0};
 

@@ -21,7 +21,7 @@ OBJS			= $(SRC:.cpp=.o)
 # Compiler
 CXX				=	c++
 RM				=	rm -f
-CXXFLAGS		=	-Wall -std=c++11 #-Werror -Wextra  -g3 -fsanitize=address
+CXXFLAGS		=	-Wall -Werror -Wextra -std=c++11 #  -g3 -fsanitize=address
 MLX_FLAGS	=	-Iinclude -ldl -lglfw -pthread -lm
 
 # MLX42
